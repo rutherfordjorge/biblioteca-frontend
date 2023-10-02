@@ -7,6 +7,10 @@ import personasStore from "@/store/modules/personas";
 import rolesStore from "@/store/modules/roles";
 import archivosStore from "@/store/modules/archivos";
 import procedimientosStore from "@/store/modules/procedimientos";
+import ambitosStore from "@/store/modules/ambitos";
+import areaAmbitosStore from "@/store/modules/areaAmbitos";
+import lineasStore from "@/store/modules/lineas";
+import autoresStore from "@/store/modules/autores";
 
 var jwtDecode = require('jwt-decode');
 
@@ -230,5 +234,9 @@ export default new Vuex.Store({
     rolesStore,
     archivosStore,
     procedimientosStore,
+    ambitosStore,
+    areaAmbitosStore,
+    lineasStore,
+    autoresStore,
   }
 });

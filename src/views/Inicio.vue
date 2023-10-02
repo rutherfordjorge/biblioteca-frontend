@@ -56,6 +56,14 @@ export default {
           to: { name: "procedimientos" },
           responsable: 'DIMACOE - Depto I - Anexo: 32961',
         },
+        {
+          title: "Gestión del Conocimiento",
+          src: "cesim.png",
+          count: null,
+          id: 3,
+          to: { name: "conocimientos" },
+          responsable: 'CESIM - Depto III',
+        },
       ],
     };
   },

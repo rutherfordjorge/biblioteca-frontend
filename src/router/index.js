@@ -103,6 +103,27 @@ const routes = [
         }
     },
     {
+        path: "/inicio/conocimientos",
+        name: "conocimientos",
+        component: () => import(/* webpackChunckName: "conocimientos" */ "@/views/Conocimientos.vue"),
+        meta: {
+            requiresAuth: true,
+            whoCan: [0,161,221,222,223],
+            layout: MainLayout
+        },
+    },
+    {
+        path: "/inicio/conocimiento/:id/Lista",
+        name: "lista-conocimientos",
+        component: () => import(/* webpackChunckName: "lista-conocimientos" */ "@/views/ListaConocimiento.vue"),
+        props: true,
+        meta: {
+            requiresAuth: true,
+            whoCan: [0,161,221,222,223],
+            layout: MainLayout
+        }
+    },
+    {
         path: "/404",
         name: "404",
         component: () => import(/* webpackChunckName: "NotFound" */ "@/views/NotFound.vue"),

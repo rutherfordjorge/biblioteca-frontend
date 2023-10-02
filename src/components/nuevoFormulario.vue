@@ -1,15 +1,14 @@
 <template>
   <v-container>
-    <v-btn color="primary" dark @click="dialog = !dialog"
-      ><v-icon>mdi-plus</v-icon> Nuevo Documento
+    <!------------------ nombre boton--------------------->
+    <v-btn color="primary" dark @click="dialog = !dialog">
+      <v-icon>mdi-plus</v-icon> Nuevo Formulario
     </v-btn>
     <v-dialog scrollable v-model="dialog" max-width="1200px">
       <v-overlay v-if="isLoading">
         <v-card color="white" width="90vw" heigt="80vh">
           <v-card-title>
-            <span class="headline"
-              >Guardando el documento, espere un momento por favor</span
-            >
+            <span class="headline">Guardando el documento, espere un momento por favor</span>
           </v-card-title>
           <v-card-text>
             <v-row>
@@ -23,8 +22,7 @@
                   :value="Progreso"
                   color="light-blue"
                   height="15"
-                  rounded
-                >
+                  rounded>
                   <template>
                     <span>{{ Progreso }}%</span>
                   </template>
@@ -39,20 +37,19 @@
       </v-overlay>
       <v-card>
         <v-card-title class="primaryBanner lighten-1">
-          <span class="headline white--text">Nuevo Documento !</span>
+          <span class="headline white--text">Nuevo Formulario</span>
         </v-card-title>
         <v-card-text>
           <v-form v-model="validForm" ref="form">
             <v-row>
-              <v-col cols="12" sm="4" md="4">
+              <v-col cols="12" sm="6" md="6">
                 <v-menu
                   v-model="menu1"
                   :close-on-content-click="false"
                   transition="scale-transition"
                   offset-y
                   max-width="290px"
-                  min-width="290px"
-                >
+                  min-width="290px">
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       :value="fechaFormateada"
@@ -60,39 +57,19 @@
                       persistent-hint
                       readonly
                       v-on="on"
-                      :rules="rules.fechA_DOC"
-                    ></v-text-field>
+                      :rules="rules.fechA_DOC">
+                      </v-text-field>
                   </template>
                   <v-date-picker
                     locale="es-CL"
                     :first-day-of-week="1"
                     v-model="editedItem.fechA_DOC"
                     no-title
-                    @input="menu1 = false"
-                  ></v-date-picker>
+                    @input="menu1 = false">
+                  </v-date-picker>
                 </v-menu>
               </v-col>
-              <v-col cols="12" sm="4" md="4">
-                <v-autocomplete
-                  persistent-hint
-                  return-object
-                  :items="unidades"
-                  v-model="editedItem.unidad"
-                  item-text="descripcion"
-                  item-value="codigo"
-                  autocomplete
-                  label="Unidad"
-                  :rules="rules.unidad"
-                ></v-autocomplete>
-              </v-col>
-              <v-col cols="12" sm="4" md="4">
-                <v-text-field
-                  :rules="rules.numero"
-                  v-model="editedItem.numero"
-                  label="Numero"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="4" md="4">
+              <v-col cols="12" sm="6" md="6">
                 <v-autocomplete
                   persistent-hint
                   return-object
@@ -101,11 +78,86 @@
                   item-text="nombre"
                   item-value="id"
                   autocomplete
-                  label="Tipo"
-                  :rules="rules.tipo"
-                ></v-autocomplete>
+                  label="Tipo de Investigación"
+                  :rules="rules.tipo">
+                </v-autocomplete>
               </v-col>
-              <v-col cols="12" sm="4" md="4">
+              <v-col cols="12" sm="6" md="6">
+                <v-text-field
+                  :rules="rules.titulo"
+                  v-model="editedItem.titulo"
+                  label="Titulo">
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="6">
+                <v-autocomplete
+                  persistent-hint
+                  return-object
+                  :items="tiposAmbitos"
+                  v-model="editedItem.tiposAmbitos"
+                  item-text="nombrE_AMBITO"
+                  item-value="ID_AMBITO"
+                  autocomplete
+                  label="Seleccionar Ambito"
+                  :rules="rules.tiposAmbitos">
+                </v-autocomplete>
+              </v-col>
+              <v-col cols="12" sm="6" md="6">
+                <v-autocomplete
+                  persistent-hint
+                  return-object
+                  :items="unidades"
+                  v-model="editedItem.unidad"
+                  item-text="descripcion"
+                  item-value="codigo"
+                  autocomplete
+                  label="Unidad Responsable"
+                  :rules="rules.unidad">
+                </v-autocomplete>
+              </v-col>
+              <v-col cols="12" sm="6" md="6">
+                <v-autocomplete
+                  persistent-hint
+                  return-object
+                  :items="tiposAreasAmbitos"
+                  v-model="editedItem.tiposAreasAmbitos"
+                  item-text="nombrE_AREA_AMBITO"
+                  item-value="ID_AREA_AMBITO"
+                  autocomplete
+                  label="Seleccionar Área del Ambito"
+                  :rules="rules.tiposAreasAmbitos">
+                </v-autocomplete>
+              </v-col>
+              <v-col cols="12" :sm="origenId == 2? 8 : 6" :md="origenId == 2? 8 : 6">
+                <v-text-field
+                  :rules="rules.resumen"
+                  v-model="editedItem.resumen"
+                  label="Resumen">
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="6">
+                <v-autocomplete
+                  persistent-hint
+                  return-object
+                  :items="tiposLineas"
+                  v-model="editedItem.tiposLineas"
+                  item-text="nombrE_LINEA" 
+                  item-value="ID_LINEA"
+                  autocomplete
+                  label="Seleccionar Linea"
+                  :rules="rules.tiposLineas">
+                </v-autocomplete>
+              </v-col>
+              <!--
+              <v-col cols="12" :sm="origenId == 2? 8 : 6" :md="origenId == 2? 8 : 6">
+                <v-text-field
+                  :rules="rules.abstract"
+                  v-model="editedItem.abstract"
+                  label="Abstract">
+                </v-text-field>
+              </v-col>
+              -->
+              <v-col cols="12" sm="6" md="6">
                 <v-autocomplete
                   persistent-hint
                   return-object
@@ -114,10 +166,10 @@
                   item-text="text"
                   item-value="value"
                   autocomplete
-                  label="Clasificación"
-                  :rules="rules.clasificacion"
-                ></v-autocomplete>
-              </v-col>
+                  label="Clasificación Militar"
+                  :rules="rules.clasificacion">
+                </v-autocomplete>
+              </v-col> 
               <v-col v-if="origenId == 2" cols="12" sm="4" md="4">
                 <v-autocomplete
                   persistent-hint
@@ -128,47 +180,48 @@
                   item-value="value"
                   autocomplete
                   label="Edición"
-                  :rules="rules.edicion"
-                ></v-autocomplete>
+                  :rules="rules.edicion">
+                </v-autocomplete>
               </v-col>
-              <v-col cols="12" sm="4" md="4">
-                <v-autocomplete
-                  persistent-hint
-                  return-object
-                  :items="estado"
-                  v-model="editedItem.estado"
-                  item-text="nombre"
-                  item-value="id"
-                  autocomplete
-                  label="Estado"
-                  :rules="rules.estado"
-                ></v-autocomplete>
-              </v-col>
-              <v-col cols="12" :sm="origenId == 2? 8 : 12" :md="origenId == 2? 8 : 12">
-                <v-text-field
-                  :rules="rules.descripcion"
-                  v-model="editedItem.descripcion"
-                  label="Descripción"
-                >
-                </v-text-field>
-              </v-col>
-              <v-col cols="12" sm="12" md="12">
+              <!--
+              <v-col cols="12" sm="6" md="6">
                 <b>Documento</b>
               </v-col>
-              <v-col cols="12" sm="12" md="12">
+              -->
+              <v-col cols="12" sm="6" md="6">
+                <!--<v-btn color="primary" dark @click="dialog = !dialog">
+                    <v-icon>mdi-plus</v-icon> Agregar Autor
+                </v-btn>-->
+                <v-col cols="auto">
+                    <formulario-autor :tipoArchivoId="41" :origenId="2" />
+                </v-col>
+              </v-col>
+              <!--
+              <v-col cols="12" sm="6" md="6">
                 <v-file-input
                   :rules="rules.documento"
                   accept=".pdf"
                   v-model="editedItem.documento"
-                  label="Seleccione Documento"
-                ></v-file-input>
+                  label="Seleccione Documento">
+                </v-file-input>
               </v-col>
+              -->
+              <!--
+              <v-col cols="12" sm="6" md="6">
+                -<v-btn color="primary" dark @click="dialog = !dialog">
+                    <v-icon>mdi-plus</v-icon> Agregar Autor
+                </v-btn>--
+                <v-col cols="auto">
+                    <formulario-autor :tipoArchivoId="41" :origenId="2" />
+                </v-col>
+              </v-col>
+              -->
             </v-row>
           </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
+          <v-btn color="red darken-1" text @click="close">Cancelar</v-btn>
           <v-btn color="blue darken-1" text @click="save">Guardar</v-btn>
         </v-card-actions>
       </v-card>
@@ -178,16 +231,16 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import FormularioAutor from './formularioAutor.vue';
 export default {
   name: "nuevoDocumento",
   props:["tipoArchivoId", "origenId"],
-  components: {},
+  components: {FormularioAutor},
   data: () => ({
     Progreso: 0,
     menu1: false,
     isLoading: false,
     items: [],
-    tipos: [],
     edicion: [],
     dialog: false,
     clasificacion: [
@@ -204,36 +257,56 @@ export default {
     defaultItem: {
       id: 0,
       fechA_DOC: null,
-      numero: "",
-      descripcion: null,
-      tipo: null,
-      clasificacion: null,
-      edicion: null,
+      titulo: null,
       unidad: null,
-      documento: null,
+      clasificacion: null,
+      documento: null,   
+
+      tipo: null,
+      tiposAmbitos: null,
+      tiposAreasAmbitos: null,
+      tiposLineas: null,
+
+      resumen: null,
+      //abstract: "",
+      
+      edicion: null,
     },
     editedItem: {
       id: 0,
       fechA_DOC: null,
-      numero: "",
-      descripcion: null,
-      tipo: null,
-      clasificacion: null,
-      edicion: null,
+      titulo: null,
       unidad: null,
+      clasificacion: null,
       documento: null,
+
+      tipo: null,
+      tiposAmbitos: null,
+      tiposAreasAmbitos: null,
+      tiposLineas: null,
+
+      resumen: null,
+      //abstract: "",
+
+      edicion: null,
     },
     validForm: false,
     rules: {
       fechA_DOC: [(v) => !!v || "Debe seleccionar una fecha"],
+      titulo: [(v) => !!v || "Titulo es Requerido"],
       unidad: [(v) => !!v || "La unidad es requerido"],
-      numero: [(v) => !!v || "El numero es requerido"],
-      descripcion: [(v) => !!v || "La descripción es requerida"],
-      tipo: [(v) => !!v || "El tipo es requerido"],
       clasificacion: [(v) => !!v || "La clasificación es requerida"],
-      edicion: [(v) => !!v || "La edición del texto es requerida"],
-      estado: [(v) => !!v || "El estado del texto es requerido"],
       documento: [(v) => !!v || "El documento es requerido"],
+
+      tipo: [(v) => !!v || "Debe seleccionar el Tipo de Investigación"],
+      tiposAmbitos: [(v) => !!v || "Debe seleccionar un Ambito"],
+      tiposAreasAmbitos: [(v) => !!v || "Debe seleccionar el Área del Ambito"],
+      tiposLineas: [(v) => !!v || "Debe seleccionar una linea"],
+
+      resumen: [(v) => !!v || "Resumen es requerido"],
+      //abstract: [(v) => !!v || "Abstract es requerido"],
+      
+      edicion: [(v) => !!v || "La edición del texto es requerida"],
       pass: [true],
     },
   }),
@@ -243,37 +316,26 @@ export default {
       this.edicion.push(i)
     }
     if (this.unidades == 0) {
-      // await this.fetchUnidades().then(resp => {
-      //   console.log(resp);
-      // });
+      
       await this.fetchUnidades()
     }
-    if (this.tiposDocumentos == 0) {
-      let resp = await this.fetchTiposDocumentos();
-      resp.data.forEach((element) => {
-        if (this.origenId == 2) {
-          if (element.id >= 27 && element.id <= 32) {
-            this.tipos.push(element);
-          }
-        } else if (this.origenId == 1 ) {
-          if (element.id >= 1 && element.id <= 26 && element.id != 20) {
-            this.tipos.push(element);
-          }
-        }
-      });
-    } else {
-      this.tiposDocumentos.forEach((element) => {
-        if (this.origenId == 2) {
-          if (element.id >= 27 && element.id <= 32) {
-            this.tipos.push(element);
-          }
-        } else if (this.origenId == 1) {
-          if (element.id >= 1 && element.id <= 26 && element.id != 20) {
-            this.tipos.push(element);
-          }
-        }
-      });
+
+    if(this.tipos == 0){
+      await this.fetchTiposDocumentos()
     }
+   
+   if (this.tiposAmbitos == 0){
+    await this.fetchtiposAmbitos()
+   }
+
+   if(this.tiposAreasAmbitos == 0){
+    await this.fetchtiposAreasAmbitos()
+   }
+
+   if(this.tiposLineas == 0){
+    await this.fetchtiposLineas()
+   }
+
   },
   watch: {
     dialogInstructivo(dialog) {
@@ -289,8 +351,12 @@ export default {
   },
   computed: {
     ...mapGetters("unidadesStore", ["unidades"]),
+    ...mapGetters("ambitosStore", ["tiposAmbitos"]), 
+    ...mapGetters("areaAmbitosStore",["tiposAreasAmbitos"]),
+    ...mapGetters("lineasStore",["tiposLineas"]),
     ...mapGetters(["currentUser"]),
-    ...mapGetters("procedimientosStore", ["documentos", "tiposDocumentos"]),
+    ...mapGetters("procedimientosStore", ["documentos","tipos"]),
+    ...mapGetters("autoresStore",["autores"]),
     fechaFormateada: {
       get: function () {
         if (this.editedItem.fechA_DOC != null) {
@@ -307,11 +373,14 @@ export default {
   },
   methods: {
     ...mapActions("unidadesStore", ["fetchUnidades"]),
+    ...mapActions("ambitosStore",["fetchtiposAmbitos"]),
+    ...mapActions("areaAmbitosStore",["fetchtiposAreasAmbitos"]),
+    ...mapActions("lineasStore",["fetchtiposLineas"]),
     ...mapActions("procedimientosStore", [
       "fetchDocumentosTipo",
       "fetchDocumentos",
       "fetchTiposDocumentos",
-      "postDocumento",
+      "postformulario",
       "putActivaDocumento",
     ]),
     ...mapActions("archivosStore", [
@@ -331,13 +400,16 @@ export default {
       if (date == null) return null;
       return this.moment(date).format("YYYY-MM-DD");
     },
+
     getFormatFecha(f) {
       var fecha = new Date(f).toISOString().substring(0, 10);
       return fecha;
     },
+
     validate() {
       this.$refs.form.validate();
     },
+
     close() {
       this.dialog = !this.dialog;
       setTimeout(() => {
@@ -350,36 +422,50 @@ export default {
       this.isLoading = !this.isLoading;
       this.validate();
       if (this.validForm) {
+        /*
         const result = await this.toBase64(this.editedItem.documento);
         var base64 = result.replace("data:application/pdf;base64,", "");
         var Count = base64.length;
         var chunkSize = 500000;
         var totalBloques = Count / chunkSize;
+        */
+
+       //console.log(this.editedItem);
+       
         let documento = {
           id: 0,
           fechA_DOC: this.editedItem.fechA_DOC,
-          numero: this.editedItem.numero,
-          descripcion: this.editedItem.descripcion,
-          nombrE_ARCHIVO: this.editedItem.documento.name,
-          unidadid: this.editedItem.unidad.codigo,
-          tipoid: this.editedItem.tipo.id,
-          edicion: this.editedItem.edicion,
-          clasificacion: this.editedItem.clasificacion.id,
-          origenid: this.origenId,
+          DESCRIPCION: this.editedItem.resumen,
+          NOMBRE_ARCHIVO: this.editedItem.titulo,
+          UNIDADID: this.editedItem.unidad.codigo,
+          TIPOID: this.editedItem.tipo.id,
+          CLASIFICACION: this.editedItem.clasificacion.id,
+          EDICION: this.editedItem.edicion,
+          ORIGENID: this.origenId,
+          LINEAID: this.editedItem.tiposLineas.iD_LINEA,
+          AUTORES: this.autores
         };
-        const res = await this.postDocumento(documento).then(async (resp) => {
+
+        const res = await this.postformulario(documento).then(async (resp) => {
+          
+
           if (resp.status == 200) {
+           
+           /*
             let archivo = {
               ID: 0,
               NUMERO: 1,
               NOMBRE: this.editedItem.documento.name,
-              DESCRIPCION: this.editedItem.descripcion,
+              RESUMEN: this.editedItem.resumen,
               BASE64: "",
               EXTENCION: this.editedItem.documento.name.replace(/^.*\./, ""),
-              NOMBRE_TABLA_ORIGEN: "BIBLIO_ARCHIVO",
+              NOMBRE_TABLA_ORIGEN: "BIBLIO_GESCON_ARCHIVO",
               ID_DATO_TABLA_ORIGEN: resp.data.id,
               ID_TIPO_ARCHIVO: this.tipoArchivoId,
             };
+            */
+
+          /*
             // se crea el archivo en estado 2 de creacion
             await this.postArchivo(archivo).then(async (res) => {
               if (res.status == 200) {
@@ -429,6 +515,7 @@ export default {
                 return;
               }
             });
+            */
           } else {
             this.$toastr("error", res.message, "Error!");
             return;
