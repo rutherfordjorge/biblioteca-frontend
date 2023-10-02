@@ -5,6 +5,8 @@ export default {
     state:{
         documentos: [],
         tiposDocumentos:[],
+        tipos:[],
+        tipo:[],
         sugerencias: [],
         loading: false,
     },
@@ -23,6 +25,12 @@ export default {
         },
         ADD_TIPO_DOCUMENTOS(state, tiposDocumentos){
             state.tiposDocumentos = tiposDocumentos;
+        },
+        ADD_TIPOS(state,tipos){
+            state.tipos = tipos;
+        },
+        ADD_TIPO(state,tipo){
+            state.tipo = tipo;
         },
         DELETE_DOCUMENTOS(state){
             state.documentos = [];
@@ -97,6 +105,7 @@ export default {
                 return error;
             });
         },
+
         async fetchCountDocumentos(context) {
             context.commit('GETTING_DATA');
             return axios.get(`${process.env.VUE_APP_BASE_URL_API}/Documentos/getCountDocumentos`, {
@@ -112,6 +121,7 @@ export default {
                 return error.response;
             })
         },
+
         async fetchDocumentosTipo(context, params) {
             return axios.get(`${process.env.VUE_APP_BASE_URL_API}/Documentos/getDocumentosTipo/${params.tipoId}/${params.page}/${params.busqueda}`, {
                 headers: {
@@ -125,6 +135,7 @@ export default {
                 return error.response;
             })
         },
+
         async fetchDocumentos(context, params) {
             return axios.get(`${process.env.VUE_APP_BASE_URL_API}/Documentos/getDocumentos/${params.page}/${params.busqueda}`, {
                 headers: {
@@ -137,6 +148,7 @@ export default {
                 return error.response;
             })
         },
+
         async fetchDocumentosBorrados(context, params) {
             return axios.get(`${process.env.VUE_APP_BASE_URL_API}/Documentos/getDocumentosBorrados/${params.page}/${params.busqueda}`, {
                 headers: {
@@ -149,6 +161,7 @@ export default {
                 return error.response;
             })
         },
+
         async fetchTipoDocumento(context, param) {
             context.commit('GETTING_DATA');
             return axios.get(`${process.env.VUE_APP_BASE_URL_API}/Documentos/getTipoDocumento/${param}`, {
@@ -168,6 +181,7 @@ export default {
                 return error;
             })
         },
+
         async fetchTiposDocumentos(context) {
             context.commit('GETTING_DATA');
             return axios.get(`${process.env.VUE_APP_BASE_URL_API}/Documentos/getTiposDocumentos/`, {
@@ -178,6 +192,7 @@ export default {
                 // console.log(res);
                 if (res.data != null) {
                     context.commit('ADD_TIPO_DOCUMENTOS', res.data);
+                    context.commit('ADD_TIPOS',res.data);
                 }
                 context.commit('END_GETTING_DATA');
                 return res;
@@ -187,6 +202,7 @@ export default {
                 return error;
             })
         },
+
         async postDocumento(context, documento){
             return axios.post(`${process.env.VUE_APP_BASE_URL_API}/Documentos/postIngresoDocumento`, documento, {
                 headers: {
@@ -201,6 +217,22 @@ export default {
                 return error;
             });
         },
+
+        async postformulario(context, formulario){
+            return axios.post(`${process.env.VUE_APP_BASE_URL_API}/Formulario/postIngresoDocumento`, formulario, {
+                headers: {
+                    "Authorization": `bearer ${context.rootState.token}`
+                }
+            })
+            .then((res) => {
+                if (res.status == 200) {
+                    return res;
+            }
+            }).catch((error) => {
+                return error;
+            });
+        },
+
         async putDocumento(context, documento){
             // console.log(documento);
             return axios.put(`${process.env.VUE_APP_BASE_URL_API}/Documentos/putEditarDocumento`, documento, {
@@ -214,6 +246,7 @@ export default {
                 return error.response;
             });
         },
+
         async putActivaDocumento(context, param) {
             return axios.put(`${process.env.VUE_APP_BASE_URL_API}/Documentos/putActivaDocumento/`, {id:param}, {
                 headers: {
@@ -229,6 +262,7 @@ export default {
                 return error;
             })
         },
+
         async putBloquearDocumento(context, param) {
             return axios.put(`${process.env.VUE_APP_BASE_URL_API}/Documentos/putBloquearDocumento/`, {id:param}, {
                 headers: {
@@ -255,5 +289,8 @@ export default {
         tiposDocumentos(state) {
             return state.tiposDocumentos;
         },
+        tipos(state){
+            return state.tipos;
+        }
     }
 }
