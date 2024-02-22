@@ -34,7 +34,7 @@ export default {
     async fetchUnidades(context) {
       context.commit("GETTING_DATA");
       return axios
-        .get(`${process.env.VUE_APP_APIGATEWAY_URL}/Usuarios/GetUnidades`, {
+        .get(`${process.env.VUE_APP_BASE_URL_API}/Unidades/GetUnidades`, {
           headers: {
             Authorization: `bearer ${context.rootState.token}`,
           },
