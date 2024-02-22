@@ -110,17 +110,10 @@
             <v-tooltip top>
               <template v-slot:activator="{ on }">
                 <ver-documento
-                  v-if="
-                    (item.clasificacion >= 0 &&
-                      item.estado <= 2 &&
-                      (parseInt(currentUser.Rol) == 221 ||
-                        parseInt(currentUser.Rol) == 223)) ||
-                    (item.clasificacion <= 1 &&
-                      item.estado <= 2 &&
-                      (parseInt(currentUser.Rol) == 221 ||
-                        parseInt(currentUser.Rol) == 0)) ||
-                    (item.clasificacion == 0 && item.estado <= 2)
-                  "
+                  v-if="(parseInt(currentUser.Rol) == 0 && item.clasificacion == 0 && item.estado <= 2) ||
+                   (parseInt(currentUser.Rol) == 222 && item.clasificacion <= 1 && item.estado <= 2) ||
+                   (parseInt(currentUser.Rol) == 223 && item.clasificacion <= 2 && item.estado <= 2) ||
+                   (parseInt(currentUser.Rol) == 221 && item.clasificacion <= 3 && item.estado <= 3)"
                   v-on="on"
                   Icon="mdi-magnify"
                   :ID="item.documentoId"

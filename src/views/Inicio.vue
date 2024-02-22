@@ -44,9 +44,9 @@ export default {
           src: "divdoc.ico",
           count: null,
           id: 2,
-          // to: { name: "biblioteca" },
-          // responsable: 'DIVDOC - Depto IV - Anexo: 34111'
-          responsable: 'Disponible Próximamente...',
+          to: { name: "biblioteca" },
+          responsable: 'DIVDOC - Depto IV - Anexo: 34111'
+          // responsable: 'Disponible Próximamente...',
         },
         {
           title: "Procedimientos Institucionales",
@@ -56,14 +56,14 @@ export default {
           to: { name: "procedimientos" },
           responsable: 'DIMACOE - Depto I - Anexo: 32961',
         },
-        {
-          title: "Gestión del Conocimiento",
-          src: "cesim.png",
-          count: null,
-          id: 3,
-          to: { name: "conocimientos" },
-          responsable: 'CESIM - Depto III',
-        },
+        // {
+        //   title: "Gestión del Conocimiento",
+        //   src: "cesim.png",
+        //   count: null,
+        //   id: 3,
+        //   to: { name: "conocimientos" },
+        //   responsable: 'CESIM - Depto III',
+        // },
       ],
     };
   },
