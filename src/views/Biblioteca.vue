@@ -22,13 +22,15 @@
               que han sido publicados por la División Doctrina. Para tener acceso a textos
               de carácter reservado y/o secreto, se deberá solicitar por oficio a la
               DIVDOC, indicando nombre y RUN de la persona a la cual se le solicita
-              otorgar acceso.
-              Para mejorar las capacidades de esta plataforma, la DIVDOC pone a disposición
+              otorgar acceso.</b>
+              <br><br>
+              <b>Para mejorar las capacidades de esta plataforma, la DIVDOC pone a disposición
               del personal una breve encuesta, disponible a través del siguiente codigo QR:</b>
               <v-col align="center">
-              <div class="imagen-container">
+              <!-- <div class="imagen-container">
                   <img class="imagen" src="/QR_encuesta.jpeg" alt="QR encuesta">
-              </div>
+              </div> -->
+              <v-img contain width="200" src="/QR_encuesta.jpeg" />
               </v-col>
           </v-card-text>
         </v-card>
