@@ -45,19 +45,15 @@
       <v-col cols="12" class="px-4">
         <v-card elevation="1" color="#e9f3ff">
           <v-card-text>
-            <b
-              >Con el propósito de contar con una herramienta que ayude a la
-              gestión de los Comandantes de diferentes niveles, la Dirección de
-              Mando y Control del Ejército (DIMACOE), conforme a las
-              orientaciones del CJE, desarrolló esta plataforma de consulta,
-              denominada “BIBLIOTECA DE PROCEDIMIENTOS”, la cual permite
-              centralizar y dar facilidades de acceso a la información contenida
-              en una serie de documentos normativos que contemplan diferentes
-              disposiciones de: Personal, Inteligencia, Operaciones, Logística,
-              Salud, Finanzas, Protocolo, Visitas, Proyectos, Capacitaciones,
-              Contraloría, Leyes, Seguros y Telecomunicaciones, con el objeto
-              que sean utilizadas como fuente de consulta.</b
-            >
+            <b>
+              Con el propósito de contar con una herramienta que ayude a la gestión de los
+              Comandantes de diferentes niveles, la Dirección de Mando y Control del Ejército (DIMACOE),
+              conforme a las orientaciones del CJE, desarrolló esta plataforma de consulta, denominada
+              “BIBLIOTECA DE PROCEDIMIENTOS”, la cual permite centralizar y dar facilidades de acceso
+              a la información contenida en una serie de documentos normativos que contemplan diferentes
+              disposiciones de: Personal, Inteligencia, Operaciones, Logística, Salud, Finanzas, Protocolo,
+              Visitas, Proyectos, Capacitaciones, Contraloría, Leyes, Seguros y Telecomunicaciones, con el
+              objeto que sean utilizadas como fuente de consulta.</b>
           </v-card-text>
         </v-card>
       </v-col>

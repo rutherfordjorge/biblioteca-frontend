@@ -18,13 +18,18 @@
         <v-card elevation="1" color="#e9f3ff">
           <v-card-text>
             <!-- <b>El objetivo de la “Biblioteca Virtual” es difundir la Doctrina Operacional, la Doctrina de Funcionamiento, la Doctrina Valórica del Ejército y la Doctrina Conjunta, como también, los procedimientos internos establecidos por la institución, permitiendo a todo el personal de planta de la institución el acceso a los textos doctrinarios, base fundamental para el correcto desarrollo de las actividades propias de la función militar.</b> -->
-            <b
-              >El objetivo de éste módulo es la difusión de textos doctrinarios,
-              permitiendo a todo el personal de la institución el acceso a los
-              textos doctrinarios de acuerdo a su nivel de acceso a la
-              información, base fundamental para el correcto desarrollo de las
-              actividades propias de la función militar.</b
-            >
+            <b>En este módulo usted encontrará los textos doctrinarios de la institución
+              que han sido publicados por la División Doctrina. Para tener acceso a textos
+              de carácter reservado y/o secreto, se deberá solicitar por oficio a la
+              DIVDOC, indicando nombre y RUN de la persona a la cual se le solicita
+              otorgar acceso.
+              Para mejorar las capacidades de esta plataforma, la DIVDOC pone a disposición
+              del personal una breve encuesta, disponible a través del siguiente codigo QR:</b>
+              <v-col align="center">
+              <div class="imagen-container">
+                  <img class="imagen" src="/QR_encuesta.jpeg" alt="QR encuesta">
+              </div>
+              </v-col>
           </v-card-text>
         </v-card>
       </v-col>
@@ -205,5 +210,14 @@ export default {
 <style scoped>
 title {
   background: black;
+}
+.imagen-container {
+  max-width: 50%;
+  max-height: 150px;
+  overflow: hidden;
+}
+.imagen {
+  width: 30%;
+  height: auto;
 }
 </style>
