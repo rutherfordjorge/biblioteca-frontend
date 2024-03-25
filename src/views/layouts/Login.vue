@@ -22,6 +22,8 @@
 
 <style scoped>
     .theme--light.v-application {
-        background: #f0f0f0;
+        background: url('/fondo1.svg');
+        background-size: cover;
+        
     }
 </style>

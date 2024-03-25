@@ -1,19 +1,31 @@
 <template>
+       
     <v-app id="inspire">
         <v-main color="primary">
         <v-container class="contentHeight" fluid>
-            <v-row>
+            <v-row class="justify-center text-center" dense>
             <v-col cols="4">
                 <!-- Contenedor en blanco -->
             </v-col>
             <v-col cols="4">
 
-                <v-col cols="12" class="centrarCont">
-                <v-img
+                <!-- <v-col cols="12" class="centrarCont">
+                <v-img contain
                     src="/bibliotecaEscudo.svg"
                     :class="existLastUser ? 'logoSmall' : 'logoBig'"
                 ></v-img>
-                </v-col>
+                </v-col> -->
+
+                <v-row class="justify-center text-center">
+                    <v-col sm="12" md="6" lg="12">
+                        <v-avatar
+                                :size="existLastUser ? 150 : 380"
+                                :class="existLastUser ? '' : 'pa-6 mb-10'"
+                        >
+                                <v-img contain src="/bibliotecaescudo.svg"></v-img>
+                        </v-avatar>
+                    </v-col>
+                </v-row>
 
                 <v-col cols="12" class="text-center">
                 <v-avatar
@@ -43,6 +55,8 @@
                     v-model="credentials.usuario"
                     :rules="userRule"
                     type="text"
+                    outlined
+                    background-color="white"
                     />
 
                     <v-text-field
@@ -53,16 +67,20 @@
                     :type="mostrar ? 'text' : 'password'"
                     :rules="passRule"
                     @click:append="mostrar = !mostrar"
+                    outlined
+                    background-color="white"
                     />
+                    
                     <v-row>
-                    <v-col cols="12" md="6">
-                        <p class="text-left">
-                        <span @click="restablecerModal=!restablecerModal" style="cursor:pointer">
-                            Clave Ejército
-                            <v-icon small>mdi-lock</v-icon>
-                        </span>
-                        </p>
-                    </v-col>
+                        <v-col>
+                            <p class="text-left">
+                                 <span @click="restablecerModal=!restablecerModal" style="cursor:pointer">
+                                    Restablecer Clave
+                                    <v-icon small>mdi-lock</v-icon>
+                                 </span>
+                             </p>
+                        </v-col>
+
                     <v-col cols="12" md="6">
                         <!-- Se muestra en tamaños grandes -->
                         <p v-if="existLastUser" class="text-right hidden-sm-and-down">
@@ -120,7 +138,7 @@
             </v-card-title>
             <v-card-text>
                 <!-- Mensaje de seguridad para todos los usuarios -->
-                <v-row dense class="text-justify">
+                <!-- <v-row dense class="text-justify">
                 <v-col cols="12" class="px-4 mt-4">
                     <v-card elevation="1" color="#e9f3ff">
                     <v-card-text>
@@ -132,7 +150,7 @@
                     </v-card-text>
                     </v-card>
                 </v-col>
-                </v-row>
+                </v-row> -->
 
                 <v-form @submit.prevent="resetPassword" ref="resetForm" v-model="restablecer.formValid">
                 <v-row dense class="text-justify">
@@ -199,15 +217,16 @@
         </v-dialog>
 
         </v-main>
-    </v-app>
+      </v-app>
 </template>
 
 <script>
+    
     import { mapGetters, mapActions } from "vuex";
     import footerDimacoe from '@/components/footerDimacoe.vue';
 
     export default {
-    components:{
+        components:{
         footerDimacoe,
     },
     data() {
@@ -321,6 +340,11 @@
 </script>
 
 <style scoped>
+    /* .fondo{
+        background: url('/fondo1.svg');
+        background-size: cover;
+    } */
+
     .logoBig{
         height: 35vh;
         width: 35vh;

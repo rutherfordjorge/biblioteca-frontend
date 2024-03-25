@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
     </v-row>
     <v-row dense class="justify-center">
-      <v-col v-for="card in cards" :key="card.id" sm="12" md="6" lg="4">
+      <v-col v-for="card in cards" :key="card.id" sm="12" md="6" lg="5">
         <card-documento
           :key="card.id"
           :title="card.title"
@@ -45,7 +45,7 @@ export default {
           count: null,
           id: 2,
           to: { name: "biblioteca" },
-          responsable: 'DIVDOC - Depto IV - Anexo: 34111'
+          responsable: 'DIVDOC - Depto I - Anexos: 83200-83201-83203'
           // responsable: 'Disponible Próximamente...',
         },
         {

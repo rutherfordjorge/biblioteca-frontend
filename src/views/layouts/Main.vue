@@ -17,8 +17,8 @@
                             v-else-if="item.children.length > 0 && item.rol.includes(parseInt(currentUser.Rol))"
                             :key="item.id"
                             :prepend-icon="item.icon"
-                            :value="false"
-                        >
+                            :value="false">
+                            
                             <template v-slot:activator>
                                 <v-list-item-content>
                                     <v-list-item-title>{{ item.text }}</v-list-item-title>
