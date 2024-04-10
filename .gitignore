@@ -3,6 +3,10 @@
 .env.development
 .env.production
 
+# Entrega Contínua
+procedimiento.sh
+pasoprod.sh
+
 # Internet
 **/node_modules/
 **/dist/
