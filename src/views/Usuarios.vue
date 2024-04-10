@@ -70,7 +70,7 @@
                                                     >
                                                         <v-text-field
                                                             v-model="editedItem.persona.grado"
-                                                            label="GRA"
+                                                            label="GRADO"
                                                             readonly
                                                             :disabled="editItemRunValidated ? false : true"
                                                             :rules="rules.required"

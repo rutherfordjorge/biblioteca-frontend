@@ -49,21 +49,21 @@
           <template v-slot:item.estado="{ item }">
             <v-chip
               small
-              :color="colorEstado(item.estado)"
+              :color="colorEstado(item.estado.id)"
               text-color="white"
               class="text-descripcion"
             >
-              {{ descripcionEstado(item.estado) }}
+              {{ descripcionEstado(item.estado.id) }}
             </v-chip>
           </template>
           <template v-slot:item.clasificacion="{ item }">
             <v-chip
               small
-              :color="colorClasificacion(item.clasificacion)"
+              :color="colorClasificacion(item.clasificacion.id)"
               text-color="white"
               class="text-descripcion"
             >
-              {{ descripcionClasificacion(item.clasificacion) }}
+              {{ descripcionClasificacion(item.clasificacion.id) }}
             </v-chip>
           </template>
           <template v-slot:item.edicion="{ item }">
@@ -100,8 +100,8 @@
             <v-tooltip v-if="$route.params.id != 20" top>
               <template v-slot:activator="{ on }">
                 <v-icon small class="md-3" v-on="on" @click="deleteItem(item)"
-                  >mdi-delete</v-icon
-                >
+                  >mdi-delete
+                </v-icon>
               </template>
               <span>Eliminar</span>
             </v-tooltip>
@@ -110,10 +110,10 @@
             <v-tooltip top>
               <template v-slot:activator="{ on }">
                 <ver-documento
-                  v-if="(parseInt(currentUser.Rol) == 0 && item.clasificacion == 0 && item.estado <= 2) ||
-                   (parseInt(currentUser.Rol) == 222 && item.clasificacion <= 1 && item.estado <= 2) ||
-                   (parseInt(currentUser.Rol) == 223 && item.clasificacion <= 2 && item.estado <= 2) ||
-                   (parseInt(currentUser.Rol) == 221 && item.clasificacion <= 3 && item.estado <= 3)"
+                  v-if="(parseInt(currentUser.Rol) == 0 && item.clasificacion.id == 0 && item.estado.id <= 2) ||
+                   (parseInt(currentUser.Rol) == 222 && item.clasificacion.id <= 1 && item.estado.id <= 2) ||
+                   (parseInt(currentUser.Rol) == 223 && item.clasificacion.id <= 2 && item.estado.id <= 2) ||
+                   (parseInt(currentUser.Rol) == 221 && item.clasificacion.id <= 3 && item.estado.id <= 3)"
                   v-on="on"
                   Icon="mdi-magnify"
                   :ID="item.documentoId"
@@ -149,7 +149,7 @@
 
     <!-- Editar Doc -->
     <v-dialog v-model="dialog" max-width="1200px">
-      <editar-documento :key="editedItem.id" @close="close" :tipoArchivoId="81" :origenId="2" :item="editedItem"/>
+      <editar-documento :key="editedItem.id" @close="close" @close2="close2" :tipoArchivoId="81" :origenId="2" :item="editedItem"/>
     </v-dialog>
 
     <!-- Guardar Doc -->
@@ -205,7 +205,7 @@ export default {
           width: "10%",
         },
         {
-          text: "Numero",
+          text: "Número",
           groupable: false,
           align: "center",
           value: "numero",
@@ -257,8 +257,8 @@ export default {
     ],
     estado: [
       { id: 1, nombre: "VIGENTE" },
-      { id: 2, nombre: "EN ACTUALIZACION" },
-      { id: 3, nombre: "EN ELABORACION" },
+      { id: 2, nombre: "EN ACTUALIZACIÓN" },
+      { id: 3, nombre: "EN ELABORACIÓN" },
     ],
     edicion: [
       { text: "2015", value: 2015 },
@@ -281,9 +281,9 @@ export default {
       tipo: 1,
       unidad: null,
       edicion: 2015,
-      estado: 1,
+      estado: {},
       documento: null,
-      clasificacion: 1,
+      clasificacion: {},
     },
   }),
   async mounted() {
@@ -389,6 +389,7 @@ export default {
       }
     },
     editItem(item) {
+     console.log(item);
       this.editedIndex = this.Documentos.items.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
@@ -407,15 +408,15 @@ export default {
       return estadoID == 1
         ? "VIGENTE"
         : estadoID == 2
-        ? "EN ACTUALIZACION"
+        ? "EN ACTUALIZACIÓN"
         : estadoID == 3
-        ? "EN ELABORACION"
+        ? "EN ELABORACIÓN"
         : "SIN TIPO";
     },
     colorEstado(estadoID) {
       let color;
       if (estadoID == 1) color = "success";
-      else if (estadoID == 2) color = "warning";
+      else if (estadoID == 2) color = "orange";
       else if (estadoID == 3) color = "red";
       else color = "info";
       return color;
@@ -433,7 +434,7 @@ export default {
       //otorga colores a los estados
       let color;
       if (ClasificacionID == 0) color = "blue";
-      else if (ClasificacionID == 1) color = "warning";
+      else if (ClasificacionID == 1) color = "orange";
       else if (ClasificacionID == 2) color = "red";
       else color = "info";
 
@@ -444,6 +445,9 @@ export default {
       setTimeout(async () => {
         await this.reload(this.Documentos.page, this.Documentos.busqueda);
       }, 300);
+    },
+    async close2() {
+      this.dialog = !this.dialog;
     },
     async closeEdit() {
       // funcion de cerrar en la ventana de dialogo de cargar nueva version
@@ -473,6 +477,34 @@ export default {
       // console.log('temp:', itemTmp)
       await itemTmp.forEach(async (item) => {
         item.documentoId = await this.getArchivoId(item.id);
+        switch (item.estado) {
+          case 1:
+            item.estado = {id: 1, nombre: 'VIGENTE'}
+            break;
+          case 2:
+            item.estado = {id: 2, nombre: 'EN ACTUALIZACIÓN'}
+            break;
+          case 3:
+            item.estado = {id: 3, nombre: 'EN ELABORACIÓN'}
+            break;  
+          default:
+            break;
+        }
+        item.documentoID = await this.getArchivoId(item.id);
+        switch (item.clasificacion) {
+          case 0:
+            item.clasificacion = {id: 0, nombre:'PUBLICO'}
+            break;
+          case 1:
+            item.clasificacion = {id: 1, nombre:'RESERVADO'}
+            break;
+          case 2:
+            item.clasificacion = {id: 2, nombre:'SECRETO'}
+            break;
+          default:
+            break;
+        }
+
         // console.log(item)
       });
 

@@ -126,7 +126,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
+      <v-btn color="blue darken-1" text @click="close2">Cancelar</v-btn>
       <v-btn color="blue darken-1" text @click="edit">Guardar</v-btn>
     </v-card-actions>
   </v-card>
@@ -151,8 +151,8 @@ export default {
     ],
     estado: [
       { id: 1, nombre: "VIGENTE" },
-      { id: 2, nombre: "EN ACTUALIZACION" },
-      { id: 3, nombre: "EN ELABORACION" },
+      { id: 2, nombre: "EN ACTUALIZACIÓN" },
+      { id: 3, nombre: "EN ELABORACIÓN" },
     ],
     editedIndex: -1,
     defaultItem: {
@@ -165,12 +165,13 @@ export default {
       unidad: null,
       documento: null,
       clasificacion: null,
+      estado: null,
     },
     validForm: false,
     rules: {
       fechA_DOC: [(v) => !!v || "Debe seleccionar una fecha"],
-      unidad: [(v) => !!v || "La unidad es requerido"],
-      numero: [(v) => !!v || "El numero es requerido"],
+      unidad: [(v) => !!v || "La unidad es requerida"],
+      numero: [(v) => !!v || "El número es requerido"],
       descripcion: [(v) => !!v || "La descripción es requerida"],
       tipo: [(v) => !!v || "El tipo es requerido"],
       clasificacion: [(v) => !!v || "La clasificación es requerida"],
@@ -180,7 +181,7 @@ export default {
       pass: [true],
     },
   }),
-  activated() {this.item.clasificacion = this.Clasificacion(this.item.clasificacion)},
+  // activated() {this.item.clasificacion = this.Clasificacion(this.item.clasificacion)},
   async mounted() {
     for (let i = 2015; i <= new Date().getUTCFullYear(); i++) {
       this.edicion.push(i)
@@ -191,7 +192,7 @@ export default {
     if (this.tiposDocumentos == 0) {
       await this.fetchTiposDocumentos();
     }
-    this.item.clasificacion = this.Clasificacion(this.item.clasificacion);
+    // this.item.clasificacion = this.Clasificacion(this.item.clasificacion);
     const res = await this.fetchTipoDocumento(this.$route.params.id);
     this.tipoDocumento = res.data;
   },
@@ -231,48 +232,109 @@ export default {
     validate() {
       return this.$refs.form.validate();
     },
-    async edit() {
-      if (this.validate()) {
-        let documento = {
-          id: this.item.id,
-          fechA_DOC: this.item.fechA_DOC,
-          numero: this.item.numero,
-          descripcion: this.item.descripcion,
-          unidadid: this.item.unidad.codigo,
-          tipoid: this.item.tipo.id,
-          edicion: this.item.edicion,
-          clasificacion: this.item.clasificacion.id,
-          estado: this.item.estado,
-          origenid: this.origenId,
-        };
-        await this.putDocumento(documento).then(async (resp) => {
-          // console.log(resp);
-          if (resp.status == 200) {
-            this.$toastr("success", "Documento modificado con exito", "Éxito!");
-          } else {
-            if (resp.status === 404)
-              this.$toastr(
-                "error",
-                "No se ha encontrado el registro",
-                "Error!"
-              );
-            else if (resp.status === 401)
-              this.$toastr(
-                "error",
-                "No tiene acceso para realizar esta operación",
-                "Error!"
-              );
-            else this.$toastr("error", resp.statusText, "Error!");
-            return;
-          }
-        });
-        this.close();
-      } else {
-        this.$toastr("error", "Formulario Incompleto", "Error!");
-      }
+
+   async edit() {
+
+           if (this.validate()) {
+              let documento = {};
+              if (typeof this.item.estado === 'object') // || typeof this.item.clasificacion === 'object'
+              {
+                documento = {
+                id: this.item.id,
+                fechA_DOC: this.item.fechA_DOC,
+                numero: this.item.numero,
+                descripcion: this.item.descripcion,
+                unidadid: this.item.unidad.codigo,
+                tipoid: this.item.tipo.id,
+                edicion: this.item.edicion,
+                clasificacion: this.item.clasificacion.id,
+                estado: this.item.estado.id,
+                origenid: this.origenId,
+                }; 
+              }
+             else
+             {
+              documento = {
+              id: this.item.id,
+              fechA_DOC: this.item.fechA_DOC,
+              numero: this.item.numero,
+              descripcion: this.item.descripcion,
+              unidadid: this.item.unidad.codigo,
+              tipoid: this.item.tipo.id,
+              edicion: this.item.edicion,
+              clasificacion: this.item.clasificacion.id,
+              estado: this.item.estado,
+              origenid: this.origenId,
+              }; 
+             }
+        
+
+      //   if (typeof this.item.clasificacion.id === 'object')
+      //  {
+      //      documento = {
+      //      id: this.item.id,
+      //      fechA_DOC: this.item.fechA_DOC,
+      //      numero: this.item.numero,
+      //      descripcion: this.item.descripcion,
+      //      unidadid: this.item.unidad.codigo,
+      //      tipoid: this.item.tipo.id,
+      //      edicion: this.item.edicion,
+      //      clasificacion: this.item.clasificacion.id,
+      //      estado: this.item.estado.id,
+      //      origenid: this.origenId,
+      //    }; 
+      //  }
+      //   else
+      //   {
+      //    documento = {
+      //      id: this.item.id,
+      //      fechA_DOC: this.item.fechA_DOC,
+      //      numero: this.item.numero,
+      //      descripcion: this.item.descripcion,
+      //      unidadid: this.item.unidad.codigo,
+      //      tipoid: this.item.tipo.id,
+      //      edicion: this.item.edicion,
+      //      clasificacion: this.item.clasificacion.id,
+      //      estado: this.item.estado,
+      //      origenid: this.origenId,
+      //    }; 
+      //   }
+
+       console.log(this.item);    
+
+         await this.putDocumento(documento).then(async (resp) => {
+           // console.log(resp);
+           if (resp.status == 200) {
+             this.$toastr("success", "Documento modificado con exito", "Éxito!");
+           } else {
+             if (resp.status === 404)
+               this.$toastr(
+                 "error",
+                 "No se ha encontrado el registro",
+                 "Error!"
+               );
+             else if (resp.status === 401)
+               this.$toastr(
+                 "error",
+                 "No tiene acceso para realizar esta operación",
+                 "Error!"
+               );
+             else this.$toastr("error", resp.statusText, "Error!");
+             return;
+           }
+         });
+         
+         this.close();
+       } else {
+         this.$toastr("error", "Formulario Incompleto", "Error!");
+       }
     },
+
     close() {
       this.$emit("close");
+    },
+    close2() {
+      this.$emit("close2");
     },
     formatearFecha(date) {
       if (date == null) return null;
