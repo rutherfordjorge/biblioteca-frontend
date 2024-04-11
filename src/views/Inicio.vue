@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
     </v-row>
     <v-row dense class="justify-center">
-      <v-col v-for="card in cards" :key="card.id" sm="12" md="6" lg="5">
+      <v-col v-for="card in cards" :key="card.id" sm="12" md="6" lg="6">
         <card-documento
           :key="card.id"
           :title="card.title"

@@ -22,7 +22,7 @@
                                 :size="existLastUser ? 150 : 380"
                                 :class="existLastUser ? '' : 'pa-6 mb-10'"
                         >
-                                <v-img contain src="/bibliotecaescudo.svg"></v-img>
+                                <v-img contain :src="'/bibliotecaEscudo.svg'"></v-img>
                         </v-avatar>
                     </v-col>
                 </v-row>

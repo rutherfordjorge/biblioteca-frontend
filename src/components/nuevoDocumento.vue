@@ -197,8 +197,8 @@ export default {
     ],
     estado: [
       { id: 0, nombre: "VIGENTE" },
-      { id: 1, nombre: "EN ACTUALIZACION" },
-      { id: 2, nombre: "EN ELABORACION" },
+      { id: 1, nombre: "EN ACTUALIZACIÓN" },
+      { id: 2, nombre: "EN ELABORACIÓN" },
     ],
     editedIndex: -1,
     defaultItem: {
@@ -367,6 +367,7 @@ export default {
           clasificacion: this.editedItem.clasificacion.id,
           origenid: this.origenId,
         };
+   
         const res = await this.postDocumento(documento).then(async (resp) => {
           if (resp.status == 200) {
             let archivo = {
