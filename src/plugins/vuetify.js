@@ -12,14 +12,15 @@ export default new Vuetify({
     },
     themes: {
       light: {
+        background: "#ededed",
         primary: "#B71C1C",
         secondary: "#424242",
-        accent: "#82B1FF",
-        error: "#FF5252",
+        // accent: "#82B1FF",
+        // error: "#FF5252",
         info: "#2196F3",
         success: "#4CAF50",
-        warning: "#FFC107",
-        primaryBanner: "#202020"
+        // warning: "#FFC107",
+        // primaryBanner: "#202020"
       }
     }
   },
@@ -28,3 +29,5 @@ export default new Vuetify({
     current: "es"
   }
 });
+
+

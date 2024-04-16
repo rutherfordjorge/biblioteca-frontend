@@ -121,7 +121,7 @@
             </v-col>
             </v-row>
         </v-container>
-        <footerDimacoe />
+        <Footer :imagen="dataFooter.ruta" :unidad="dataFooter.unidad" :telefono="dataFooter.telefono" :correo="dataFooter.correo"/>
 
         <v-dialog 
             v-model="restablecerModal"
@@ -223,14 +223,22 @@
 <script>
     
     import { mapGetters, mapActions } from "vuex";
-    import footerDimacoe from '@/components/footerDimacoe.vue';
+    import Footer from '@/components/footer.vue';
 
     export default {
         components:{
-        footerDimacoe,
+        Footer,
     },
     data() {
         return {
+            dataFooter:
+        {
+          id: 1,
+          ruta: '@/assets/escudos/divdoc.png',
+          unidad: "DIVDOC",
+          telefono: "+569 8888888",
+          correo: "divdoc@ejercito.cl",
+        },
         existLastUser: false,
         avatar: null,
         hayCredencialesAnteriores: false,
