@@ -61,6 +61,16 @@ const routes = [
         }
     },
     {
+        path: "/conocimiento",
+        name: "conocimiento",
+        component: () => import(/* webpackChunckName: "fuentes conocimiento" */ "@/views/Mantenedores/FuentesConocimiento.vue"),
+        meta: {
+            requiresAuth: true,
+            whoCan: [0, 161, 221, 222, 223],
+            layout: MainLayout
+        }
+    },
+    {
         path: "/inicio/doctrina",
         name: "biblioteca",
         component: () => import(/* webpackChunckName: "biblioteca" */ "@/views/Biblioteca.vue"),

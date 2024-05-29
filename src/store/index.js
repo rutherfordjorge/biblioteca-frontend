@@ -11,6 +11,7 @@ import ambitosStore from "@/store/modules/ambitos";
 import areaAmbitosStore from "@/store/modules/areaAmbitos";
 import lineasStore from "@/store/modules/lineas";
 import autoresStore from "@/store/modules/autores";
+import conocimientosStore from "@/store/modules/conocimientos";
 
 var jwtDecode = require('jwt-decode');
 
@@ -238,5 +239,6 @@ export default new Vuex.Store({
     areaAmbitosStore,
     lineasStore,
     autoresStore,
+    conocimientosStore,
   }
 });

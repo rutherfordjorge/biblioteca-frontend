@@ -110,7 +110,7 @@
                     </v-list>
                 </v-menu>      
             </v-app-bar>
-            <v-main>
+            <v-main :class="drawerLeft ? 'v-main' : 'v-main-no-menu'">
                 <router-view></router-view>
             </v-main>
         </v-app>
@@ -205,6 +205,12 @@ export default {
                         icon: 'mdi-chart-bar',
                         text: 'Estadisticas',
                     },
+                    {
+                        id: 4,
+                        route: '/conocimiento',
+                        icon: 'mdi-chart-bar',
+                        text: 'Fuentes Conocimiento',
+                    },
                 ]
             },
         ],
@@ -280,5 +286,13 @@ export default {
 
     .paddingCustom {
         padding: 0 16px !important;
+    }
+
+    .v-main {
+        padding: 56px 0px 0px 70px !important;
+    }
+
+    .v-main-no-menu {
+        padding: 56px 0px 0px 0px !important;
     }
 </style>

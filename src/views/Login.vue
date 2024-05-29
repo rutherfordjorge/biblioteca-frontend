@@ -1,5 +1,5 @@
 <template>
-       
+    
     <v-app id="inspire">
         <v-main color="primary">
         <v-container class="contentHeight" fluid>
@@ -74,11 +74,11 @@
                     <v-row>
                         <v-col>
                             <p class="text-left">
-                                 <span @click="restablecerModal=!restablecerModal" style="cursor:pointer">
+                                <span @click="restablecerModal=!restablecerModal" style="cursor:pointer">
                                     Restablecer Clave
                                     <v-icon small>mdi-lock</v-icon>
-                                 </span>
-                             </p>
+                                </span>
+                            </p>
                         </v-col>
 
                     <v-col cols="12" md="6">
@@ -217,7 +217,7 @@
         </v-dialog>
 
         </v-main>
-      </v-app>
+    </v-app>
 </template>
 
 <script>
@@ -233,11 +233,11 @@
         return {
             dataFooter:
         {
-          id: 1,
-          ruta: '@/assets/escudos/divdoc.png',
-          unidad: "DIVDOC",
-          telefono: "+569 8888888",
-          correo: "divdoc@ejercito.cl",
+            id: 1,
+            ruta: '@/assets/escudos/divdoc.png',
+            unidad: "DIVDOC",
+            telefono: "+569 8888888",
+            correo: "divdoc@ejercito.cl",
         },
         existLastUser: false,
         avatar: null,
