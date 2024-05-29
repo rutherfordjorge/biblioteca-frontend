@@ -353,7 +353,23 @@ export default {
         //   },
         //   rol: [0, 161, 221, 222, 223],
         // },
+       
         {
+          title: "Ciberdefensa",
+          src: "/iconos/Procedimientos/antarticos.svg",
+          count: 0,
+          id: 24,
+          to: {
+            name: "lista-procedimientos",
+            params: {
+              id: 24,
+            },
+          },
+          rol: [0, 161, 221, 222, 223],
+        },
+       
+       
+       {
           title: "Borrados",
           src: "/iconos/Procedimientos/borrados.svg",
           count: 0,
@@ -366,6 +382,10 @@ export default {
           },
           rol: [161],
         },
+
+       
+
+
       ],
     };
   },
