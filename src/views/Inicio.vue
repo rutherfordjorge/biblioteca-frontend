@@ -1,5 +1,11 @@
 <template>
   <v-container>
+    <img
+    :src="imagenActual"
+    @mouseover="cambiarImagen(imagenHover)"
+    @mouseout="cambiarImagen(imagenNormal)
+    alt=Imagen"
+    />
     <v-row dense>
       <v-breadcrumbs class="font-weight-medium" :items="bredItems" large />
       <v-spacer></v-spacer>
@@ -14,12 +20,14 @@
           :to="card.to"
           :responsable="card.responsable"
         />
+        
       </v-col>
     </v-row>
   </v-container>
 </template>
-
+ 
 <script>
+
 import { mapActions, mapGetters } from "vuex";
 import CardDocumento from "@/components/cardDocumento.vue";
 
@@ -30,6 +38,10 @@ export default {
   name: "Inicio",
   data() {
     return {
+      // imagenNormal: "dimacoe.png",
+      // imagenHover: "enconstruccion.png",
+      // imagenActual: "dimacoe.png",
+
       dialogModal: false,
       dialog: false,
       Item: [],
@@ -45,9 +57,26 @@ export default {
           count: null,
           id: 2,
           to: { name: "biblioteca" },
-          responsable: 'DIVDOC - Depto I - Anexos: 83200-83201-83203'
+          responsable: 'DIVDOC - Depto I - Anexos: 83200-83201-83203',
           // responsable: 'Disponible Próximamente...',
         },
+      
+        {
+          // disabled: true,
+          title: "Procedimientos Ciberdefensa",
+          // src: "logo_csirt.png",
+          // imagenNormal: "logo_csirt.png",
+          // imagenHover: "enconstruccion.png",
+          // imagenActual: "logo_csirt.png",
+          src: "csirt_construccion.png",
+          count: null,
+          id: 4,
+          // to: { name: "ciberdefensa" },
+          to: "",
+          responsable: 'CSIRT - Anexo: ',
+        },
+
+         
         {
           title: "Procedimientos Institucionales",
           src: "dimacoe.png",
@@ -56,14 +85,28 @@ export default {
           to: { name: "procedimientos" },
           responsable: 'DIMACOE - Depto I - Anexo: 32961',
         },
+        
+        {
+          title: "Conocimiento",
+          src: "imagenNoDisponible.png",
+          count: null,
+          id: 3,
+          to: { name: "conocimientos" },
+          responsable: '',
+        },
+
         // {
-        //   title: "Gestión del Conocimiento",
-        //   src: "cesim.png",
+        //   disabled: true,
+        //   title: "Finanzas DIFE",
+        //   // src: "logo_dife.png",
+        //   src: "dife_construccion.png",
         //   count: null,
-        //   id: 3,
-        //   to: { name: "conocimientos" },
-        //   responsable: 'CESIM - Depto III',
+        //   id: 5,
+        //   to: { name: "finanzas" },
+        //   responsable: 'DIFE - Depto ? - Anexo: ?',
         // },
+
+
       ],
     };
   },
@@ -92,6 +135,10 @@ export default {
   },
   beforeMount() {},
   methods: {
+    cambiarImagen(nuevaImagen){
+      this.imagenActual = nuevaImagen;
+    },
+
     ...mapActions("procedimientosStore", ["fetchCountDocumentos"]),
     reset() {
       this.dialogModal = false;
@@ -101,5 +148,8 @@ export default {
 </script>
 
 <style scoped>
-
+img {
+  width: 200px;
+  height: auto;
+}
 </style>

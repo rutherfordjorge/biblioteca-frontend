@@ -7,78 +7,46 @@
         large
       ></v-breadcrumbs>
       <v-spacer></v-spacer>
-      <!-- boton sugerencias -->
-      <!--
+      <template v-if="currentUser.Rol == 221">
         <v-col cols="auto">
-        <sugerencias />
-        </v-col>
-      -->
-      <template v-if="currentUser.Rol == 161">
-        <!------------ boton para nuevo ducumento ------------>
-        <!--
-        <v-col cols="auto">
-          <nuevo-documento :tipoArchivoId="41" :origenId="1" />
-        </v-col>
-        -->
-        <!------------ boton para nuevo formulario ----------->
-        <v-col cols="auto">
-          <nuevo-formulario :tipoArchivoId="41" :origenId="3" />
-        </v-col>
-        <!---------------------------------------------------->
-        <v-col cols="auto">
-            <v-btn depressed color="secondary" @click="dialog = !dialog">
-                <v-icon>mdi-magnify</v-icon> Ver Sugerencias
-            </v-btn>
-          <v-dialog scrollable v-model="dialog" width="90vw" heigt="100vh">
-            <v-card>
-              <v-card-title class="primaryBanner lighten-1">
-                <span class="headline white--text">Listado de Sugerencias</span>
-                <v-spacer />
-                <v-btn icon @click="dialog = false">
-                  <v-icon color="white">mdi-close</v-icon>
-                </v-btn>
-              </v-card-title>
-              <v-card-text>
-                <ver-sugerencias v-if="dialog" />
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="dialog = !dialog">
-                    Cerrar
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+          <nuevo-documento :tipoArchivoId="81" :origenId="2" />
         </v-col>
       </template>
     </v-row>
-    <v-row dense class="text-justify">
+
+   <v-row dense class="text-justify">
       <v-col cols="12" class="px-4">
         <v-card elevation="1" color="#e9f3ff">
           <v-card-text>
-            <h3>Parrafo expicativo </h3>
-            <br>
-            <b>
-                Lorem Ipsum es simplemente el texto de relleno de las 
-                imprentas y archivos de texto. Lorem Ipsum ha sido el 
-                texto de relleno estándar de las industrias desde el año 1500, 
-                cuando un impresor (N. del T. persona que se dedica a la imprenta) 
-                desconocido usó una galería de textos y los mezcló de tal manera que 
-                logró hacer un libro de textos especimen. .
-            </b>
+            <!-- <b>El objetivo de la “Biblioteca Virtual” es difundir la Doctrina Operacional, la Doctrina de Funcionamiento,
+              la Doctrina Valórica del Ejército y la Doctrina Conjunta, como también, los procedimientos internos establecidos
+              por la institución, permitiendo a todo el personal de planta de la institución el acceso a los textos doctrinarios,
+              base fundamental para el correcto desarrollo de las actividades propias de la función militar.</b> -->
+
+            <b>Conocimientos</b>
+              <br><br>
+              <b>Zona de Prueba</b>
+              <!-- <v-col align="center">
+              <div class="imagen-container">
+                  <img class="imagen" src="/imagenNoDisponible.png" alt="Imagen no disponible">
+              </div>
+              <v-img contain width="200" src="/imagenNoDisponible.png" />
+              </v-col> -->
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
+    
     <v-row dense>
-      <v-col v-for="card in cards" :key="card.title" sm="12" md="4" lg="3">
+      <v-col v-for="card in cards" :key="card.title" sm="12" md="4" lg="4">
         <card-docuemnto
           v-if="card.rol.includes(parseInt(currentUser.Rol))"
           :key="card.id"
           :title="card.title"
           :src="card.src"
           :count="card.count"
-          :to="card.to"/>
+          :to="card.to"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -87,25 +55,19 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import CardDocuemnto from "@/components/cardDocumento.vue";
-//import NuevoDocumento from "@/components/nuevoDocumento.vue";
-//import Sugerencias from "@/components/sugerencias.vue";
-import VerSugerencias from "@/components/verSugerencias.vue";
-import NuevoFormulario from "@/components/nuevoFormulario";
+import NuevoDocumento from "@/components/nuevoDocumento.vue";
 
 export default {
   components: {
     CardDocuemnto,
-    //NuevoDocumento,
-    //Sugerencias,
-    VerSugerencias,
-    NuevoFormulario,
+    NuevoDocumento,
   },
-  name: "Conocimientos",
+  name: "Biblioteca",
   data() {
     return {
+      dialogModal: true,
       dialog: false,
       Item: [],
-      Dcmt: [],
       bredItems: [
         {
           text: "Inicio",
@@ -113,64 +75,105 @@ export default {
           href: `/inicio`,
         },
         {
-          text: "Gestión del Conocimiento",
+          //text: "Inicio",
+          text: "Test 1",
           disabled: true,
-          href: `/inicio/conocimientos`,
+          href: `/inicio/biblioteca`,
         },
       ],
       cards: [
+          // {
+          // title: "BUSQUEDA MASIVA",
+          // src: "/iconos/Procedimientos/todos.svg",
+          // count: 0,
+          // id: 0,
+          // to: {
+          // name: "lista-doctrina",
+          //   params: {
+          //     id: 27,
+          //   },
+          // },
+          // rol: [0, 161, 221, 222, 223],
+          //  },
         {
-          title: "Seguridad y Defensa",
-          src: "/iconos/Procedimientos/contraloria.svg",
-          count: 0,
-          id: 1,
-          to: {
-            name: "lista-conocimientos",
-            params: {
-              id: 1,
-            },
-          },
-          rol: [0, 161, 221, 222, 223],
-        },
-        {
-          title: "Recursos Humanos y Estudios Sociales",
-          src: "/iconos/Procedimientos/contraloria.svg",
-          count: 0,
-          id: 2,
-          to: {
-            name: "lista-conocimientos",
-            params: {
-              id: 2,
-            },
-          },
-          rol: [0, 161, 221, 222, 223],
-        },
-        {
-          title: "Ciencias Miltares, Combate, Generacion de Doctrina y Docencia",
-          src: "/iconos/Procedimientos/contraloria.svg",
+          title: "Tarjeta de Prueba",
+          src: "/enconstruccion.png",
           count: 0,
           id: 3,
-          to: {
-            name: "lista-conocimientos",
-            params: {
-              id: 3,
-            },
-          },
+          // to: {
+          //   name: "lista-conocimientos",
+          //   params: {
+          //     id: 3,
+          //   },
+          // },
+          to: "",
           rol: [0, 161, 221, 222, 223],
         },
-        {
-          title: "Ciencia y Tecnologia",
-          src: "/iconos/Procedimientos/contraloria.svg",
-          count: 0,
-          id: 4,
-          to: {
-            name: "lista-conocimientos",
-            params: {
-              id: 4,
-            },
-          },
-          rol: [0, 161, 221, 222, 223],
-        },
+        // {
+        //   title: "DOCTRINA DE FUNCIONAMIENTO",
+        //   src: "/iconos/BiblioVirtual/DOCTRINA_DE_FUNCIONAMIENTO.svg",
+        //   count: 0,
+        //   id: 28,
+        //   to: {
+        //     name: "lista-doctrina",
+        //     params: {
+        //       id: 28,
+        //     },
+        //   },
+        //   rol: [0, 161, 221, 222, 223],
+        // },
+        // {
+        //   title: "DOCTRINA OPERACIONAL",
+        //   src: "/iconos/BiblioVirtual/DOCTRINA_OPERACIONAL.svg",
+        //   count: 0,
+        //   id: 29,
+        //   to: {
+        //     name: "lista-doctrina",
+        //     params: {
+        //       id: 29,
+        //     },
+        //   },
+        //   rol: [0, 161, 221, 222, 223],
+        // },
+        // {
+        //   title: "DOCTRINA VALORICA",
+        //   src: "/iconos/BiblioVirtual/DOCTRINA_VALORICA.svg",
+        //   count: 0,
+        //   id: 30,
+        //   to: {
+        //     name: "lista-doctrina",
+        //     params: {
+        //       id: 30,
+        //     },
+        //   },
+        //   rol: [0, 161, 221, 222, 223],
+        // },
+        // {
+        //   title: "TEXTOS MATRICES",
+        //   src: "/iconos/BiblioVirtual/TEXTOS_MATRICES.svg",
+        //   count: 0,
+        //   id: 31,
+        //   to: {
+        //     name: "lista-doctrina",
+        //     params: {
+        //       id: 31,
+        //     },
+        //   },
+        //   rol: [0, 161, 221, 222, 223],
+        // },
+        // {
+        //   title: "OTRAS PUBLICACIONES",
+        //   src: "/iconos/BiblioVirtual/OTRAS_PUBLICACIONES.svg",
+        //   count: 0,
+        //   id: 32,
+        //   to: {
+        //     name: "lista-doctrina",
+        //     params: {
+        //       id: 32,
+        //     },
+        //   },
+        //   rol: [0, 161, 221, 222, 223],
+        // },
       ],
     };
   },
@@ -179,12 +182,21 @@ export default {
   },
   async mounted() {
     await this.fetchCountDocumentos().then((resp) => {
+      let proce = 0;
       if (resp.status == 200) {
         resp.data.forEach((element) => {
+          element.map((item) => {
+            if (item.tipoid >= 1 && item.tipoid <= 26) {
+              proce = proce + item.numero;
+            }
+          });
           this.cards.map((Element) => {
             var result = element.filter((a1) => a1.tipoid == Element.id);
             if (result.length > 0) {
               Element.count = result[0].numero;
+            }
+            if (Element.id == null) {
+              Element.count = proce;
             }
             return Element;
           });
@@ -192,6 +204,7 @@ export default {
       }
     });
   },
+  beforeMount() {},
   methods: {
     ...mapActions("procedimientosStore", ["fetchCountDocumentos"]),
   },
@@ -199,4 +212,17 @@ export default {
 </script>
 
 <style scoped>
+title {
+  background: black;
+}
+.imagen-container {
+  max-width: 50%;
+  max-height: 150px;
+  overflow: hidden;
+}
+.imagen {
+  width: 30%;
+  height: auto;
+}
 </style>
+

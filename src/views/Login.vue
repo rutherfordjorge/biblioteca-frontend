@@ -6,6 +6,9 @@
             <v-row class="justify-center text-center" dense>
             <v-col cols="4">
                 <!-- Contenedor en blanco -->
+                <div :style="{ fontSize: '11px'}">
+                Version 1.0
+                </div>
             </v-col>
             <v-col cols="4">
 
@@ -118,6 +121,7 @@
             </v-col>
             <v-col cols="4">
                 <!-- Contenedor en blanco -->
+                
             </v-col>
             </v-row>
         </v-container>
@@ -205,6 +209,7 @@
                         RESTABLECER CLAVE EJÉRCITO
                         <v-icon right small>mdi-lock-open</v-icon>
                     </v-btn>
+                    
                     </v-col>
                 
                     <v-col cols="12" class="px-4 mt-4">

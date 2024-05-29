@@ -13,13 +13,14 @@
         </v-col>
       </template>
     </v-row>
-    <v-row dense class="text-justify">
+
+   <v-row dense class="text-justify">
       <v-col cols="12" class="px-4">
         <v-card elevation="1" color="#e9f3ff">
           <v-card-text>
-            <!-- <b>El objetivo de la “Biblioteca Virtual” es difundir la Doctrina Operacional, la Doctrina de Funcionamiento, la Doctrina Valórica del Ejército y la Doctrina Conjunta, como también, los procedimientos internos establecidos por la institución, permitiendo a todo el personal de planta de la institución el acceso a los textos doctrinarios, base fundamental para el correcto desarrollo de las actividades propias de la función militar.</b> -->
+            
             <b>En este módulo usted encontrará los textos doctrinarios de la Institución
-              que han sido publicados por la División Doctrina. Para tener acceso a textos
+              que han sido publicados por la División Doctrina. Para tener acceso a estos textos
               de carácter reservado y/o secreto, se deberá solicitar por oficio a la
               DIVDOC, indicando nombre y RUN de la persona a la cual se le solicita
               otorgar acceso.</b>
@@ -36,6 +37,7 @@
         </v-card>
       </v-col>
     </v-row>
+    
     <v-row dense>
       <v-col v-for="card in cards" :key="card.title" sm="12" md="4" lg="4">
         <card-docuemnto
