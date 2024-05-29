@@ -11,3 +11,8 @@ pasoprod.sh
 **/node_modules/
 **/dist/
 package-lock.json
+public/logo_dife.png
+public/logo_csirt.png
+src/views/Inicio.vue
+src/views/Login.vue
+src/views/Procedimientos.vue
