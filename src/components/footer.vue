@@ -2,7 +2,7 @@
 	<v-footer color="grey darken-4 pa-5" dark paddless>
 		<v-container fluid>
 			
-			<v-row class="justify-space-around">
+			<v-row class="justify-center">
 				<v-col cols="12" class="text-center">
 					OPERACIÓN DEL SISTEMA
 				</v-col>

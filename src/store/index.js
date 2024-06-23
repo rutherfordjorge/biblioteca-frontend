@@ -204,7 +204,7 @@ export default new Vuex.Store({
         return axios.post(`${process.env.VUE_APP_APIGATEWAY_URL}/Autenticacion/PostReestablecerCuenta`, {
             sistemaId: 3,
             run: model.run,
-            pass: model.pass,
+            pass: btoa(model.pass),
             nroDocumento: model.documento,
         }, {
             headers: {
