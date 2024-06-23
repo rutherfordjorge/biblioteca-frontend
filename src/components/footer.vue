@@ -2,7 +2,7 @@
 	<v-footer color="grey darken-4 pa-5" dark paddless>
 		<v-container fluid>
 			
-			<v-row>
+			<v-row class="justify-space-around">
 				<v-col cols="12" class="text-center">
 					OPERACIÓN DEL SISTEMA
 				</v-col>
@@ -81,7 +81,7 @@ export default {
 				case 'xs' : return 12
 				case 'sm' : return 6
 				case 'md' : return 4
-				case 'lg' : return 3
+				case 'lg' : return 4
 				case 'xl' : return 3
 				default : return 12
 			}
