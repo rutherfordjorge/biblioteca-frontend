@@ -1,75 +1,91 @@
 <template>
+	<v-footer color="grey darken-4 pa-5" dark paddless>
+		<v-container fluid>
+			
+			<v-row>
+				<v-col cols="12" class="text-center">
+					OPERACIÓN DEL SISTEMA
+				</v-col>
 
-  <v-footer class="letra-f" color="grey darken-4" dark >
-    <v-row justify="center pa-0" no-gutters>
-      <v-container>
-        <v-row no-gutters>
-          <v-col cols="12" sm="4" class="d-flex align-center">
-            &nbsp; &nbsp;
-            <div class="image-container mr-2">
-              <v-img src="@/assets/escudos/divdoc.png" height="40px"></v-img>
-            </div>
+				<v-col :cols="size" v-for="operador in operadores" :key="operador.key">
+					<footer-card :item="operador" :key="operador.key" />
+				</v-col>
+			</v-row>
 
-            &nbsp; <strong> {{ unidad }} </strong>
-          </v-col>
-
-          <v-col cols="12" sm="4" class="d-flex align-center">
-            <v-icon size="18" aria-hidden="false"> mdi-phone-in-talk </v-icon>
-            &nbsp; Telefono: {{ telefono }}
-          </v-col>
-
-          <v-col cols="12" sm="4" class="d-flex align-center">
-            <v-icon size="18" aria-hidden="false"> mdi-email </v-icon>
-            &nbsp; Correo: {{ correo }}
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col class="text-center">
-            <strong>Administracion Técnica</strong>&nbsp;|&nbsp; DDS - RINTE 2
-            &nbsp;<v-icon size="18">mdi-phone</v-icon> &nbsp; (+56 2) 2693 4000
-            &nbsp;|&nbsp;
-            <v-icon size="18">mdi-email</v-icon> division@ejercito.cl
-          </v-col>
-        </v-row>
-      </v-container>
-      <v-col class="text-center mt-1" cols="12">
-        <div style="display: inline-block; position: relative">
-          <span
-            >{{ new Date().getFullYear() }} —
-            <strong
-              >Todos los derechos reservados para el Regimiento de Inteligencia
-              N°2 "LLAITÚN"</strong
-            >
-          </span>
-          <img
-            src="@/assets/imagenes/escudo.png"
-            width="30"
-            style="position: absolute; left: -40px; top: -3px"
-          />
-        </div>
-      </v-col>
-    </v-row>
-  </v-footer>
+			<v-row>
+				<v-col cols="12">
+					<v-divider class="mb-6" />
+					<v-img
+						src="@/assets/escudos/rinte2.png"
+						height="90px"
+						contain
+					/>
+				</v-col>
+				
+				<v-col cols="12" class="text-center">
+					<strong>Administracion Técnica</strong> | Departamento de Desarrollo de Sistemas - RINTE 2
+					<br /><v-icon small>mdi-phone</v-icon> &nbsp; (+56 2) 2693 4000
+					<br /><v-icon small>mdi-email</v-icon> soporte.bibliotecavirtual@ejercito.cl
+				</v-col>
+				
+			</v-row>
+		</v-container>
+		
+	</v-footer>
 </template>
 
 <script>
+import FooterCard from '@/components/footerCard.vue';
+
 export default {
-  props: ['imagen', "unidad", "telefono", "correo"],
-  data() {
-    return {
-      links: ["Home", "About Us", "Team", "Services", "Blog", "Contact Us"],
-    };
-  },
+	name: 'Footer',
+	components:{
+		FooterCard,
+	},
+	data() {
+		return {
+			operadores: [
+				{
+					key: 1,
+					escudo: '/escudos/divdoc.png',
+					nombre: 'DIVDOC',
+					modulo: 'TEXTOS DOCTRINARIOS',
+					texto: 'Si tiene dudas o requerimiento de acceso a textos doctrinarios reservados o secretos, comunicarse a División Doctrina.',
+					telefono: "+569 8888888",
+					correo: "divdoc@ejercito.cl",
+				},
+				{
+					key: 2,
+					escudo: '/escudos/divdoc.png',
+					nombre: 'DIVDOC',
+					modulo: 'TEXTOS DOCTRINARIOS',
+					texto: 'Si tiene dudas o requerimiento de acceso a textos doctrinarios reservados o secretos, comunicarse a División Doctrina.',
+					telefono: "+569 8888888",
+					correo: "divdoc@ejercito.cl",
+				},
+				{
+					key: 3,
+					escudo: '/escudos/divdoc.png',
+					nombre: 'DIVDOC',
+					modulo: 'TEXTOS DOCTRINARIOS',
+					texto: 'Si tiene dudas o requerimiento de acceso a textos doctrinarios reservados o secretos, comunicarse a División Doctrina.',
+					telefono: "+569 8888888",
+					correo: "divdoc@ejercito.cl",
+				},
+			],
+		};
+	},
+	computed: {
+		size () {
+			switch (this.$vuetify.breakpoint.name) {
+				case 'xs' : return 12
+				case 'sm' : return 6
+				case 'md' : return 4
+				case 'lg' : return 3
+				case 'xl' : return 3
+				default : return 12
+			}
+		},
+	},
 };
 </script>
-<style>
-/* Ajuste de margen para la imagen */
-.image-container {
-  width: 80px; /* Ancho personalizado para la imagen */
-  margin-right: 10px; /* Espacio entre la imagen y el texto */
-}
-.letra-f {
-  font-size: 0.99rem;
-}
-</style>
