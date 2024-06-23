@@ -17,7 +17,7 @@
 					<v-divider class="mb-6" />
 					<v-img
 						src="@/assets/escudos/rinte2.png"
-						height="90px"
+						height="130px"
 						contain
 					/>
 				</v-col>
@@ -56,21 +56,21 @@ export default {
 				},
 				{
 					key: 2,
-					escudo: '/escudos/divdoc.png',
-					nombre: 'DIVDOC',
-					modulo: 'TEXTOS DOCTRINARIOS',
-					texto: 'Si tiene dudas o requerimiento de acceso a textos doctrinarios reservados o secretos, comunicarse a División Doctrina.',
-					telefono: "+569 8888888",
-					correo: "divdoc@ejercito.cl",
+					escudo: '/dimacoe.png',
+					nombre: 'DIMACOE DEPTO I',
+					modulo: 'PROCEDIMIENTOS INSTITUCIONALES',
+					texto: 'Si tiene dudas o requerimiento de acceso a procedimientos institucionales reservados o secretos, comunicarse a DIMACOE DEPTO I.',
+					telefono: "+562 269 32xxx",
+					correo: "dimacoe@ejercito.cl",
 				},
 				{
 					key: 3,
-					escudo: '/escudos/divdoc.png',
-					nombre: 'DIVDOC',
-					modulo: 'TEXTOS DOCTRINARIOS',
-					texto: 'Si tiene dudas o requerimiento de acceso a textos doctrinarios reservados o secretos, comunicarse a División Doctrina.',
-					telefono: "+569 8888888",
-					correo: "divdoc@ejercito.cl",
+					escudo: '/dimacoe.png',
+					nombre: 'DIMACOE DEPTO IV',
+					modulo: 'COORDINADOR DE TICs',
+					texto: 'Consultas en cuanto a priorización de los desarrollos de sistemas de información y/o tecnologías de la información.',
+					telefono: "+562 269 32xxx",
+					correo: "dimacoe@ejercito.cl",
 				},
 			],
 		};
