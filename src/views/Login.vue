@@ -261,48 +261,56 @@ export default {
         this.$refs.loginform.validate();
         },
         authenticate() {
-        this.validate()
-        if(this.formValid){
-            this.login(this.credentials)
-        }
+			this.validate()
+			if(this.formValid){
+				this.login(this.credentials)
+			}
+        },
+
+		resetValidation(){
+			//limpia los mensajes de validación de formulario abiertos previamente
+            if(this.$refs.loginform) 
+                this.$refs.loginform.resetValidation();
         },
 
         resetValidate() {
-        this.$refs.resetForm.validate();
+			this.$refs.resetForm.validate();
         },
+
         async resetPassword() {
-        this.resetValidate()
-        this.restablecer.isLoading = true
-        const resp = await this.restablecerCuenta(this.restablecer)
-        
-        if (resp.status === 200) {
-            this.$toastr("success", `Se restableció la clave Ejército con éxito`, "Éxito!");
-            this.restablecerModal = false
-        }
-        else if (resp.status != 400) {
-            this.$toastr("error", resp.data, "Error!");
-        }
-        else {
-            this.$toastr("error", `Por favor revise nuevamente la información ingresada`, "Error!");
-        }
-        
-        this.restablecer.isLoading = false
+			this.resetValidate()
+			this.restablecer.isLoading = true
+			const resp = await this.restablecerCuenta(this.restablecer)
+			
+			if (resp.status === 200) {
+				this.$toastr("success", `Se restableció la clave Ejército con éxito`, "Éxito!");
+				this.restablecerModal = false
+			}
+			else if (resp.status != 400) {
+				this.$toastr("error", resp.data, "Error!");
+			}
+			else {
+				this.$toastr("error", `Por favor revise nuevamente la información ingresada`, "Error!");
+			}
+			
+			this.restablecer.isLoading = false
         },
 
         changeUserLogin(){
-        this.deleteLocalUser();
-        this.credentials.usuario = '';
+			this.deleteLocalUser();
+			this.credentials.usuario = '';
+			this.resetValidation()
         },
         deleteLocalUser(){
-        localStorage.removeItem("bibliotecaAvatar");
-        localStorage.removeItem("bibliotecaRun");
-        localStorage.removeItem("bibliotecaNombre");
-        localStorage.removeItem("bibliotecaExpira");
-        
-        this.credentials.usuario = null;
-        this.nombreUsuario = null;
-        this.avatar = null;
-        this.existLastUser = false;
+			localStorage.removeItem("bibliotecaAvatar");
+			localStorage.removeItem("bibliotecaRun");
+			localStorage.removeItem("bibliotecaNombre");
+			localStorage.removeItem("bibliotecaExpira");
+			
+			this.credentials.usuario = null;
+			this.nombreUsuario = null;
+			this.avatar = null;
+			this.existLastUser = false;
         },
         
         ...mapActions(["login", "restablecerCuenta"]),
