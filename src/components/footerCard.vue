@@ -6,6 +6,7 @@
             </v-card-title>
             <v-card-text>
                 <v-col cols="12">
+                    <p>{{ item.nombre }}</p>
                     <v-img :src="item.escudo" height="90px" contain />
                 </v-col>
                 

@@ -1,7 +1,6 @@
 <template>
-    
-    <v-app id="inspire">
-        <v-main color="primary">
+	<v-app id="inspire">
+		<v-main color="primary">
 			<v-container class="contentHeight hero" fluid>
 				<v-row class="justify-center text-center" dense>
 					<v-col sm="12" md="6" lg="4">
@@ -51,7 +50,7 @@
 							
 							<v-text-field
 								id="password"
-								label="Contraseña SIAP"
+								label="Contraseña Ejército"
 								v-model="credentials.password"
 								:append-icon="mostrar ? 'mdi-eye-off' : 'mdi-eye'"
 								:type="mostrar ? 'text' : 'password'"
@@ -109,9 +108,50 @@
 			<Footer />
 
 			<v-dialog 
+				v-model="infoModal"
+				persistent
+				:max-width="$vuetify.breakpoint.mdAndUp ? '50vw' : '90vw'"
+			>
+				<v-card>
+					<v-card-title class="primary">
+						<span class="white--text">Marcha Blanca SGDI 2024</span>
+						<v-spacer />
+						<v-btn dark icon @click="infoModal = false">
+							<v-icon>mdi-close</v-icon>
+						</v-btn>
+					</v-card-title>
+					<v-card-text>
+						<!-- Mensaje de seguridad para todos los usuarios -->
+						<v-row dense class="text-justify">
+							<v-col cols="12" class="px-4 mt-4">
+								<v-alert
+									border="left"
+									colored-border
+									type="warning"
+									prominent
+									elevation="2"
+								>
+									<span class="alerta">
+										El sistema se encuentra en MARCHA BLANCA hasta el día <b>viernes 28 de JUNIO</b>, 
+										el propósito de este proceso es el de encontrar novedades de funcionamiento 
+										o rendimiento de esta nueva versión del sistema, 
+										revise cuidadosamente toda documentación 
+										que tramite mediante este período, si tiene una novedad con 
+										respecto al procedimiento de uso, contacte al <b>JEMGE AGE</b>, de 
+										presentar un problema técnico al DDS de <b>RINTE Nº2 "Llaitún"</b> 
+										o al correo <b>soporte.sgdi@ejercito.cl</b>
+									</span>
+								</v-alert>
+							</v-col>
+						</v-row>
+					</v-card-text>
+				</v-card>
+			</v-dialog>
+
+			<v-dialog 
 				v-model="restablecerModal"
 				persistent
-				max-width="70vw"
+				:max-width="$vuetify.breakpoint.mdAndUp ? '60vw' : '90vw'"
 			>
 				<v-card>
 					<v-card-title class="primary">
@@ -202,21 +242,17 @@
 			</v-dialog>
 
 		</v-main>
-    </v-app>
+	</v-app>
 </template>
 
 <script>
-    
 import { mapGetters, mapActions } from "vuex";
-import Footer from '@/components/footer.vue';
 
 export default {
-    components:{
-        Footer,
-    },
     data() {
         return {
-            
+			// habilitar solo en caso de difundir una información en el inicio
+            infoModal: false,
             existLastUser: false,
             avatar: null,
             hayCredencialesAnteriores: false,
@@ -330,27 +366,32 @@ export default {
         this.existLastUser = true;
         }
     },
-    };
+};
 </script>
 
 <style scoped>
 
 .Avatar {
-    border: 3px solid rgb(230, 230, 230);
+	border: 3px solid rgb(230, 230, 230);
 }
 
 .contentHeight {
-    height: 95vh;    
-    display: table;
+	height: 95vh;    
+	display: table;
 }
 
 body {
-    background-image: '/fondo.svg';
+	background-image: '/fondo.svg';
 }
 
 .hero {
-    background: url('/fondo.svg');
-    background-size: cover;
+	background: url('/fondo.svg');
+	background-size: cover;
+}
+
+.alerta {
+	font-size: 1.3em;
+	line-height: 1.4;
 }
 
 </style>
