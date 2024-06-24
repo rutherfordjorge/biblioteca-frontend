@@ -48,10 +48,10 @@ export default {
 				{
 					key: 1,
 					escudo: '/escudos/divdoc.png',
-					nombre: 'DIVDOC',
+					nombre: 'DIVDOC DEPTO I',
 					modulo: 'TEXTOS DOCTRINARIOS',
 					texto: 'Si tiene dudas o requerimiento de acceso a textos doctrinarios reservados o secretos, comunicarse a División Doctrina.',
-					telefono: "+569 8888888",
+					telefono: "83200 - 83201 - 83203",
 					correo: "divdoc@ejercito.cl",
 				},
 				{
@@ -60,7 +60,7 @@ export default {
 					nombre: 'DIMACOE DEPTO I',
 					modulo: 'PROCEDIMIENTOS INSTITUCIONALES',
 					texto: 'Si tiene dudas o requerimiento de acceso a procedimientos institucionales reservados o secretos, comunicarse a DIMACOE DEPTO I.',
-					telefono: "+562 269 32xxx",
+					telefono: "+562 269 32961",
 					correo: "dimacoe@ejercito.cl",
 				},
 				{

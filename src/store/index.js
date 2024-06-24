@@ -3,15 +3,16 @@ import Vuex from "vuex";
 import axios from "axios";
 import unidadesStore from "@/store/modules/unidades";
 import usuariosStore from "@/store/modules/usuarios";
-import personasStore from "@/store/modules/personas";
 import rolesStore from "@/store/modules/roles";
-import archivosStore from "@/store/modules/archivos";
 import procedimientosStore from "@/store/modules/procedimientos";
 import ambitosStore from "@/store/modules/ambitos";
 import areaAmbitosStore from "@/store/modules/areaAmbitos";
 import lineasStore from "@/store/modules/lineas";
 import autoresStore from "@/store/modules/autores";
 import conocimientosStore from "@/store/modules/conocimientos";
+
+import archivosStore from "@/store/modules/Diccionario/archivos";
+import personasStore from "@/store/modules/Diccionario/personas";
 
 var jwtDecode = require('jwt-decode');
 
@@ -231,14 +232,14 @@ export default new Vuex.Store({
   modules: {
     unidadesStore,
     usuariosStore,
-    personasStore,
     rolesStore,
-    archivosStore,
     procedimientosStore,
     ambitosStore,
     areaAmbitosStore,
     lineasStore,
     autoresStore,
     conocimientosStore,
+    archivosStore,
+    personasStore,
   }
 });

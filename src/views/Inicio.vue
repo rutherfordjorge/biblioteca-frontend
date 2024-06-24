@@ -60,6 +60,15 @@ export default {
           responsable: 'DIVDOC - Depto I - Anexos: 83200-83201-83203',
           // responsable: 'Disponible Próximamente...',
         },
+        
+        {
+          title: "Procedimientos Institucionales",
+          src: "dimacoe.png",
+          count: null,
+          id: 1,
+          to: { name: "procedimientos" },
+          responsable: 'DIMACOE - Depto I - Anexo: 32961',
+        },
       
         {
           // disabled: true,
@@ -75,25 +84,15 @@ export default {
           to: "",
           responsable: 'CSIRT - Anexo: ',
         },
-
-         
-        {
-          title: "Procedimientos Institucionales",
-          src: "dimacoe.png",
-          count: null,
-          id: 1,
-          to: { name: "procedimientos" },
-          responsable: 'DIMACOE - Depto I - Anexo: 32961',
-        },
         
-        {
-          title: "Conocimiento",
-          src: "imagenNoDisponible.png",
-          count: null,
-          id: 3,
-          to: { name: "conocimientos" },
-          responsable: '',
-        },
+        // {
+        //   title: "Conocimiento",
+        //   src: "imagenNoDisponible.png",
+        //   count: null,
+        //   id: 3,
+        //   to: { name: "conocimientos" },
+        //   responsable: '',
+        // },
 
         // {
         //   disabled: true,
