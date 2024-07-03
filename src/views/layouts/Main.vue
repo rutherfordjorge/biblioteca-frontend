@@ -15,7 +15,7 @@
                         <!-- Link con sub menú -->
                         <v-list-group
                             v-else-if="item.children.length > 0 && item.rol.includes(parseInt(currentUser.Rol))"
-                            :key="item.id"
+                            :key="item.text"
                             :prepend-icon="item.icon"
                             :value="false">
                             
@@ -34,7 +34,7 @@
                             </v-list-item>
                         </v-list-group>
                         <!-- Link Normal -->
-                        <v-list-item v-else-if="item.rol.includes(parseInt(currentUser.Rol))" :key="item.id" :to="item.route">
+                        <v-list-item v-else-if="item.rol.includes(parseInt(currentUser.Rol))" :key="item.text" :to="item.route">
                             <v-list-item-action>
                                 <v-icon>{{ item.icon }}</v-icon>
                             </v-list-item-action>

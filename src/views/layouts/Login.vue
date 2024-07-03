@@ -2,10 +2,10 @@
     <v-app>
         <v-main>
             <router-view/>
-        </v-main>        
+        </v-main>  
+		<Footer />      
     </v-app>
 </template>
-
 
 <script>
 
@@ -25,8 +25,9 @@
 
 <style scoped>
     .theme--light.v-application {
-        background: url('/fondo1.svg');
-        background-size: cover;
-        
+        background: #f0f0f0;
+    }
+    .v-main {
+        height: 90vh !important;
     }
 </style>

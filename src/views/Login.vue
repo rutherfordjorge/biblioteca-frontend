@@ -12,25 +12,101 @@
             </v-col>
             <v-col cols="4">
 
-                <!-- <v-col cols="12" class="centrarCont">
-                <v-img contain
-                    src="/bibliotecaEscudo.svg"
-                    :class="existLastUser ? 'logoSmall' : 'logoBig'"
-                ></v-img>
-                </v-col> -->
+				<v-row class="justify-center text-center" dense>
+					
+					<v-col sm="12" md="6" lg="4">
+						<!-- <v-img
+						src="/soeEscudo.png"
+						:class="existLastUser ? 'logoSmall' : 'logoBig'"
+						></v-img> -->
+						
+						<v-avatar
+							v-if="existLastUser"
+							size="270"
+							class="Avatar mb-10"
+						>
+							<v-img contain :src="avatar" lazy-src="/avatar.svg" />
+						</v-avatar>
+						
+						<p v-if="existLastUser" class="text-center title">{{nombreUsuario}}</p>
+					</v-col>
+				</v-row>
+		
+				<v-row class="justify-center text-center">
+					
+					<v-col xs="12" sm="7" md="6" lg="4">
+						<v-form @submit.prevent="authenticate" ref="loginform" v-model="formValid">
+							
+							<v-text-field
+								v-show="!existLastUser"
+								label="RUN sin puntos ni dígito verificador"
+								v-model="credentials.usuario"
+								:rules="userRule"
+								type="text"
+								outlined
+								background-color="white"
+							/>
+							
+							<v-text-field
+								id="password"
+								label="Contraseña Ejército"
+								v-model="credentials.password"
+								:append-icon="mostrar ? 'mdi-eye-off' : 'mdi-eye'"
+								:type="mostrar ? 'text' : 'password'"
+								:rules="passRule"
+								@click:append="mostrar = !mostrar"
+								outlined
+								background-color="white"
+							/>
+							<v-row>
+								<v-col>
+									<p class="text-left">
+										<span @click="restablecerModal=!restablecerModal" style="cursor:pointer">
+											Restablecer contraseña
+											<v-icon small>mdi-lock</v-icon>
+										</span>
+									</p>
+								</v-col>
+								<v-col>
+									<!-- Se muestra en tamaños grandes -->
+									<p v-if="existLastUser" class="text-right hidden-sm-and-down">
+										<span @click="changeUserLogin" style="cursor:pointer">
+											Cambiar de usuario
+										</span>
+									</p>
+									<!-- Se muestra en tamaños pequeños -->
+									<p v-if="existLastUser" class="text-left hidden-md-and-up">
+										<span @click="changeUserLogin" style="cursor:pointer">
+											Cambiar de usuario
+										</span>
+									</p>
+								</v-col>
+							</v-row>
+							<p class="text-right red--text text--lighten-1">{{authError}}</p>
+							
+							<v-btn
+								type="submit"
+								class="ma-2"
+								style="float: right;"
+								title="Ingresar a la plataforma"
+								:loading="isLoading"
+								:disabled="isLoading"
+								color="primary"
+								@click="authenticate"
+							>
+								INGRESAR
+								<v-icon right x-large>mdi-chevron-right</v-icon>
+							</v-btn>
+							
+						</v-form>
+					</v-col>
+					
+				</v-row>
+	
+			</v-container>
+			<Footer />
 
-                <v-row class="justify-center text-center">
-                    <v-col sm="12" md="6" lg="12">
-                        <v-avatar
-                                :size="existLastUser ? 150 : 380"
-                                :class="existLastUser ? '' : 'pa-6 mb-10'"
-                        >
-                                <v-img contain :src="'/bibliotecaEscudo.svg'"></v-img>
-                        </v-avatar>
-                    </v-col>
-                </v-row>
-
-                <v-col cols="12" class="text-center">
+			  <v-col cols="12" class="text-center">
                 <v-avatar
                     v-if="existLastUser"
                     size="270"
@@ -118,13 +194,13 @@
                 </v-form>
                 </v-col>
 
-            </v-col>
+            
             <v-col cols="4">
                 <!-- Contenedor en blanco -->
                 
             </v-col>
-            </v-row>
-        </v-container>
+            
+        
         <Footer />
 
         <v-dialog 
@@ -230,57 +306,48 @@
     import { mapGetters, mapActions } from "vuex";
     import Footer from '@/components/base/Footer.vue';
 
-    export default {
-        components:{
-        Footer,
-    },
+export default {
     data() {
         return {
-            dataFooter:
-        {
-            id: 1,
-            ruta: '@/assets/escudos/divdoc.png',
-            unidad: "DIVDOC",
-            telefono: "+569 8888888",
-            correo: "divdoc@ejercito.cl",
-        },
-        existLastUser: false,
-        avatar: null,
-        hayCredencialesAnteriores: false,
-        mostrar: false,
-        formValid: false,
-        nombreUsuario: '',
-        userRule:[
-            v => !!v || "El run es requerido",
-            v => v? v.length <= 8 || "El run debe ser menor a 8 digitos": "El run es requerido",
-        ],
-        documentRule:[
-            v => !!v || "El número de documento es requerido",
-            v => v? v.length <= 9 || "El número de documento tiene 9 digitos": "El número de documento es requerido",
-            v => v? v.length > 8 || "El número de documento tiene 9 digitos": "El número de documento es requerido",
-        ],
-        passRule:[
-            v => !!v || "Clave requerida",
-            v => v? v.length > 5 || "La clave es muy corta": "Clave requerida",
-        ],
-        confirmRule: [
-            v => !!v || "Confirmación de clave requerida",
-            v => v == this.restablecer.pass || "Las claves no concuerdan",
-        ],
-        credentials: {
-            usuario: "",
-            password: ""
-        },
-        restablecerModal: false,
-        restablecer: {
-            run: null,
-            pass: null,
-            passConfirm: null,
-            documento: null,
-            passMostrar: false,
+			// habilitar solo en caso de difundir una información en el inicio
+            infoModal: false,
+            existLastUser: false,
+            avatar: null,
+            hayCredencialesAnteriores: false,
+            mostrar: false,
             formValid: false,
-            isLoading: false,
-        },
+            nombreUsuario: '',
+            userRule:[
+                v => !!v || "El run es requerido",
+                v => v? v.length <= 8 || "El run debe ser menor a 8 digitos": "El run es requerido",
+            ],
+            documentRule:[
+                v => !!v || "El número de documento es requerido",
+                v => v? v.length <= 9 || "El número de documento tiene 9 digitos": "El número de documento es requerido",
+                v => v? v.length > 8 || "El número de documento tiene 9 digitos": "El número de documento es requerido",
+            ],
+            passRule:[
+                v => !!v || "Clave requerida",
+                v => v? v.length > 5 || "La clave es muy corta": "Clave requerida",
+            ],
+            confirmRule: [
+                v => !!v || "Confirmación de clave requerida",
+                v => v == this.restablecer.pass || "Las claves no concuerdan",
+            ],
+            credentials: {
+                usuario: "",
+                password: ""
+            },
+            restablecerModal: false,
+            restablecer: {
+                run: null,
+                pass: null,
+                passConfirm: null,
+                documento: null,
+                passMostrar: false,
+                formValid: false,
+                isLoading: false,
+            },
         };
     },
     methods: {
@@ -288,48 +355,56 @@
         this.$refs.loginform.validate();
         },
         authenticate() {
-        this.validate()
-        if(this.formValid){
-            this.login(this.credentials)
-        }
+			this.validate()
+			if(this.formValid){
+				this.login(this.credentials)
+			}
+        },
+
+		resetValidation(){
+			//limpia los mensajes de validación de formulario abiertos previamente
+            if(this.$refs.loginform) 
+                this.$refs.loginform.resetValidation();
         },
 
         resetValidate() {
-        this.$refs.resetForm.validate();
+			this.$refs.resetForm.validate();
         },
+
         async resetPassword() {
-        this.resetValidate()
-        this.restablecer.isLoading = true
-        const resp = await this.restablecerCuenta(this.restablecer)
-        
-        if (resp.status === 200) {
-            this.$toastr("success", `Se restableció la clave Ejército con éxito`, "Éxito!");
-            this.restablecerModal = false
-        }
-        else if (resp.status != 400) {
-            this.$toastr("error", resp.data, "Error!");
-        }
-        else {
-            this.$toastr("error", `Por favor revise nuevamente la información ingresada`, "Error!");
-        }
-        
-        this.restablecer.isLoading = false
+			this.resetValidate()
+			this.restablecer.isLoading = true
+			const resp = await this.restablecerCuenta(this.restablecer)
+			
+			if (resp.status === 200) {
+				this.$toastr("success", `Se restableció la clave Ejército con éxito`, "Éxito!");
+				this.restablecerModal = false
+			}
+			else if (resp.status != 400) {
+				this.$toastr("error", resp.data, "Error!");
+			}
+			else {
+				this.$toastr("error", `Por favor revise nuevamente la información ingresada`, "Error!");
+			}
+			
+			this.restablecer.isLoading = false
         },
 
         changeUserLogin(){
-        this.deleteLocalUser();
-        this.credentials.usuario = '';
+			this.deleteLocalUser();
+			this.credentials.usuario = '';
+			this.resetValidation()
         },
         deleteLocalUser(){
-        localStorage.removeItem("bibliotecaAvatar");
-        localStorage.removeItem("bibliotecaRun");
-        localStorage.removeItem("bibliotecaNombre");
-        localStorage.removeItem("bibliotecaExpira");
-        
-        this.credentials.usuario = null;
-        this.nombreUsuario = null;
-        this.avatar = null;
-        this.existLastUser = false;
+			localStorage.removeItem("bibliotecaAvatar");
+			localStorage.removeItem("bibliotecaRun");
+			localStorage.removeItem("bibliotecaNombre");
+			localStorage.removeItem("bibliotecaExpira");
+			
+			this.credentials.usuario = null;
+			this.nombreUsuario = null;
+			this.avatar = null;
+			this.existLastUser = false;
         },
         
         ...mapActions(["login", "restablecerCuenta"]),
@@ -349,35 +424,32 @@
         this.existLastUser = true;
         }
     },
-    };
+};
 </script>
 
 <style scoped>
-    /* .fondo{
-        background: url('/fondo1.svg');
-        background-size: cover;
-    } */
 
-    .logoBig{
-        height: 35vh;
-        width: 35vh;
-    }
+.Avatar {
+	border: 3px solid rgb(230, 230, 230);
+}
 
-    .logoSmall{
-        height: 15vh;
-        width: 15vh;
-    }
+.contentHeight {
+	height: 95vh;    
+	display: table;
+}
 
-    .Avatar {
-        border: 3px solid rgb(230, 230, 230);
-    }
+body {
+	background-image: '/fondo.svg';
+}
 
-    .centrarCont {
-        text-align: -webkit-center;
-    }
+.hero {
+	background: url('/fondo.svg');
+	background-size: cover;
+}
 
-    .contentHeight {
-        height: 95vh;    
-        display: table;
-    }
+.alerta {
+	font-size: 1.3em;
+	line-height: 1.4;
+}
+
 </style>
