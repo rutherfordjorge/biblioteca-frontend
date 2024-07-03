@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title class="primaryBanner lighten-1">
-      <span class="headline white--text">Editar Documento</span>
+      <span class="headline black--text">Editar Documento</span>
     </v-card-title>
     <v-card-text>
       <v-form v-model="validForm" ref="form">

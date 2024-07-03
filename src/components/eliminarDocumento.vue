@@ -9,7 +9,8 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="red darken-1" text @click="eliminar">Eliminar</v-btn>
-        <v-btn color="primary darken-1" text @click="closeDelete">Salir</v-btn>
+        <!-- <v-btn color="primary darken-1" text @click="closeDelete">Salir</v-btn> -->
+        <v-btn color="primary darken-1" text @click="close4">Salir</v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -52,11 +53,22 @@ export default {
         );
       }
       this.isDelete = !this.isDelete;
+      this.close();
+      this.close4();
       this.closeDelete();
+      
     },
     closeDelete() {
       this.$emit("closeDelete");
+    
     },
+    close() {
+      this.$emit("close");
+    },
+    close4() {
+      this.$emit("close4");
+    },
+    
   },
 };
 </script>

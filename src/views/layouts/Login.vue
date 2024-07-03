@@ -6,8 +6,11 @@
     </v-app>
 </template>
 
+
 <script>
+
     export default {
+        components:{},
         methods: {
             removeListenerCheck() {
                 //console.log('Listener Revisado');

@@ -1,9 +1,11 @@
-import axios from 'axios';
+import axios from 'axios'
+const url = `${process.env.VUE_APP_APIGATEWAY_URL}/Usuarios`
 
 export default {
     namespaced: true,
     state:{
         usuarios: [],
+        pages: 1,
         loading: false,
     },
     mutations:{
@@ -16,22 +18,26 @@ export default {
         ADD_USUARIOS(state, usuarios){
             state.usuarios = usuarios;
         },
+        ADD_PAGINAS(state, pages) {
+            state.pages = pages;
+        },
     },
     actions:{
-        async getUsuarios(context){
+        async getUsuarios(context, { page = '', items = '', search = '', unidadCodigo = '', adminLess = '', deletedLess = '' } = {}){
             context.commit('GETTING_DATA');
-            return axios.get(`${process.env.VUE_APP_APIGATEWAY_URL}/Usuarios/getUsuarios`,{
+            return axios.get(`${url}/getUsuariosPaginado?page=${ page }&items=${ items }&search=${ search }&unidadCodigo=${ unidadCodigo }&adminLess=${ adminLess }&deletedLess=${ deletedLess }`,{
                 headers: {
                     "Authorization": `bearer ${context.rootState.token}`
                 }
-            }).then((res) => {
-                context.commit('ADD_USUARIOS', res.data);
-                context.commit('END_GETTING_DATA');
-                return res;
+            }).then(res => {
+                context.commit('ADD_USUARIOS', res.data.respuesta);
+                    context.commit('ADD_PAGINAS', Math.ceil(res.data.totalRegistros/parseInt(items == '' ? res.data.totalRegistros : items)));
+                    context.commit('END_GETTING_DATA');
+                return res.data.respuesta;
             })
-            .catch((error) => {
+            .catch(error => {
                 context.commit('END_GETTING_DATA');
-                return error;
+                return error.response;
             })
         },
 
@@ -42,14 +48,14 @@ export default {
                 unidadcodigo: u.unidad.codigo,
                 estado: parseInt(u.estado),
             }
-            return axios.post(`${process.env.VUE_APP_APIGATEWAY_URL}/Usuarios/postUsuario`, usuario, {
+            return axios.post(`${url}/postUsuario`, usuario, {
                 headers: {
                     "Authorization": `bearer ${context.rootState.token}`
                 }
             })
-            .then((res) => {
+            .then(res => {
                 return res;
-            }).catch((error) => {
+            }).catch(error => {
                 return error.response;
             });
         },
@@ -61,48 +67,48 @@ export default {
                 unidadcodigo: u.unidad.codigo,
                 estado: parseInt(u.estado),
             }
-            return axios.put(`${process.env.VUE_APP_APIGATEWAY_URL}/Usuarios/putUsuario`, usuario, {
+            return axios.put(`${url}/putUsuario`, usuario, {
                 headers: {
                     "Authorization": `bearer ${context.rootState.token}`
                 }
             })
-            .then((res) => {
+            .then(res => {
                 return res;
-            }).catch((error) => {
-                return error;
+            }).catch(error => {
+                return error.response;
             });
         },
 
         async getRoles(context) {
-            return axios.get(`${process.env.VUE_APP_APIGATEWAY_URL}/Usuarios/getRoles`, {
+            return axios.get(`${url}/getRoles`, {
                 headers: {
                 Authorization: `bearer ${context.rootState.token}`,
                 },
             })
-            .then((response) => {
+            .then(response => {
                 return response;
             })
-            .catch((error) => {
-                return error;
+            .catch(error => {
+                return error.response;
             });
         },
 
         async getUnidades(context) {
-            return axios.get(`${process.env.VUE_APP_APIGATEWAY_URL}/Usuarios/getUnidades`, {
+            return axios.get(`${url}/getUnidades`, {
                 headers: {
                     Authorization: `bearer ${context.rootState.token}`,
                 },
             })
-            .then((response) => {
+            .then(response => {
                 return response;
             })
-            .catch((error) => {
-                return error;
+            .catch(error => {
+                return error.response;
             });
         },
 
         async getPersona(context, run){
-            return axios.get(`${process.env.VUE_APP_APIGATEWAY_URL}/Usuarios/getPersona/${run}`, {
+            return axios.get(`${url}/getPersona/${run}`, {
                 headers: {
                     "Authorization": `bearer ${context.rootState.token}`
                 }
@@ -111,7 +117,7 @@ export default {
                 return response;
             })
             .catch((error) => {
-                return error;
+                return error.response;
             });
         },
     },
@@ -121,6 +127,9 @@ export default {
         },
         usuarios(state) {
             return state.usuarios;
+        },
+        pages(state) {
+            return state.pages;
         },
     }
 }

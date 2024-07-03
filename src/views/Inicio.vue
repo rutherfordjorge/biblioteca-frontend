@@ -57,10 +57,19 @@ export default {
           count: null,
           id: 2,
           to: { name: "biblioteca" },
-          responsable: 'DIVDOC - Depto I - Anexos: 83200-83201-83203',
+          responsable: 'DIVDOC - Depto I - Anexos: 83200',
           // responsable: 'Disponible Próximamente...',
         },
       
+        {
+          title: "Disposiciones Institucionales",
+          src: "dimacoe.png",
+          count: null,
+          id: 1,
+          to: { name: "procedimientos" },
+          responsable: 'DIMACOE - Depto I - Anexo: 32961',
+        },
+
         {
           // disabled: true,
           title: "Procedimientos Ciberdefensa",
@@ -76,22 +85,13 @@ export default {
           responsable: 'CSIRT - Anexo: ',
         },
 
-         
-        {
-          title: "Procedimientos Institucionales",
-          src: "dimacoe.png",
-          count: null,
-          id: 1,
-          to: { name: "procedimientos" },
-          responsable: 'DIMACOE - Depto I - Anexo: 32961',
-        },
-        
+                        
         {
           title: "Conocimiento",
           src: "imagenNoDisponible.png",
           count: null,
           id: 3,
-          to: { name: "conocimientos" },
+          to: "",
           responsable: '',
         },
 

@@ -113,7 +113,7 @@
     </v-card>
     <!-- Modal Eliminar -->
     <v-dialog v-model="dialogDelete" max-width="290">
-      <eliminar-documento :key="editedItem.id" @closeDelete="closeDelete" :tipoArchivoId="102" :origenId="3" :item="editedItem"/>
+      <eliminar-documento :key="editedItem.id" @="closeDelete" :tipoArchivoId="102" :origenId="3" :item="editedItem"/>
     </v-dialog>
     <!-- Editar Doc -->
     <v-dialog v-model="dialog" max-width="1200px">

@@ -2,12 +2,12 @@
     
     <v-app id="inspire">
         <v-main color="primary">
-        <v-container class="contentHeight" fluid>
+        <v-container class="contentHeight hero" fluid>
             <v-row class="justify-center text-center" dense>
             <v-col cols="4">
                 <!-- Contenedor en blanco -->
                 <div :style="{ fontSize: '11px'}">
-                Version 1.0
+                V 1.0.1
                 </div>
             </v-col>
             <v-col cols="4">
@@ -33,7 +33,7 @@
                 <v-col cols="12" class="text-center">
                 <v-avatar
                     v-if="existLastUser"
-                    size="230"
+                    size="270"
                     class="Avatar"                                          
                 >
                     <v-img contain :src="avatar"></v-img>
@@ -43,7 +43,7 @@
                 <v-col cols="12">
                 <p 
                     v-if="existLastUser"
-                    class="text-center subtitle"
+                    class="text-center title"
                 >
                     {{nombreUsuario}}
                 </p>
@@ -64,7 +64,7 @@
 
                     <v-text-field
                     id="password"
-                    label="Contraseña SIAP"
+                    label="Contraseña Ejército"
                     v-model="credentials.password"
                     :append-icon="mostrar ? 'mdi-eye-off' : 'mdi-eye'"
                     :type="mostrar ? 'text' : 'password'"
@@ -78,7 +78,7 @@
                         <v-col>
                             <p class="text-left">
                                 <span @click="restablecerModal=!restablecerModal" style="cursor:pointer">
-                                    Restablecer Clave
+                                    Restablecer contraseña
                                     <v-icon small>mdi-lock</v-icon>
                                 </span>
                             </p>
@@ -125,7 +125,7 @@
             </v-col>
             </v-row>
         </v-container>
-        <Footer :imagen="dataFooter.ruta" :unidad="dataFooter.unidad" :telefono="dataFooter.telefono" :correo="dataFooter.correo"/>
+        <Footer />
 
         <v-dialog 
             v-model="restablecerModal"
@@ -228,7 +228,7 @@
 <script>
     
     import { mapGetters, mapActions } from "vuex";
-    import Footer from '@/components/footer.vue';
+    import Footer from '@/components/base/Footer.vue';
 
     export default {
         components:{

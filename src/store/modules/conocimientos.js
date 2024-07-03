@@ -24,6 +24,7 @@ export default {
             })
             .then(res => {
                 context.commit('END_GETTING_DATA');
+                console.log(res);
                 return res;
             })
             .catch(error => {

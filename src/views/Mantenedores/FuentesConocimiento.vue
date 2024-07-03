@@ -1,11 +1,11 @@
 <template>
 	<v-container fluid>
 		<v-row dense>
-			<v-col cols="12" class="text-center"><h2>Fuentes de Conocimiento</h2></v-col>
+			<v-col cols="12" class="text-center"><h1>Fuentes de Conocimiento</h1></v-col>
 
 			<v-col class="text-left" cols="12">
 				<v-btn color="primary" dark class="mb-2" @click="openDialog">
-					fuente de conocimiento
+					agregar fuente
 					<v-icon right>mdi-plus</v-icon>
 				</v-btn>
 			</v-col>
@@ -15,11 +15,12 @@
 			<template v-slot:default>
 				<thead>
 					<tr>
-						<th class="text-left" width="5%">Imágen</th>
-						<th class="text-left" width="40%">Título</th>
+						<th class="text-center" width="5%">Imágen</th>
+						<th class="text-left" width="5%">ID</th>
+						<th class="text-left" width="30%">Título</th>
 						<th class="text-left" width="15%">Contacto</th>
-						<th class="text-left" width="15%">teléfono</th>
-						<th class="text-left" width="15%">Correo</th>
+						<th class="text-left" width="15%">Teléfono</th>
+						<th class="text-left" width="20%">Correo</th>
 						<th class="text-center" width="10%">Acciones</th>
 					</tr>
 				</thead>
@@ -34,29 +35,43 @@
 							size="50"
 							class="ma-5"
 						>
-							<v-img contain :src="item.imagen" lazy-src="/avatar.svg" />
+						<v-img contain :src="item.imagen" lazy-src="/avatar.svg" />
 						</v-avatar>
 					</td>
-					<td>
-						{{ item.id + item.titulo }}
-					</td>
-					<td>{{ item.contacto }}</td>
-					<td>{{ item.telefono }}</td>
-					<td class="text-center">{{ item.correo }}</td>
+					<td> {{ item.id }} </td>
+					<td> {{ item.titulo }} </td>
+					<td> {{ item.contacto }} </td>
+					<td> {{ item.telefono }} </td>
+					<td> {{ item.correo }} </td>
 					<td class="text-center">
+
+					
 						<v-tooltip top>
 							<template v-slot:activator="{ on }">
 								<v-icon
-								small
+								class="mr-2"
+								v-on="on"
+								@click="editDialog(item)"
+								>mdi-pencil
+								</v-icon>
+							</template>
+							<span>Editar</span>
+						</v-tooltip>
+
+
+						<v-tooltip top>
+							<template v-slot:activator="{ on }">
+								<v-icon
 								class="mr-2"
 								v-on="on"
 								@click="cargoDetail(item)"
-								>mdi-magnify</v-icon
-								>
+								>mdi-magnify
+								</v-icon>
 							</template>
-							<span>Detalle</span>
+							<span>Ver</span>
 						</v-tooltip>
-						
+
+												
 						<v-tooltip top v-if="edit">
 							<template v-slot:activator="{ on }">
 								<v-icon
@@ -260,6 +275,14 @@ export default {
             })
 		},
 
+		editDialog(item) {
+			this.newItem = Object.assign({}, item);
+			this.resetValidation()
+			this.$nextTick(() => {
+                this.dialogNew = true
+            })
+		},
+
 		async save() {
 			this.validate();
             if (this.validForm) {			
@@ -282,7 +305,7 @@ export default {
 		
         resetValidation(){
             if(this.$refs.form) 
-                this.$refs.form.resetValidation();// limpia los mensajes de validación de formulario abiertos previamente
+                this.$refs.form.resetValidation(); // limpia los mensajes de validación de formulario abiertos previamente
         },
         
         validate() {

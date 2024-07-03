@@ -208,7 +208,7 @@ export default {
                     {
                         id: 4,
                         route: '/conocimiento',
-                        icon: 'mdi-chart-bar',
+                        icon: 'mdi-alpha-c-box',
                         text: 'Fuentes Conocimiento',
                     },
                 ]
