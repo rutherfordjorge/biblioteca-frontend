@@ -8,13 +8,19 @@
 </template>
 
 <script>
-import Footer from '@/components/footer.vue';
 
-export default {
-	components:{
-		Footer,
-	},
-}
+    export default {
+        components:{},
+        methods: {
+            removeListenerCheck() {
+                //console.log('Listener Revisado');
+            },
+        },
+        mounted() {
+            //document.removeEventListener('mousemove', this.removeListenerCheck());
+            //document.removeEventListener('keypress', this.removeListenerCheck());
+        },
+    }
 </script>
 
 <style scoped>

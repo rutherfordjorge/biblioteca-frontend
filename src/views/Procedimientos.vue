@@ -100,7 +100,7 @@ export default {
           href: `/inicio`,
         },
         {
-          text: "Procedimientos Institucionales",
+          text: "Disposiciones Institucionales",
           disabled: true,
           href: `/inicio/procedimientos`,
         },

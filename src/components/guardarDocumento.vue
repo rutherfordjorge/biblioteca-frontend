@@ -35,7 +35,7 @@
     </v-overlay>
     <v-card>
       <v-card-title class="primaryBanner lighten-1">
-        <span class="headline white--text">Cargar nueva versión</span>
+        <span class="headline black--text">Cargar nueva versión</span>
       </v-card-title>
       <v-card-text>
         <v-form v-model="validForm" ref="form">
@@ -52,14 +52,14 @@
               </v-menu>
             </v-col>
             <v-col cols="12" sm="12" md="12">
-              <b>Documento</b>
+              <b>Documento :</b>
             </v-col>
             <v-col cols="12" sm="12" md="12">
               <v-file-input
                 :rules="rules.documento"
                 accept=".pdf"
                 v-model="item.documento"
-                label="Seleccione Documento"
+                label="Seleccione Documento *.PDF"
               ></v-file-input>
             </v-col>
           </v-row>
@@ -67,8 +67,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="closeEdit">Cancelar</v-btn>
-        <v-btn color="blue darken-1" text @click="edit_doc">Guardar</v-btn>
+          <!-- <v-btn color="blue darken-1" text @click="closeEdit">Cancelar</v-btn> -->
+          <v-btn color="blue darken-1" text @click="close3">Cancelar</v-btn>
+          <v-btn color="blue darken-1" text @click="edit_doc">Guardar</v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -248,6 +249,8 @@ export default {
           }
         });
         this.closeEdit();
+        this.close();
+        this.close3();
         this.isLoading = false;
       } else {
         this.$toastr("error", "Formulario Incompleto", "Error!");
@@ -256,6 +259,13 @@ export default {
     closeEdit() {
       this.$emit("closeEdit");
     },
+    close() {
+      this.$emit("close");
+    },
+    close3() {
+      this.$emit("close3");
+    }
+    
   },
 };
 </script>

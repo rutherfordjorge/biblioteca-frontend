@@ -142,9 +142,13 @@
       </v-container>
     </v-card>
     
-    <!-- Modal Eliminar -->
-    <v-dialog v-model="dialogDelete" max-width="290">
+    <!-- Modal Eliminar Doc -->
+    <!-- <v-dialog v-model="dialogDelete" max-width="290">
       <eliminar-documento :key="editedItem.id" @closeDelete="closeDelete" :tipoArchivoId="81" :origenId="2" :item="editedItem"/>
+    </v-dialog> -->
+
+    <v-dialog v-model="dialogDelete" max-width="290">
+      <eliminar-documento :key="editedItem.id" @close4="close4" :tipoArchivoId="81" :origenId="2" :item="editedItem"/>
     </v-dialog>
 
     <!-- Editar Doc -->
@@ -153,9 +157,14 @@
     </v-dialog>
 
     <!-- Guardar Doc -->
-    <v-dialog v-model="dialogCargar" max-width="1200px">
+    <!-- <v-dialog v-model="dialogCargar" max-width="1200px">
       <guardar-documento :key="editedItem.id" @closeEdit="closeEdit" :tipoArchivoId="81" :origenId="2" :item="editedItem"/>
+    </v-dialog> -->
+
+    <v-dialog v-model="dialogCargar" max-width="1200px">
+      <guardar-documento :key="editedItem.id" @close3="close3" :tipoArchivoId="81" :origenId="2" :item="editedItem"/>
     </v-dialog>
+
   </v-container>
 </template>
 
@@ -320,7 +329,7 @@ export default {
       disabled: true,
       href: `/`,
     });
-    this.reload(this.Documentos.page, this.Documentos.busqueda);
+     this.reload(this.Documentos.page, this.Documentos.busqueda);
   },
   watch: {
     Documentos: {
@@ -449,6 +458,15 @@ export default {
     async close2() {
       this.dialog = !this.dialog;
     },
+
+    async close3() {
+      this.dialogCargar = !this.dialogCargar;
+    },
+
+    async close4() {
+      this.dialogDelete = !this.dialogDelete;
+    },
+
     async closeEdit() {
       // funcion de cerrar en la ventana de dialogo de cargar nueva version
       this.dialogCargar = !this.dialogCargar;
@@ -472,6 +490,7 @@ export default {
       return fecha;
     },
     async procesado(datos) {
+      // console.log("procesado")
       // console.log(datos)
       const itemTmp = datos.data;
       // console.log('temp:', itemTmp)
@@ -526,6 +545,7 @@ export default {
       });
 
       // console.log('archivoId: ', archivoId)
+     
       return archivoId;
     },
   },
