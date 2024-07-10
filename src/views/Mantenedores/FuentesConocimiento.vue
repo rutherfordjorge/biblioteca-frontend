@@ -1,16 +1,21 @@
 <template>
 	<v-container fluid>
 		<v-row dense>
-			<v-col cols="12" class="text-center"><h1>Fuentes de Conocimiento</h1></v-col>
-
-			<v-col class="text-left" cols="12">
+			<v-col cols="12" class="text-center"><h1>Fuentes de Conocimiento</h1>
+			</v-col>
+			<!-- <v-col class="text-left" cols="12">
 				<v-btn color="primary" dark class="mb-2" @click="openDialog">
+					agregar fuente
+					<v-icon right>mdi-plus</v-icon>
+				</v-btn>
+			</v-col> -->
+			<v-col class="text-left" cols="12">
+				<v-btn color="primary">
 					agregar fuente
 					<v-icon right>mdi-plus</v-icon>
 				</v-btn>
 			</v-col>
 		</v-row>
-		
 		<v-simple-table fixed-header max-height="80vh">
 			<template v-slot:default>
 				<thead>
@@ -24,6 +29,7 @@
 						<th class="text-center" width="10%">Acciones</th>
 					</tr>
 				</thead>
+				
 				<draggable
 					v-model="fuentesConocimiento"
 					tag="tbody"
@@ -46,12 +52,13 @@
 					<td class="text-center">
 
 					
+					<!-- cambiar editDialogo por editDialog para activar -->
 						<v-tooltip top>
 							<template v-slot:activator="{ on }">
 								<v-icon
 								class="mr-2"
 								v-on="on"
-								@click="editDialog(item)"
+								@click="editDialogo(item)" 
 								>mdi-pencil
 								</v-icon>
 							</template>
@@ -84,12 +91,14 @@
 							</template>
 							<span>Eliminar</span>
 						</v-tooltip>
+						
 					</td>
 				</tr>
 			</draggable>
+			
 		</template>
 	</v-simple-table>
-
+	<v-img src="enconstruccion.png" width="25%"></v-img>
 	<v-dialog
 		v-model="dialogNew"
 		persistent

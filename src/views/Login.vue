@@ -3,22 +3,31 @@
     <v-app id="inspire">
         <v-main color="primary">
         <v-container class="contentHeight hero" fluid>
-            <v-row class="justify-center text-center" dense>
-            <v-col cols="4">
-                <!-- Contenedor en blanco -->
-                <div :style="{ fontSize: '11px'}">
+            <div :style="{ fontSize: '11px'}">
                 V 1.0.1
-                </div>
+            </div>
+            <v-row class="justify-center text-center" dense>
+            <v-col sm="12" md="6" lg="4">
+                <!-- Contenedor en blanco -->
+                
+                    <v-avatar
+                        :size="existLastUser ? 150 : 380"
+                        :class="existLastUser ? '' : 'pa-6 mb-5'"
+                    >
+                        <v-img contain src="/bibliotecaEscudo.svg"></v-img>
+                    </v-avatar>
             </v-col>
-            <v-col cols="4">
-
-				<v-row class="justify-center text-center" dense>
+            </v-row>
+            <v-row class="justify-center text-center" dense>
 					
 					<v-col sm="12" md="6" lg="4">
+                        
 						<!-- <v-img
-						src="/soeEscudo.png"
+						src="/bibliotecaEscudo.svg"
+                        size="150"
 						:class="existLastUser ? 'logoSmall' : 'logoBig'"
 						></v-img> -->
+                        
 						
 						<v-avatar
 							v-if="existLastUser"
@@ -102,106 +111,18 @@
 					</v-col>
 					
 				</v-row>
-	
+
+
+            <v-col cols="4">
+
+				
+            </v-col>
+
 			</v-container>
 			<Footer />
 
-			  <v-col cols="12" class="text-center">
-                <v-avatar
-                    v-if="existLastUser"
-                    size="270"
-                    class="Avatar"                                          
-                >
-                    <v-img contain :src="avatar"></v-img>
-                </v-avatar>
-                </v-col>
-
-                <v-col cols="12">
-                <p 
-                    v-if="existLastUser"
-                    class="text-center title"
-                >
-                    {{nombreUsuario}}
-                </p>
-                </v-col>
-
-                <v-col cols="12">
-                <v-form @submit.prevent="authenticate" ref="loginform" v-model="formValid">
-                
-                    <v-text-field
-                    v-show="!existLastUser"
-                    label="RUN sin puntos ni dígito verificador"
-                    v-model="credentials.usuario"
-                    :rules="userRule"
-                    type="text"
-                    outlined
-                    background-color="white"
-                    />
-
-                    <v-text-field
-                    id="password"
-                    label="Contraseña Ejército"
-                    v-model="credentials.password"
-                    :append-icon="mostrar ? 'mdi-eye-off' : 'mdi-eye'"
-                    :type="mostrar ? 'text' : 'password'"
-                    :rules="passRule"
-                    @click:append="mostrar = !mostrar"
-                    outlined
-                    background-color="white"
-                    />
-                    
-                    <v-row>
-                        <v-col>
-                            <p class="text-left">
-                                <span @click="restablecerModal=!restablecerModal" style="cursor:pointer">
-                                    Restablecer contraseña
-                                    <v-icon small>mdi-lock</v-icon>
-                                </span>
-                            </p>
-                        </v-col>
-
-                    <v-col cols="12" md="6">
-                        <!-- Se muestra en tamaños grandes -->
-                        <p v-if="existLastUser" class="text-right hidden-sm-and-down">
-                        <span @click="changeUserLogin" style="cursor:pointer">
-                            Cambiar de usuario
-                        </span>
-                        </p>
-                        <!-- Se muestra en tamaños pequeños -->
-                        <p v-if="existLastUser" class="text-left hidden-md-and-up">
-                        <span @click="changeUserLogin" style="cursor:pointer">
-                            Cambiar de usuario
-                        </span>
-                        </p>
-                    </v-col>
-                    </v-row>
-                    <p class="text-right red--text text--lighten-1">{{authError}}</p>
-                    
-                    <v-btn
-                    type="submit"
-                    class="ma-2"
-                    style="float: right;"
-                    title="Ingresar al Sistema de Organización"
-                    :loading="isLoading"
-                    :disabled="isLoading"
-                    color="primary"
-                    @click="authenticate"
-                    >
-                    INGRESAR
-                    <v-icon right x-large>mdi-chevron-right</v-icon>
-                    </v-btn>
-
-                </v-form>
-                </v-col>
-
-            
-            <v-col cols="4">
-                <!-- Contenedor en blanco -->
-                
-            </v-col>
-            
         
-        <Footer />
+        <!-- <footer/> -->
 
         <v-dialog 
             v-model="restablecerModal"
@@ -304,12 +225,20 @@
 <script>
     
     import { mapGetters, mapActions } from "vuex";
+    // import Footer from '@/components/footer.vue';
     import Footer from '@/components/base/Footer.vue';
 
 export default {
+
+	components:{
+		Footer,
+	},
+
     data() {
+       
         return {
 			// habilitar solo en caso de difundir una información en el inicio
+            
             infoModal: false,
             existLastUser: false,
             avatar: null,
