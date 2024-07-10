@@ -136,6 +136,7 @@
               :length="Documentos.pages"
               :total-visible="10"
               :disabled="Documentos.isLoading || Documentos.pages == 1"
+              :loading="Documentos.isLoading"
             ></v-pagination>
           </v-col>
         </v-row>
@@ -331,6 +332,7 @@ export default {
     });
      this.reload(this.Documentos.page, this.Documentos.busqueda);
   },
+
   watch: {
     Documentos: {
       deep: true,
@@ -342,6 +344,8 @@ export default {
       },
     },
   },
+
+
   computed: {
     ...mapGetters(["currentUser"]),
     ...mapGetters("unidadesStore", ["unidades"]),

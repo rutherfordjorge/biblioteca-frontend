@@ -58,16 +58,17 @@
                     <span class="hidden-sm-and-down">Biblioteca Virtual del Ejército</span>
                 </v-toolbar-title>
                 <v-spacer />
-                <v-btn 
+                <!-- Aqui se activa el boton de pregunta -->
+                <!-- <v-btn 
                     class="hidden-sm-and-down" 
                     icon 
                     @click="dialogInstructivo=!dialogInstructivo"
                     title="Instructivo"
-                >
-                    <v-icon>
+                > -->
+                    <!-- <v-icon>
                         mdi-help-circle
-                    </v-icon>
-                </v-btn>
+                    </v-icon> -->
+                <!-- </v-btn> -->
                 <v-chip 
                     class="hidden-sm-and-down"
                     @click="logout(null)"
@@ -127,7 +128,7 @@
                 </countdown>
                 </v-card-title>
                 <v-card-text>
-                <h3>Su sesión está a punto de expirar, desea continuar?</h3>
+                <h3>Su sesión está a punto de expirar, <strong>desea continuar?</strong></h3>
                 </v-card-text>
                 <v-card-actions>
                 <v-spacer></v-spacer>
