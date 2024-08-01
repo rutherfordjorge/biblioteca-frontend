@@ -3,12 +3,12 @@
         <v-row dense>
             <v-col :key="title">
                 <v-card :hover="to ? true : false" :to="to ? to : null">
-                    <v-card-subtitle class="black--text flex-nowrap overflow-hidden title" :title="title">{{title}}</v-card-subtitle>
+                    <v-card-subtitle class="black--text flex-nowrap overflow-hidden title" :title="title">{{ title }}</v-card-subtitle>
                     <v-card-text>
-                        <v-img contain :src="src" height="200px"></v-img>
+                        <v-img contain :src="src" height="130px"></v-img>
                     </v-card-text>
                     <v-card-subtitle>
-                        <v-icon class="mb-1">mdi-file-pdf-outline</v-icon><span>{{ count }}</span>
+                        <v-icon class="mb-1">mdi-file-pdf-outline</v-icon><span>{{ count }} </span>
                         <span class="float-right">{{ responsable }}</span>
                     </v-card-subtitle>
                 </v-card>

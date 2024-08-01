@@ -83,19 +83,19 @@ export default {
         },
       ],
       cards: [
-          // {
-          // title: "BUSQUEDA MASIVA",
-          // src: "/iconos/Procedimientos/todos.svg",
-          // count: 0,
-          // id: 0,
-          // to: {
-          // name: "lista-doctrina",
-          //   params: {
-          //     id: 27,
-          //   },
-          // },
-          // rol: [0, 161, 221, 222, 223],
-          //  },
+          {
+          title: "BUSQUEDA MASIVA",
+          src: "/iconos/Procedimientos/todos.svg",
+          count: 0,
+          id: 0,
+          to: {
+          name: "lista-doctrina",
+            params: {
+              id: 0,
+            },
+          },
+          rol: [0, 161, 221, 222, 223],
+          },
         {
           title: "DOCTRINA CONJUNTA",
           src: "/iconos/BiblioVirtual/DOCTRINA_CONJUNTA.svg",
@@ -186,7 +186,10 @@ export default {
       if (resp.status == 200) {
         resp.data.forEach((element) => {
           element.map((item) => {
-            if (item.tipoid >= 1 && item.tipoid <= 26) {
+            // if (item.tipoid >= 1 && item.tipoid <= 26) {
+              if (item.tipoid >= 27) {
+              // console.log("id item: "+item.tipoid);
+              console.log("item.numero: "+item.numero);
               proce = proce + item.numero;
             }
           });

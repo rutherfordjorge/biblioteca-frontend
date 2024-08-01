@@ -10,7 +10,7 @@ import areaAmbitosStore from "@/store/modules/areaAmbitos";
 import lineasStore from "@/store/modules/lineas";
 import autoresStore from "@/store/modules/autores";
 import conocimientosStore from "@/store/modules/conocimientos";
-
+import auditorStore from "@/store/modules/auditor";
 import archivosStore from "@/store/modules/Diccionario/archivos";
 import personasStore from "@/store/modules/Diccionario/personas";
 
@@ -241,5 +241,6 @@ export default new Vuex.Store({
     conocimientosStore,
     archivosStore,
     personasStore,
+    auditorStore
   }
 });
