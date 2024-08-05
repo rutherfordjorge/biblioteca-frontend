@@ -137,7 +137,7 @@ export default {
         },
 
         async fetchDocumentos(context, params) {
-            return axios.get(`${process.env.VUE_APP_BASE_URL_API}/Documentos/getDocumentos/${params.page}/${params.busqueda}`, {
+            return axios.get(`${process.env.VUE_APP_BASE_URL_API}/Documentos/getDocumentos/${params.origen}/${params.page}/${params.busqueda}`, {
                 headers: {
                     "Authorization": `bearer ${context.rootState.token}`
                 }

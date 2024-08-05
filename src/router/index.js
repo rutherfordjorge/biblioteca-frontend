@@ -40,6 +40,38 @@ const routes = [
             layout: MainLayout
         }
     },
+    // {
+    //     path: "/auditoria/descargas",
+    //     name: "auditoria-descargas",
+    //     component: () => import( /*webpackChunkName:"auditoria-descargas"*/ "../views/AuditoriaDescargas.vue"),
+    //     meta: {
+    //         requiresAuth: true,
+    //         whoCan: [161,221],
+    //         layout: MainLayout
+    //     }
+    // },
+    // {
+    //     path: "/auditoria/usuarios",
+    //     name: "auditoria-usuarios",
+    //     component: () => import( /*webpackChunkName:"auditoria-usuarios"*/ "@/views/AuditoriaUsuarios.vue"),
+    //     meta: {
+    //         requiresAuth: true,
+    //         whoCan: [161,221],
+    //         layout: MainLayout
+    //     }
+    // },
+    // {
+    //     path: "/auditoria/visualizaciones",
+    //     name: "auditoria-visualizaciones",
+    //     component: () => import( /*webpackChunkName:"auditoria-visualizaciones"*/ "@/views/AuditoriaVisualizaciones.vue"),
+    //     meta: {
+    //         requiresAuth: true,
+    //         whoCan: [161,221],
+    //         layout: MainLayout
+    //     }
+    // },
+
+
     {
         path: "/estadistica",
         name: "estadistica",

@@ -229,8 +229,12 @@ export default {
           align: "left",
           width: "40%",
         },
-        //{ text: "Tipo", value: "tipo.nombre", width: "10%" },
-        //{ text: "Unidad", value: "unidad.sigla", width: "10%" },
+
+        { text: "Tipo",
+         value: "tipo.nombre",
+          width: "10%" },
+
+        // { text: "Unidad", value: "unidad.sigla", width: "10%" },
         {
           text: "Estado",
           sortable: false,
@@ -354,6 +358,7 @@ export default {
   methods: {
     ...mapActions("unidadesStore", ["fetchUnidades"]),
     ...mapActions("procedimientosStore", [
+      "fetchDocumentos",
       "fetchDocumentosTipo",
       "fetchDocumentosBorrados",
       "fetchTipoDocumento",
@@ -365,7 +370,7 @@ export default {
     async reload(page, busqueda) {
       this.Documentos.items = [];
       this.Documentos.isLoading = true;
-      let params = { page: page, busqueda: busqueda };
+      let params = { page: page, busqueda: busqueda, origen: 2 };
       if (this.$route.params.id == 20) {
         await this.fetchDocumentosBorrados(params).then((resp) => {
           setTimeout(() => {

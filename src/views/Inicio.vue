@@ -6,12 +6,24 @@
     @mouseout="cambiarImagen(imagenNormal)
     alt=Imagen"
     />
+
+    <v-row dense class="text-justify">
+      <v-col cols="12" class="px-4">
+        <v-card elevation="2" color="#e9f3ff">
+          <v-card-text class="display-2 text-center">
+            <b>PORTAL BIBLIOTECA</b>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
+
     <v-row dense>
       <v-breadcrumbs class="font-weight-medium" :items="bredItems" large />
       <v-spacer></v-spacer>
     </v-row>
     <v-row dense class="justify-center">
-      <v-col v-for="card in cards" :key="card.id" sm="12" md="6" lg="6">
+      <v-col v-for="card in cards" :key="card.id" sm="12" md="4" lg="3">
         <card-documento
           :key="card.id"
           :title="card.title"
@@ -56,8 +68,14 @@ export default {
           src: "divdoc.ico",
           count: null,
           id: 2,
-          to: { name: "biblioteca" },
-          responsable: 'DIVDOC - Depto I - Anexos: 83200',
+          to: {
+          name: "lista-doctrina",
+            params: {
+              id: 0,
+            },
+          },
+          // to: { name: "biblioteca" },
+          // responsable: 'DIVDOC - Depto I - Anexos:83200',
           // responsable: 'Disponible Próximamente...',
         },
         
@@ -76,12 +94,12 @@ export default {
           count: null,
           id: 1,
           to: { name: "procedimientos" },
-          responsable: 'DIMACOE - Depto I - Anexo: 32961',
+          // responsable: 'DIMACOE - Depto I - Anexo: 32961',
         },
 
         {
           // disabled: true,
-          title: "Procedimientos Ciberdefensa",
+          title: "Ciberdefensa",
           // src: "logo_csirt.png",
           // imagenNormal: "logo_csirt.png",
           // imagenHover: "enconstruccion.png",
@@ -91,7 +109,7 @@ export default {
           id: 4,
           // to: { name: "ciberdefensa" },
           to: "",
-          responsable: 'CSIRT - Anexo: ',
+          // responsable: 'CSIRT - Anexo: ',
         },
 
                         
@@ -101,20 +119,50 @@ export default {
           count: null,
           id: 3,
           to: "",
+          // responsable: '-.-',
+        },
+
+        {
+          title: "Procesos",
+          src: "enconstruccion.png",
+          count: null,
+          id: 6,
+          to: "",
           responsable: '-.-',
         },
 
-        // {
-        //   disabled: true,
-        //   title: "Finanzas DIFE",
-        //   // src: "logo_dife.png",
-        //   src: "dife_construccion.png",
-        //   count: null,
-        //   id: 5,
-        //   to: { name: "finanzas" },
-        //   responsable: 'DIFE - Depto ? - Anexo: ?',
-        // },
+        {
+          disabled: false,
+          title: "Tesis",
+          // src: "logo_dife.png",
+          src: "enconstruccion.png",
+          count: null,
+          id: 5,
+          // to: { name: "biblioteca" },
+          // responsable: 'Test',
+        },
 
+        {
+          disabled: false,
+          title: "SILAE",
+          // src: "logo_dife.png",
+          src: "enconstruccion.png",
+          count: null,
+          id: 7,
+          // to: { name: "biblioteca" },
+          // responsable: 'Test',
+        },
+
+        {
+          disabled: false,
+          title: "Otras Publicaciones",
+          // src: "logo_dife.png",
+          src: "otraspublicaciones.png",
+          count: null,
+          id: 8,
+          // to: { name: "biblioteca" },
+          // responsable: 'Test',
+        },
 
       ],
     };
@@ -124,7 +172,7 @@ export default {
   },
   async mounted() {
     await this.fetchCountDocumentos().then(resp => {
-      // console.log('resp: ', resp.data)
+      console.log('resp: ', resp.data)
       if (resp.status == 200) {
         resp.data.forEach(element => {
           // console.log('element: ', element)
