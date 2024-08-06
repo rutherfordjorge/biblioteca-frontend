@@ -14,7 +14,7 @@
       </template>
     </v-row>
 
-   <v-row dense class="text-justify">
+    <v-row dense class="text-justify">
       <v-col cols="12" class="px-4">
         <v-card elevation="1" color="#e9f3ff">
           <v-card-text>
@@ -75,12 +75,11 @@ export default {
           disabled: false,
           href: `/inicio`,
         },
-        {
-          //text: "Inicio",
-          text: "Textos Doctrinarios",
-          disabled: true,
-          href: `/inicio/biblioteca`,
-        },
+        // {
+        //   text: "Textos Doctrinarios",
+        //   disabled: true,
+        //   href: `/inicio/biblioteca`,
+        // },
       ],
       cards: [
           {

@@ -8,16 +8,16 @@
       ></v-breadcrumbs>
       <v-spacer></v-spacer>
       <v-col cols="auto">
-        <sugerencias />
+        <!-- <sugerencias /> -->
       </v-col>
       <template v-if="currentUser.Rol == 161">
         <v-col cols="auto">
           <nuevo-documento :tipoArchivoId="41" :origenId="1" />
         </v-col>
         <v-col cols="auto">
-          <v-btn depressed color="secondary" @click="dialog = !dialog"
+          <!-- <v-btn depressed color="secondary" @click="dialog = !dialog"
             ><v-icon>mdi-magnify</v-icon> Ver Sugerencias</v-btn
-          >
+          > -->
           <v-dialog scrollable v-model="dialog" width="90vw" heigt="100vh">
             <v-card>
               <v-card-title class="primaryBanner lighten-1">
@@ -28,7 +28,7 @@
                 </v-btn>
               </v-card-title>
               <v-card-text>
-                <ver-sugerencias v-if="dialog" />
+                <!-- <ver-sugerencias v-if="dialog" /> -->
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -77,15 +77,15 @@
 import { mapActions, mapGetters } from "vuex";
 import CardDocuemnto from "@/components/cardDocumento.vue";
 import NuevoDocumento from "@/components/nuevoDocumento.vue";
-import Sugerencias from "@/components/sugerencias.vue";
-import VerSugerencias from "@/components/verSugerencias.vue";
+// import Sugerencias from "@/components/sugerencias.vue";
+// import VerSugerencias from "@/components/verSugerencias.vue";
 
 export default {
   components: {
     CardDocuemnto,
     NuevoDocumento,
-    Sugerencias,
-    VerSugerencias,
+    // Sugerencias,
+    // VerSugerencias,
   },
   name: "Procedimientos",
   data() {

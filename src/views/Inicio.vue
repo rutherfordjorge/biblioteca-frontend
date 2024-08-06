@@ -11,7 +11,7 @@
       <v-col cols="12" class="px-4">
         <v-card elevation="2" color="#e9f3ff">
           <v-card-text class="display-2 text-center">
-            <b>PORTAL BIBLIOTECA</b>
+            <b>BIBLIOTECA VIRTUAL DEL EJÉRCITO</b>
           </v-card-text>
         </v-card>
       </v-col>
@@ -37,7 +37,7 @@
     </v-row>
   </v-container>
 </template>
- 
+
 <script>
 
 import { mapActions, mapGetters } from "vuex";

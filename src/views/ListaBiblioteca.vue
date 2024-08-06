@@ -198,11 +198,11 @@ export default {
         disabled: false,
         href: `/inicio`,
       },
-      {
-        text: "Textos Doctrinarios",
-        disabled: false,
-        href: `/inicio/doctrina`,
-      },
+      // {
+      //   text: "Textos Doctrinarios",
+      //   disabled: false,
+      //   href: `/inicio/doctrina`,
+      // },
     ],
     Documentos: {
       items: [],
@@ -231,7 +231,7 @@ export default {
         },
 
         { text: "Tipo",
-         value: "tipo.nombre",
+          value: "tipo.nombre",
           width: "10%" },
 
         // { text: "Unidad", value: "unidad.sigla", width: "10%" },
@@ -330,11 +330,12 @@ export default {
     const res = await this.fetchTipoDocumento(this.$route.params.id);
     this.tipoDocumento = res.data;
     this.bredItems.push({
-      text: `${this.tipoDocumento.nombre}`,
+      // text: `${this.tipoDocumento.nombre}`,
+      text: `Textos Doctrinarios`,
       disabled: true,
       href: `/`,
     });
-     this.reload(this.Documentos.page, this.Documentos.busqueda);
+    this.reload(this.Documentos.page, this.Documentos.busqueda);
   },
 
   watch: {
@@ -407,7 +408,7 @@ export default {
       }
     },
     editItem(item) {
-     console.log(item);
+      console.log(item);
       this.editedIndex = this.Documentos.items.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
