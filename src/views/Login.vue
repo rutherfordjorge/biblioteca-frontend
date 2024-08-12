@@ -90,10 +90,11 @@
 								style="float: right;"
 								title="Ingresar a la plataforma"
 								:loading="isLoading"
-								:disabled="isLoading"
+								disabled
 								color="primary"
 								@click="authenticate"
 							>
+							<!-- :disabled="isLoading" -->
 								INGRESAR
 								<v-icon right x-large>mdi-chevron-right</v-icon>
 							</v-btn>
@@ -187,7 +188,7 @@ export default {
 				password: ""
 			},
 			info: {
-				modal: false,
+				modal: true,
 				titulo: 'BIBLIOTECA VIRTUAL DEL EJÉRCITO',
 				texto: 'Debido a un mantenimiento programado, el sistema no estará disponible hasta el día Martes 13AGO2024.'
 			},
