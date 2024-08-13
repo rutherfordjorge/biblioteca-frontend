@@ -90,7 +90,7 @@
 								style="float: right;"
 								title="Ingresar a la plataforma"
 								:loading="isLoading"
-								:disabled="isLoading"
+								:disabled="true"
 								color="primary"
 								@click="authenticate"
 							>
@@ -189,7 +189,7 @@ export default {
 			info: {
 				modal: true,
 				titulo: 'BIBLIOTECA VIRTUAL DEL EJÉRCITO',
-				texto: 'Debido a un mantenimiento programado, el sistema no estará disponible hasta el día Martes 13AGO2024.'
+				texto: 'Debido a un mantenimiento programado, el sistema no estará disponible hasta el día Viernes 16AGO2024.'
 			},
 			restablecerModal: false,
 		};
