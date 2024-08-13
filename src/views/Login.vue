@@ -90,11 +90,10 @@
 								style="float: right;"
 								title="Ingresar a la plataforma"
 								:loading="isLoading"
-								disabled
+								:disabled="isLoading"
 								color="primary"
 								@click="authenticate"
 							>
-							<!-- :disabled="isLoading" -->
 								INGRESAR
 								<v-icon right x-large>mdi-chevron-right</v-icon>
 							</v-btn>

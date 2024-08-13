@@ -87,15 +87,6 @@ export default {
             type: Object,
             required: true,
         },
-        codigoUnidad: {
-            type: String,
-            required: true,
-        },
-        tipo: {
-            type: String,
-            required: false,
-            default: 'Documento' // Anexo
-        },
     },
     data: () => ({
         isUploading: false,
@@ -144,12 +135,12 @@ export default {
                 this.progreso = 0
                 this.isUploading = true
 
-                const res = await this.getCountArchivo(this.item.archivoid);
+                const res = await this.getCountArchivo(this.item.digitalid);
 
                 if (res.status == 200) {
                     for (let index = 1; index <= res.data; index++) {
                         this.progreso = Math.trunc((index / res.data) * 100);
-                        var param = { id: this.item.archivoid, bloque: index };
+                        var param = { id: this.item.digitalid, bloque: index };
                         const res2 = await this.getArchivo(param);
 
                         if (res2.status == 200 && res2.data.basE64.length != 0) {
@@ -189,7 +180,7 @@ export default {
                         this.url = await this.BaseToBlob(doc);
                         
                         // martca el documento como leído
-                        await this.putRecepcion({documentoId: this.item.id, unidadCodigo: this.codigoUnidad})
+                        // await this.putRecepcion({archivoId: this.item.id})
                     }
                     else{
                         this.url = await this.BaseToBlob(this.documento);
@@ -210,9 +201,9 @@ export default {
             "getArchivo",
         ]),
 
-        ...mapActions("documentosStore", [
-            "putRecepcion",
-        ]),
+        // ...mapActions("bibliotecaStore", [
+        //     "putRecepcion",
+        // ]),
     },
 }
 

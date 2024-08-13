@@ -160,7 +160,7 @@
 									outlined
 									v-model="newItem.descripcion"
 									counter="500"
-									:rules="rules.textRequired"
+									:rules="rules.textLongRequired"
 								></v-textarea>
 							</v-col>
 
@@ -311,6 +311,10 @@ export default {
 				textRequired:[
 					v => !!v || "Este campo es requerido",
 					v => v? v.length <= 50 || "Deben ser menos de 50 carácteres.": "Este campo es requerido.",
+				],
+				textLongRequired:[
+					v => !!v || "Este campo es requerido",
+					v => v? v.length <= 500 || "Deben ser menos de 50 carácteres.": "Este campo es requerido.",
 				],
 				image:[
 					// (1 * 1024 * 1024) = 1 MB

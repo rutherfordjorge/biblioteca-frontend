@@ -16,6 +16,8 @@
     "leaflet": "^1.8.0",
     "leaflet-draw": "^1.0.4",
     "leaflet.markercluster": "^1.5.3",
+    "pdf-lib": "^1.17.1",
+    "pdf-watermark": "^1.0.4",
     "toastr": "^2.1.4",
     "vue": "^2.6.14",
     "vue-echarts": "^4.1.0",

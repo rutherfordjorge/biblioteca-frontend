@@ -10,6 +10,7 @@
                     dark
                     class="mb-2"
                     @click="open"
+                    v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
                 >
                     NUEVO ARCHIVO
                 </v-btn>
@@ -54,7 +55,16 @@
             disable-pagination
             hide-default-footer
         >
-        
+            <template v-slot:item.acciones="{ item }">
+                
+                <ver-archivo 
+                    :key="item.id" 
+                    :item="item"
+                    
+                />
+                <!-- v-if="item.materia.clasificacion != 'S'" -->
+                
+            </template>
         </v-data-table>
 
         <!-- PAGINACIÓN SERVER SIDE -->
@@ -74,6 +84,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import VerArchivo from "@/components/verArchivo"
 
 export default {
 	name: 'listadoArchivos',
@@ -83,20 +94,23 @@ export default {
             required: true,
         },
     },
+    components: {
+		VerArchivo,
+	},
 	data: () => ({
         page: 1,
         oldPage: 1,
-        items: 5,
+        items: 10,
         busqueda: "",
         oldBusqueda: "",
 
 		headers: [
-            { text: 'Colección', value: 'coleccion.nombre', align: 'left', sortable: false, width: '40%' },
-            { text: 'Nombre', value: 'nombre', align: 'left', sortable: false },
-            { text: 'Descripción', value: 'descripcion', align: 'left', sortable: false },
-            { text: 'Edición', value: 'edicion', align: 'left', sortable: false },
-            { text: 'Clasificación', value: 'clasificacion.nombre', align: 'left', sortable: false },
-            { text: 'Acciones', value: 'acciones', align: 'right', sortable: false },
+            { text: 'Colección', value: 'coleccion.nombre', align: 'left', sortable: false, width: '15%' },
+            { text: 'Nombre', value: 'nombre', align: 'left', sortable: false, width: '15%' },
+            { text: 'Descripción', value: 'descripcion', align: 'left', sortable: false, width: '40%' },
+            { text: 'Edición', value: 'edicion', align: 'left', sortable: false, width: '10%' },
+            { text: 'Clasificación', value: 'clasificacion.nombre', align: 'left', sortable: false, width: '10%' },
+            { text: 'Acciones', value: 'acciones', align: 'right', sortable: false, width: '10%' },
         ],
         rules: {
             required:[
@@ -112,6 +126,7 @@ export default {
 
         clasificaciones: [],
         colecciones: [],
+        conocimiento: null,
     }),
     watch: {
         async dialog (val) {
@@ -135,18 +150,22 @@ export default {
     },
     computed: {
         ...mapGetters("bibliotecaStore", ["archivos", "pages", "isLoading"]),
+        ...mapGetters(["currentUser"]),
     },
     async created() {
         const respCla = await this.getClasificacion()
         if (respCla.status == 200) {
-            console.log('cla', respCla.data)
             this.clasificaciones = respCla.data
         }
         
         const respCol = await this.getColecciones(this.conocimientoId)
         if (respCol.status == 200) {
-            console.log('col', respCol.data)
             this.colecciones = respCol.data
+        }
+
+        const respCon = await this.getConocimientoById(this.conocimientoId)
+        if (respCon.status == 200) {
+            this.conocimiento = respCon.data
         }
 
         await this.getData()
@@ -206,6 +225,10 @@ export default {
 
         ...mapActions("coleccionesStore", [
             "getColecciones",
+        ]),
+
+        ...mapActions("conocimientosStore", [
+            "getConocimientoById"
         ]),
     }
 }
