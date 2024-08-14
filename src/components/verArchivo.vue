@@ -180,7 +180,7 @@ export default {
                         this.url = await this.BaseToBlob(doc);
                         
                         // martca el documento como leído
-                        // await this.putRecepcion({archivoId: this.item.id})
+                        await this.postLogArchivo({id: this.item.id})
                     }
                     else{
                         this.url = await this.BaseToBlob(this.documento);
@@ -201,9 +201,9 @@ export default {
             "getArchivo",
         ]),
 
-        // ...mapActions("bibliotecaStore", [
-        //     "putRecepcion",
-        // ]),
+        ...mapActions("logArchivosStore", [
+            "postLogArchivo",
+        ]),
     },
 }
 

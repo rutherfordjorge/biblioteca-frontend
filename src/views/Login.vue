@@ -90,7 +90,7 @@
 								style="float: right;"
 								title="Ingresar a la plataforma"
 								:loading="isLoading"
-								:disabled="true"
+								:disabled="isLoading"
 								color="primary"
 								@click="authenticate"
 							>

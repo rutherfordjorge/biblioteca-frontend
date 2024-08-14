@@ -15,6 +15,7 @@ import archivosStore from "@/store/modules/Diccionario/archivos"
 import conocimientosStore from "@/store/modules/conocimientos";
 import coleccionesStore from "@/store/modules/colecciones";
 import bibliotecaStore from "@/store/modules/archivos";
+import logArchivosStore from "@/store/modules/logArchivos";
 
 
 // Constantes y Funciones globales del Index Store
@@ -239,6 +240,7 @@ export default new Vuex.Store({
         // Biblioteca
         conocimientosStore,
         coleccionesStore,
-        bibliotecaStore
+        bibliotecaStore,
+        logArchivosStore,
 	}
 })

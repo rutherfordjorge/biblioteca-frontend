@@ -12,7 +12,7 @@
                     @click="open"
                     v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
                 >
-                    NUEVO ARCHIVO
+                    NUEVO ARCHIVO <v-icon>mdi-plus</v-icon>	
                 </v-btn>
             </v-col>
             
