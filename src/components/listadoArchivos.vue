@@ -69,8 +69,23 @@
                 <ver-archivo 
                     :key="item.id" 
                     :item="item"
-                    v-if="item.digitalid != null"
+                    v-if="item.digitalid != null && (item.clasificacionid == 1 || conocimiento.rolid == parseInt(currentUser.Rol))"
                 />
+
+                <v-tooltip
+                    top
+                    v-if="item.digitalid != null && item.clasificacionid != 1 && conocimiento.rolid != parseInt(currentUser.Rol)"
+                >
+                    <template v-slot:activator="{ on }">
+                        <v-btn
+                            icon
+                            v-on="on"
+                        >
+                            <v-icon>mdi-file-document</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Documentación Reservada o Secreta, solicite el acceso al Operador de este contenedor</span>
+                </v-tooltip>
 
                 <subir-archivo 
                     :key="item.id" 
