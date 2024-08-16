@@ -11,7 +11,7 @@
                     <slot></slot>
                 </v-btn>
             </template>
-            <span>Subir/Cambiar Documento</span>
+            <span>Subir/Cambiar Archivo</span>
         </v-tooltip>
 
         <!-- Dialog para subir archivo -->
@@ -22,7 +22,7 @@
         >
             <v-card>
                 <v-card-title class="grey darken-4">
-                    <span class="text-h5 white--text">Adjuntar Documento</span>
+                    <span class="text-h5 white--text">Adjuntar Archivo</span>
                     <v-spacer />
                     <v-btn 
                         icon
@@ -128,11 +128,6 @@ export default {
             type: Object,
             required: true,
         },
-        tipo: {
-            type: String,
-            required: false,
-            default: 'Documento' // Anexo
-        }
     },
     data: () => ({
         isUploading: false,
@@ -184,7 +179,7 @@ export default {
                 ID: 0,
                 NUMERO: 1,
                 NOMBRE: this.nuevoDocumento.name,
-                DESCRIPCION: this.item.objetivo,
+                DESCRIPCION: this.item.nombre,
                 BASE64: "",
                 EXTENCION: this.nuevoDocumento.name.replace(/^.*\./, ""),
                 NOMBRE_TABLA_ORIGEN: "DOCUMENTOS",
@@ -224,7 +219,7 @@ export default {
                         }
                     });
 
-                    await this.putDocumentosArchivoId({id: this.item.id, archivoId: res.data.id})
+                    await this.putArchivosDigitalId({id: this.item.id, digitalId: res.data.id})
                     .then(resp => {
                         if (resp.status == 200) {
                             toastr.success("Documento Ingresado","Éxito!")
@@ -249,8 +244,8 @@ export default {
 
             this.isUploading = false
         },
-        ...mapActions("documentosStore", [
-            "putDocumentosArchivoId",
+        ...mapActions("bibliotecaStore", [
+            "putArchivosDigitalId",
         ]),
         ...mapActions("archivosStore", [
             "postArchivo",

@@ -8,11 +8,20 @@
                 <v-btn
                     color="primary"
                     dark
-                    class="mb-2"
+                    class="ma-2"
                     @click="open"
                     v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
                 >
-                    NUEVO ARCHIVO <v-icon>mdi-plus</v-icon>	
+                    NUEVO ARCHIVO <v-icon right>mdi-plus</v-icon>	
+                </v-btn>
+
+                <v-btn
+                    color="secondary"
+                    dark
+                    class="ma-2"
+                    v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
+                >
+                    ACCESO <v-icon right>mdi-account-star</v-icon>	
                 </v-btn>
             </v-col>
             
@@ -60,8 +69,42 @@
                 <ver-archivo 
                     :key="item.id" 
                     :item="item"
-                    
+                    v-if="item.digitalid != null"
                 />
+
+                <subir-archivo 
+                    :key="item.id" 
+                    :item="item" 
+                    @updated="getData"
+                    v-if="
+                        item.digitalid == null 
+                        && conocimiento.rolid == parseInt(currentUser.Rol)
+                    "
+                >
+                    <v-icon>mdi-upload</v-icon>
+                </subir-archivo>
+
+                <subir-archivo 
+                    :key="item.id+item.nombre" 
+                    :item="item" 
+                    @updated="getData"
+                    v-else-if="
+                        item.digitalid != null 
+                        && conocimiento.rolid == parseInt(currentUser.Rol)
+                    "
+                >
+                    <v-icon>mdi-autorenew</v-icon>
+                </subir-archivo>
+
+                <v-tooltip 
+                    top 
+                    v-if="conocimiento.rolid == parseInt(currentUser.Rol)"
+                >
+                    <template v-slot:activator="{ on }">
+                        <v-icon small class="mr-2" v-on="on" @click="editItem(item)">mdi-pencil</v-icon>
+                    </template>
+                    <span>Editar</span>
+                </v-tooltip>
                 <!-- v-if="item.materia.clasificacion != 'S'" -->
                 
             </template>
@@ -79,12 +122,154 @@
                 <br />
             </v-col>
         </v-row>
+
+        <!-- Dialog crear archivo -->
+        <v-dialog 
+            v-model="crearArchivoModal"
+            persistent
+            :max-width="$vuetify.breakpoint.mdAndUp ? '60vw' : '90vw'"
+        >
+            <v-card>
+                <v-card-title class="grey darken-4">
+                    <span class="text-h5 white--text">{{ formTitle }}</span>
+                    <v-spacer />
+                    <v-btn 
+                        icon
+                        dark
+                        size="x-small"
+                        class="float-end ma-2"
+                        @click="crearArchivoModal = false"
+                    >
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-card-title>
+                <v-card-text>
+                
+                    <v-form v-model="validForm" ref="form">
+
+                            <v-row class="mt-4">
+
+                                <v-col 
+                                    :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
+                                >
+                                    <v-text-field
+                                        label="Nombre"
+                                        outlined
+                                        v-model="editedItem.nombre"
+                                        :rules="rules.required"
+                                    ></v-text-field>
+                                </v-col>
+
+                                <v-col
+                                    :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
+                                >
+                                    <v-select
+                                        label="Edición"
+                                        outlined
+                                        v-model="editedItem.edicion"
+                                        :rules="rules.required"
+                                        :items="años"
+                                        hint="Año de la edición o de publicación."
+                                        persistent-hint
+                                    ></v-select>
+                                </v-col>
+                                
+                                <v-col 
+                                    :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
+                                >
+                                    <v-autocomplete
+                                        v-model="editedItem.coleccionid"
+                                        outlined
+                                        :items="colecciones"
+                                        item-text="nombre"
+                                        item-value="id"
+                                        label="Colección"
+                                        :hint="colecciones.length == 0 ? `Debe tener al menos una colección, comuníquese con un administrador` : `Puede digitar un criterio para buscar.`"
+                                        :persistent-hint="colecciones.length == 0"
+                                        :rules="rules.required"
+                                    ></v-autocomplete>
+                                </v-col>
+
+                                <v-col 
+                                    :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
+                                >
+                                    <v-autocomplete
+                                        v-model="editedItem.clasificacionid"
+                                        outlined
+                                        :items="clasificaciones"
+                                        item-text="nombre"
+                                        item-value="id"
+                                        label="Clasificación"
+                                        :hint="`Puede digitar un criterio para buscar.`"
+                                        :rules="rules.required"
+                                    ></v-autocomplete>
+                                </v-col>
+                                
+                                <v-col 
+                                    :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
+                                >
+                                    <v-textarea
+                                        label="Descripción"
+                                        outlined
+                                        :rules="rules.requiredArea"
+                                        v-model="editedItem.descripcion"
+                                        counter="500"
+                                    ></v-textarea>
+                                </v-col>
+                                
+                                <v-col 
+                                    :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
+                                >
+                                    <v-textarea
+                                        label="Metadatos"
+                                        outlined
+                                        :rules="rules.requiredArea"
+                                        v-model="editedItem.meta"
+                                        counter="500"
+                                        hint="Ejemplo: Autor, Editorial, ISBN, etc."
+                                        persistent-hint
+                                    ></v-textarea>
+                                </v-col>
+
+                            </v-row>
+
+                    </v-form>
+
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        color="secondary"
+                        text
+                        outlined
+                        @click="crearArchivoModal = false"
+                    >
+                        Cancelar
+                    </v-btn>
+                    <v-btn
+                        color="primary"
+                        @click="save"
+                        :loading="isLoading"
+                        :disabled="isLoading || colecciones.length == 0"
+                    >
+                        Guardar
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+            
+        </v-dialog>
+
     </v-container>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 import VerArchivo from "@/components/verArchivo"
+import SubirArchivo from "@/components/subirArchivo";
+
+// Notificación
+import toastr from 'toastr'
+import 'toastr/build/toastr.min.css'
 
 export default {
 	name: 'listadoArchivos',
@@ -96,6 +281,7 @@ export default {
     },
     components: {
 		VerArchivo,
+        SubirArchivo,
 	},
 	data: () => ({
         page: 1,
@@ -103,6 +289,37 @@ export default {
         items: 10,
         busqueda: "",
         oldBusqueda: "",
+
+        crearArchivoModal: false,
+
+        
+        validForm: false,
+        editedIndex: -1,
+        editedItem: {
+            // solo para put
+            id: null,
+            digitalid: null,
+            // elementos para post
+            conocimientoid: null,
+            coleccionid: null,
+            clasificacionid: null,
+            nombre: null,
+            descripcion: null,
+            edicion: null,
+            meta: null,
+        },
+
+        defaultItem: {
+            id: null,
+            digitalid: null,
+            conocimientoid: null,
+            coleccionid: null,
+            clasificacionid: null,
+            nombre: null,
+            descripcion: null,
+            edicion: null,
+            meta: null,
+        },
 
 		headers: [
             { text: 'Colección', value: 'coleccion.nombre', align: 'left', sortable: false, width: '15%' },
@@ -119,6 +336,9 @@ export default {
             requiredList:[
                 v => v.length > 0 || "Este campo es requerido",
             ],
+            requiredArea:[
+            v => v? v.length < 500 || "El campo debe tener menos de 500 caracteres": "Este campo es requerido",
+            ],
         },
         itemsPerPage: [
             5, 10, 50
@@ -126,6 +346,7 @@ export default {
 
         clasificaciones: [],
         colecciones: [],
+        años: [],
         conocimiento: null,
     }),
     watch: {
@@ -149,16 +370,26 @@ export default {
         
     },
     computed: {
+        formTitle () {
+            return this.editedIndex === -1 && this.currentUser ? `Nuevo Archivo` : `Editar Archivo`
+        },
+
         ...mapGetters("bibliotecaStore", ["archivos", "pages", "isLoading"]),
         ...mapGetters(["currentUser"]),
     },
     async created() {
+        
+        for (var i = 2025; i > 1980; i--) {
+            this.años.push(i)
+        }
+
         const respCla = await this.getClasificacion()
         if (respCla.status == 200) {
             this.clasificaciones = respCla.data
         }
         
         const respCol = await this.getColecciones(this.conocimientoId)
+        
         if (respCol.status == 200) {
             this.colecciones = respCol.data
         }
@@ -182,7 +413,81 @@ export default {
         },
 
         open() {
+            this.resetValidation()
+            this.editedIndex = -1
+            this.editedItem = Object.assign({}, this.defaultItem)
+            this.crearArchivoModal = true
+        },
 
+        editItem(item) {
+            this.resetValidation()
+
+            this.editedIndex = this.archivos.indexOf(item);
+            this.editedItem = Object.assign({}, item);
+            this.crearArchivoModal = true
+        },
+
+        async save() {
+            this.validate();
+            if (this.validForm) {
+                if (this.editedIndex > -1) {
+                    //debe ser un llamado asincrono para poder ver el resultado en vue sin utilizar promesas.
+                    
+                    const payload = {
+                        id: this.editedItem.id,
+                        digitalid: this.editedItem.digitalid,
+                        conocimientoid: this.editedItem.conocimientoid,
+                        coleccionid: this.editedItem.coleccionid,
+                        clasificacionid: this.editedItem.clasificacionid,
+                        nombre: this.editedItem.nombre,
+                        descripcion: this.editedItem.descripcion,
+                        edicion: this.editedItem.edicion,
+                        meta: this.editedItem.meta,
+                    }
+                    const res = await this.putArchivo(payload);
+                    
+                    if (res.status == 200) {
+                        toastr.success("Se ha actualizado la información correctamente", "Éxito!");
+                        await this.getData()
+                    }
+                    else {
+                        toastr.error("Ha ocurrido un error", "Error!");
+                        return;
+                    }
+                } else {
+                    await this.postArchivo({
+                        conocimientoid: this.conocimientoId,
+                        coleccionid: this.editedItem.coleccionid,
+                        clasificacionid: this.editedItem.clasificacionid,
+                        nombre: this.editedItem.nombre,
+                        descripcion: this.editedItem.descripcion,
+                        edicion: this.editedItem.edicion,
+                        meta: this.editedItem.meta,
+                    })
+                    .then(async resp => {
+                        if (resp.status == 200) {
+                            toastr.success("Se ha creado correctamente el borrador del archivo", "Éxito!");
+                            this.page = 1
+                            await this.getData()
+                        }
+                        else {
+                            if (resp.status == 409) {
+                                toastr.error(resp.message, "Error!");
+                                return;
+                            }
+                            else if (resp.status == 401) {
+                                toastr.error(resp.message, "Error!");
+                                return;
+                            }
+                            else {
+                                toastr.error(`Error ${resp.status} no manejado por el sistema, por favor comuníquese con un administrador`, "Error!");
+                                return;
+                            }
+                        }
+                    });
+                }
+                this.crearArchivoModal = false
+            }
         },
 
         async buscar() {
@@ -198,6 +503,10 @@ export default {
                 //limpia los mensajes de validación de formulario abiertos previamente
                 this.$refs.form.resetValidation();
             }
+        },
+
+        validate() {
+            this.$refs.form.validate();
         },
 
         getFormatFecha(d, sec = false) {
@@ -220,6 +529,8 @@ export default {
 
         ...mapActions("bibliotecaStore", [
             "getArchivos",
+            "postArchivo",
+            "putArchivo",
             "getClasificacion"
         ]),
 

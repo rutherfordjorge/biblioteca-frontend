@@ -261,7 +261,7 @@ export default {
 				icon:"mdi-home",
 				route: "/inicio",
 				text: "Inicio",
-				rol: [0, 161, 221, 222, 223],
+				rol: [0, 161, 221, 222, 223, 501, 502],
 				children: []
 			},
 			{
@@ -271,14 +271,14 @@ export default {
 				icon: 'mdi-account-circle',
 				route: '/usuarios',
 				text: "Usuarios",
-				rol: [161, 221],
+				rol: [161],
 				children: []
 			},
 			{
 				icon: 'mdi-head-cog',
 				route: '/conocimiento',
 				text: "Fuentes Conocimiento",
-				rol: [161, 221],
+				rol: [161],
 				children: []
 			},
 		],

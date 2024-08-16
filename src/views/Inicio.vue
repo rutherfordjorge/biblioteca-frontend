@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <v-row>
+        <v-row class="justify-center">
             <v-col cols="12">
                 <breadcrumb :items="breadcrumItems" />
             </v-col>

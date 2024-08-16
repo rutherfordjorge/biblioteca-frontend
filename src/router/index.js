@@ -28,7 +28,7 @@ const routes = [
 		component: Inicio,
 		meta: {
 			requiresAuth: true,
-			whoCan: [0, 161, 221, 222, 223],
+			whoCan: [0, 161, 221, 222, 223, 501, 502],
 			layout: MainLayout
 		}
 	},
@@ -38,7 +38,7 @@ const routes = [
         component: () => import( /*webpackChunkName:"archivos"*/ "@/views/Archivos.vue"),
         meta: {
             requiresAuth: true,
-            whoCan: [0, 161, 221, 222, 223],
+            whoCan: [0, 161, 221, 222, 223, 501, 502],
             layout: MainLayout
         }
     },
@@ -48,7 +48,7 @@ const routes = [
 		component: () => import( /*webpackChunkName:"usuarios"*/ "@/views/base/Usuarios.vue"),
 		meta: {
 			requiresAuth: true,
-			whoCan: [161, 221],
+			whoCan: [161],
 			layout: MainLayout
 		}
 	},
@@ -58,7 +58,7 @@ const routes = [
         component: () => import(/* webpackChunckName: "fuentes conocimiento" */ "@/views/Mantenedores/FuentesConocimiento.vue"),
         meta: {
             requiresAuth: true,
-            whoCan: [161, 221],
+            whoCan: [161],
             layout: MainLayout
         }
     },

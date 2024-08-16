@@ -22,7 +22,7 @@ import logArchivosStore from "@/store/modules/logArchivos";
 
 // const jwtDecode = require('jwt-decode');
 const sistemaId = 7
-const adminRoles = [161, 221] // Roles con privilegios de administración
+const adminRoles = [161] // Roles con privilegios de administración
 const ruta = `${process.env.VUE_APP_APIGATEWAY_URL}/Autenticacion`
 const prefijo = 'biblioteca'
 

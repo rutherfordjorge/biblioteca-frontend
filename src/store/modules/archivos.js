@@ -27,7 +27,7 @@ export default {
     },
     actions:{
         async getArchivos(context, { page = '', items = '', search = '', conocimientoId = '', store = true} = {}){
-            console.log('getArchivos')
+            
             if (store) {
                 context.commit('DELETE_ARCHIVOS');
                 context.commit('GETTING_DATA');
@@ -37,7 +37,6 @@ export default {
                     "Authorization": `bearer ${context.rootState.token}`
                 }
             }).then(res => {
-                console.log('get archivos:', res.data.respuesta);
                 if (store) {
                     context.commit('ADD_ARCHIVOS', res.data.respuesta);
                     context.commit('ADD_PAGINAS', Math.ceil(res.data.totalRegistros/parseInt(items == '' ? res.data.totalRegistros : items)));
@@ -69,9 +68,9 @@ export default {
             })
         },
 
-        async putArchivosArchivoId(context, payload){
+        async putArchivosDigitalId(context, payload){
             
-            return axios.put(`${url}/PutArchivosArchivoId`, payload, {
+            return axios.put(`${url}/putArchivosDigitalId`, payload, {
                 headers: {
                     "Authorization": `bearer ${context.rootState.token}`
                 }
@@ -104,9 +103,7 @@ export default {
 
         async putArchivo(context, payload){
             
-            // console.log(payload, payload.id)
-
-            return axios.put(`${url}/PutArchivo/${payload.id}`, payload, {
+            return axios.put(`${url}/PutArchivo`, payload, {
                 headers: {
                     "Authorization": `bearer ${context.rootState.token}`
                 }
@@ -121,8 +118,6 @@ export default {
         
         async putArchivar(context, payload){
 
-            console.log('archivar', payload)
-            
             return axios.put(`${url}/putArchivar`, payload, {
                 headers: {
                     "Authorization": `bearer ${context.rootState.token}`

@@ -187,7 +187,7 @@ export default {
 				password: ""
 			},
 			info: {
-				modal: true,
+				modal: false,
 				titulo: 'BIBLIOTECA VIRTUAL DEL EJÉRCITO',
 				texto: 'Debido a un mantenimiento programado, el sistema no estará disponible hasta el día Viernes 16AGO2024.'
 			},
