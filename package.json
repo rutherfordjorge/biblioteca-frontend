@@ -20,6 +20,7 @@
     "pdf-watermark": "^1.0.4",
     "toastr": "^2.1.4",
     "vue": "^2.6.14",
+    "vue-apexcharts": "^1.6.2",
     "vue-echarts": "^4.1.0",
     "vuedraggable": "^2.24.3",    
     "vue-router": "^3.5.1",

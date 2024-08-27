@@ -62,6 +62,89 @@ const routes = [
             layout: MainLayout
         }
     },
+    // AUDITRÍA Y ESTADÍSTICAS
+    
+    {
+        path: "/inicio/:id/auditoria",
+        name: "auditoria",
+        component: () => import( /*webpackChunkName:"auditoria"*/ "@/views/auditorias/Auditoria.vue"),
+        meta: {
+            requiresAuth: true,
+            whoCan: [161,221],
+            layout: MainLayout
+        }
+    },
+    {
+        path: "/inicio/:id/auditoria/usuarios",
+        name: "auditoria-usuarios",
+        component: () => import( /*webpackChunkName:"auditoria-usuarios"*/ "@/views/auditorias/AuditoriaUsuarios.vue"),
+        meta: {
+            requiresAuth: true,
+            whoCan: [161,221],
+            layout: MainLayout
+        }
+    },
+    {
+        path: "/inicio/:id/auditoria/visualizaciones",
+        name: "auditoria-visualizaciones",
+        component: () => import( /*webpackChunkName:"auditoria-visualizaciones"*/ "@/views/auditorias/AuditoriaVisualizaciones.vue"),
+        meta: {
+            requiresAuth: true,
+            whoCan: [161,221],
+            layout: MainLayout
+        }
+    },
+    {
+        path: "/inicio/:id/estadistica",
+        name: "estadistica",
+        component: () => import( /*webpackChunkName:"estadistica"*/ "@/views/auditorias/Estadistica.vue"),
+        meta: {
+            requiresAuth: true,
+            whoCan: [161,221],
+            layout: MainLayout
+        }
+    },
+    {
+        path: "/inicio/:id/estadistica/visualizaciones",
+        name: "estadistica-visualizaciones",
+        component: () => import( /*webpackChunkName:"estadistica"*/ "@/views/auditorias/EstadisticaVisualizaciones.vue"),
+        meta: {
+            requiresAuth: true,
+            whoCan: [161,221],
+            layout: MainLayout
+        }
+    },
+    {
+        path: "/inicio/:id/estadistica/usuarios",
+        name: "estadistica-usuarios",
+        component: () => import( /*webpackChunkName:"estadistica"*/ "@/views/auditorias/EstadisticaUsuarios.vue"),
+        meta: {
+            requiresAuth: true,
+            whoCan: [161,221],
+            layout: MainLayout
+        }
+    },
+    {
+        path: "/inicio/:id/estadistica/textos",
+        name: "estadistica-textos",
+        component: () => import( /*webpackChunkName:"estadistica"*/ "@/views/auditorias/EstadisticaTextos.vue"),
+        meta: {
+            requiresAuth: true,
+            whoCan: [161,221],
+            layout: MainLayout
+        }
+    },
+    {
+        path: "/inicio/:id/estadistica/accesos",
+        name: "estadistica-accesos",
+        component: () => import( /*webpackChunkName:"estadistica"*/ "@/views/auditorias/EstadisticaAccesos.vue"),
+        meta: {
+            requiresAuth: true,
+            whoCan: [161,221],
+            layout: MainLayout
+        }
+    },
+    // CONTROL DE NAVEGACIÓN
     {
         // cualquier ruta que no esté registrada te devuelve al login.
         path: '/:pathMatch(.*)*',

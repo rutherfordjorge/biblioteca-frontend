@@ -3,7 +3,7 @@
 
         <v-row>
             <v-col
-                :class="$vuetify.breakpoint.mdAndUp ? 'col-3' : 'col-6'"
+                :class="$vuetify.breakpoint.mdAndUp ? 'col-6' : 'col-6'"
             >
                 <v-btn
                     color="primary"
@@ -23,6 +23,29 @@
                 >
                     ACCESO <v-icon right>mdi-account-star</v-icon>	
                 </v-btn>
+
+                <!-- SOLO PERFIL DIVDOC -->
+                <v-btn
+                    color="secondary"
+                    outlined
+                    class="ma-2"
+                    v-if="conocimiento != null ? conocimiento.rolid == '221' : false"
+                    :to="{ name: `estadistica`, params: { id: conocimientoId } }"
+                >
+                    ESTADÍSTICAS <v-icon right>mdi-account-star</v-icon>	
+                </v-btn>
+
+                <!-- SOLO PERFIL DIVDOC -->
+                <v-btn
+                    color="secondary"
+                    outlined
+                    class="ma-2"
+                    v-if="conocimiento != null ? conocimiento.rolid == '221' : false"
+                    to="/auditoria"
+                >
+                    AUDITORÍA <v-icon right>mdi-account-star</v-icon>	
+                </v-btn>
+
             </v-col>
             
             <v-spacer></v-spacer>

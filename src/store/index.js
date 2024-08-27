@@ -17,6 +17,9 @@ import coleccionesStore from "@/store/modules/colecciones";
 import bibliotecaStore from "@/store/modules/archivos";
 import logArchivosStore from "@/store/modules/logArchivos";
 
+// auditorias
+import auditorStore from "@/store/modules/auditorias/auditor";
+
 
 // Constantes y Funciones globales del Index Store
 
@@ -242,5 +245,7 @@ export default new Vuex.Store({
         coleccionesStore,
         bibliotecaStore,
         logArchivosStore,
+        // Auditorias
+        auditorStore,
 	}
 })
