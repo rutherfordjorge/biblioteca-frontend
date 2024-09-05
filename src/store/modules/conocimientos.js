@@ -66,6 +66,23 @@ export default {
             });
         },
 
+        // NEW
+        async putConocimiento(context, model) {
+                return axios.put(`${process.env.VUE_APP_BASE_URL_API}/Conocimientos/putConocimiento/`, model, {
+                    headers: {
+                        "Authorization": `bearer ${context.rootState.token}`
+                    }
+                })
+                .then(res => {
+                    if (res.status == 200) {
+                        return res;
+                    }
+                })
+                .catch(error => {
+                    return error.response;
+                });
+        },
+
         async putOrdenConocimiento(context, model){
             return axios.put(`${process.env.VUE_APP_BASE_URL_API}/Conocimientos/putOrdenConocimiento`, model, {
                 headers: {

@@ -103,6 +103,7 @@
 							v-on="on"
 						>
 							{{ currentUser ? currentUser.Nombres: '' }}
+							
 							<v-icon small class="ml-2">
 								mdi-logout
 							</v-icon>
@@ -277,7 +278,7 @@ export default {
 			{
 				icon: 'mdi-head-cog',
 				route: '/conocimiento',
-				text: "Fuentes Conocimiento",
+				text: "Fuentes Conocimientos",
 				rol: [161],
 				children: []
 			},
