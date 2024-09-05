@@ -23,6 +23,7 @@ import logArchivosStore from "@/store/modules/logArchivos";
 // const jwtDecode = require('jwt-decode');
 const sistemaId = 7
 const adminRoles = [161] // Roles con privilegios de administración
+const rolesSistema = [0, 161, 221, 222, 223, 501, 502]
 const ruta = `${process.env.VUE_APP_APIGATEWAY_URL}/Autenticacion`
 const prefijo = 'biblioteca'
 
@@ -161,7 +162,7 @@ export default new Vuex.Store({
                 context.commit('LOGIN_SUCCESS', response.data);
                 const usuarioConectado = jwtDecode(response.data);
                 
-                if ([0, 161, 221, 222, 223].includes(parseInt(usuarioConectado.Rol))) {
+                if (rolesSistema.includes(parseInt(usuarioConectado.Rol))) {
                     router.push({ name: "inicio" });
                 }
                 // Configurar para cada rol

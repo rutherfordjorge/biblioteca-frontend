@@ -1,6 +1,5 @@
 <template>
     <v-container fluid>
-
         <v-row>
             <v-col
                 :class="$vuetify.breakpoint.mdAndUp ? 'col-3' : 'col-6'"
@@ -19,6 +18,7 @@
                     color="secondary"
                     dark
                     class="ma-2"
+                    
                     v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
                 >
                     ACCESO <v-icon right>mdi-account-star</v-icon>	
@@ -172,6 +172,7 @@
                                         outlined
                                         v-model="editedItem.nombre"
                                         :rules="rules.required"
+                                        counter="40"
                                     ></v-text-field>
                                 </v-col>
 
@@ -228,7 +229,7 @@
                                         outlined
                                         :rules="rules.requiredArea"
                                         v-model="editedItem.descripcion"
-                                        counter="500"
+                                        counter="300"
                                     ></v-textarea>
                                 </v-col>
                                 
@@ -338,7 +339,7 @@ export default {
 
 		headers: [
             { text: 'Colección', value: 'coleccion.nombre', align: 'left', sortable: false, width: '15%' },
-            { text: 'Nombre', value: 'nombre', align: 'left', sortable: false, width: '15%' },
+            { text: 'Nombre / Código', value: 'nombre', align: 'left', sortable: false, width: '15%' },
             { text: 'Descripción', value: 'descripcion', align: 'left', sortable: false, width: '40%' },
             { text: 'Edición', value: 'edicion', align: 'left', sortable: false, width: '10%' },
             { text: 'Clasificación', value: 'clasificacion.nombre', align: 'left', sortable: false, width: '10%' },
