@@ -3,7 +3,7 @@
         
         <v-row>
             <v-col cols="12" class="text-center">
-                <span class="title">COLECCIONES</span>
+                <!-- <span class="title">COLECCIONES</span> -->
             </v-col>
         </v-row>
 
@@ -16,7 +16,7 @@
                     dark
                     @click="dialog=true"
                 >
-                    NUEVA COLECCIÓN
+                    NUEVA COLECCIÓN <v-icon right>mdi-plus</v-icon>
                 </v-btn>
             </v-col>
         </v-row>
@@ -129,9 +129,9 @@ export default {
     data: () => ({
         colecciones: [],
         headers: [
-            { text: 'Código', value: 'id', align: 'left', sortable: false, width: '20%' },
+            { text: 'Código', value: 'id', align: 'center', sortable: false, width: '10%' },
             { text: 'Nombre', value: 'nombre', align: 'left', sortable: false, width: '60%' },
-            { text: 'Acciones', value: 'acciones', align: 'right', sortable: false, width: '20%' },
+            { text: 'Acciones', value: 'acciones', align: 'right', sortable: false, width: '30%' },
         ],
         dialog: false,
         editedIndex: -1,

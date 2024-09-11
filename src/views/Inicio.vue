@@ -41,7 +41,7 @@ export default {
         return {
             breadcrumItems: [
                 {
-                    text: 'Inicio', 
+                    text: 'INICIO', 
                     disabled: true, 
                     to: { name: `inicio` }
                 },

@@ -62,7 +62,7 @@ export default {
 					nombre: 'DIMACOE DEPTO IV',
 					modulo: 'COORDINADOR DE TICs',
 					texto: 'Consultas en cuanto a priorización de los desarrollos de sistemas de información y/o tecnologías de la información.',
-					telefono: "+562 269 32xxx",
+					telefono: "+562 269 32550",
 					correo: "dimacoe@ejercito.cl",
 				},
 			],

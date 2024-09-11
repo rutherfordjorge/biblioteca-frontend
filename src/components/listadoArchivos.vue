@@ -1,6 +1,5 @@
 <template>
     <v-container fluid>
-
         <v-row>
             <v-col
                 :class="$vuetify.breakpoint.mdAndUp ? 'col-6' : 'col-6'"
@@ -19,6 +18,7 @@
                     color="secondary"
                     dark
                     class="ma-2"
+                    
                     v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
                 >
                     ACCESO <v-icon right>mdi-account-star</v-icon>	
@@ -32,7 +32,7 @@
                     v-if="conocimiento != null ? conocimiento.rolid == '221' : false"
                     :to="{ name: `estadistica`, params: { id: conocimientoId } }"
                 >
-                    ESTADÍSTICAS <v-icon right>mdi-chart-histogram</v-icon>	
+                    ESTADÍSTICAS <v-icon right>mdi-account-star</v-icon>	
                 </v-btn>
 
                 <!-- SOLO PERFIL DIVDOC -->
@@ -41,9 +41,9 @@
                     outlined
                     class="ma-2"
                     v-if="conocimiento != null ? conocimiento.rolid == '221' : false"
-                    :to="{name: `auditoria`, params: {id: conocimientoId}}"
+                    to="/auditoria"
                 >
-                    AUDITORÍA <v-icon right>mdi-book-open-page-variant</v-icon>	
+                    AUDITORÍA <v-icon right>mdi-account-star</v-icon>	
                 </v-btn>
 
             </v-col>
@@ -195,6 +195,7 @@
                                         outlined
                                         v-model="editedItem.nombre"
                                         :rules="rules.required"
+                                        counter="40"
                                     ></v-text-field>
                                 </v-col>
 
@@ -251,7 +252,7 @@
                                         outlined
                                         :rules="rules.requiredArea"
                                         v-model="editedItem.descripcion"
-                                        counter="500"
+                                        counter="300"
                                     ></v-textarea>
                                 </v-col>
                                 
@@ -341,7 +342,6 @@ export default {
             conocimientoid: null,
             coleccionid: null,
             clasificacionid: null,
-            estado: null,
             nombre: null,
             descripcion: null,
             edicion: null,
@@ -354,7 +354,6 @@ export default {
             conocimientoid: null,
             coleccionid: null,
             clasificacionid: null,
-            estado: null,
             nombre: null,
             descripcion: null,
             edicion: null,
@@ -363,11 +362,10 @@ export default {
 
 		headers: [
             { text: 'Colección', value: 'coleccion.nombre', align: 'left', sortable: false, width: '15%' },
-            { text: 'Nombre', value: 'nombre', align: 'left', sortable: false, width: '15%' },
-            { text: 'Descripción', value: 'descripcion', align: 'left', sortable: false, width: '30%' },
+            { text: 'Nombre / Código', value: 'nombre', align: 'left', sortable: false, width: '15%' },
+            { text: 'Descripción', value: 'descripcion', align: 'left', sortable: false, width: '40%' },
             { text: 'Edición', value: 'edicion', align: 'left', sortable: false, width: '10%' },
             { text: 'Clasificación', value: 'clasificacion.nombre', align: 'left', sortable: false, width: '10%' },
-            { text: 'Estado', value: 'estado', align: 'center', sortable: false, width: '10%' },
             { text: 'Acciones', value: 'acciones', align: 'right', sortable: false, width: '10%' },
         ],
         rules: {
