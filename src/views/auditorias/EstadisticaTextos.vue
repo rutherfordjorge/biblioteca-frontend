@@ -11,7 +11,7 @@
       <v-col cols="12" class="px-1">
         <v-card elevation="1">
           <v-card-text>
-            <b>En este modulo, se encuentran las estadisticas de los textos, ordenados y estandarizados por tipo, vigencia y clasificacion</b>
+            <b>En este modulo, se encuentran las estadisticas de los textos, ordenados y estandarizados por tipo, vigencia</b>
           </v-card-text>
         </v-card>
       </v-col>
@@ -25,22 +25,22 @@
             </div>
             <div v-else>
               <v-card-text v-if="card.title === 'VIGENTES'" elevation="4">
-                <apexchart type="bar" height="350"  :options="chartOptionsVig" :series="chartSeriesVig"></apexchart>
+                <apexchart type="bar" height="250" key="1"  :options="chartOptionsVig" :series="chartSeriesVig"></apexchart>
               </v-card-text>
               <v-card-text v-else-if="card.title === 'ACTUALIZACION'">
-                <apexchart type="bar" height="350"  :options="chartOptionsAct" :series="chartSeriesAct"></apexchart>
+                <apexchart type="bar" height="350" key="2"  :options="chartOptionsAct" :series="chartSeriesAct"></apexchart>
               </v-card-text>
               <v-card-text v-else-if="card.title === 'ELABORACION'">
-                <apexchart type="bar" height="350"  :options="chartOptionsElab" :series="chartSeriesElab"></apexchart>
+                <apexchart type="bar" height="350" key="3"  :options="chartOptionsElab" :series="chartSeriesElab"></apexchart>
               </v-card-text>
               <v-card-text v-else-if="card.title === 'PUBLICOS'" elevation="4">
-                <apexchart type="bar" height="350" :options="chartOptionsPub" :series="chartSeriesPub"></apexchart>
+                <apexchart type="bar" height="350" key="4" :options="chartOptionsPub" :series="chartSeriesPub"></apexchart>
               </v-card-text>
               <v-card-text v-else-if="card.title === 'RESERVADOS'" elevation="4">
-                <apexchart type="bar" height="350" :options="chartOptionsRes" :series="chartSeriesRes"></apexchart>
+                <apexchart type="bar" height="350" key="5" :options="chartOptionsRes" :series="chartSeriesRes"></apexchart>
               </v-card-text>
               <v-card-text v-else-if="card.title === 'SECRETOS'" elevation="4">
-                <apexchart type="bar" height="350" :options="chartOptionsSec" :series="chartSeriesSec"></apexchart>
+                <apexchart type="bar" height="350" key="6" :options="chartOptionsSec" :series="chartSeriesSec"></apexchart>
               </v-card-text>
             </div>
         </v-card>
@@ -133,12 +133,14 @@ export default {
     try {
         const resp = await this.contarTipoyClasificacion();
         if (resp.status === 200) {
-          this.setChartData("vig", resp.data.resultVig);
-          this.setChartData("act", resp.data.resultAct);
-          this.setChartData("elab", resp.data.resultElab);
-          this.setChartData("pub", resp.data.resultPublico);
-          this.setChartData("res", resp.data.resultReservado);
-          this.setChartData("sec", resp.data.resultSecreto);
+          console.log('data:', resp.data)
+          this.chartSeriesVig = [{ name: "Vigente", data: Object.values(resp.data.resultVig)}];
+          this.chartSeriesSec = [{ name: "Secretos", data: Object.values(resp.data.resultSecreto)}];
+          this.chartSeriesRes = [{ name: "Reservados", data:  Object.values(resp.data.resultReservado)}];
+          this.chartSeriesPub = [{ name: "Públicos", data:  Object.values(resp.data.resultPublico)}];
+          this.chartSeriesAct = [{ name: "En Actualización", data:  Object.values(resp.data.resultAct)}];
+          this.chartSeriesElab = [{ name: "Reservados", data:  Object.values(resp.data.resultElab)}];
+                   
         }
         this.isLoading = false;
         } 
@@ -158,23 +160,6 @@ export default {
     },
       methods: {
         ...mapActions("auditorStore", ["contarTipoyClasificacion"]),
-        setChartData(type, data) {
-          const seriesData = Object.values(data);
-
-          if (type === "vig") {
-            this.chartSeriesVig = [{ name: "Vigente", data: seriesData }];
-          } else if (type === "act") {
-            this.chartSeriesAct = [{ name: "En Actualización", data: seriesData }];
-          } else if (type === "elab") {
-            this.chartSeriesElab = [{ name: "En Elaboración", data: seriesData }];
-          } else if (type === "pub") {
-            this.chartSeriesPub = [{ name: "Públicos", data: seriesData }];
-          } else if (type === "res") {
-            this.chartSeriesRes = [{ name: "Reservados", data: seriesData }];
-          } else if (type === "sec") {
-            this.chartSeriesSec = [{ name: "Secretos", data: seriesData }];
-          }
-        },
 
       updateChartThemes(){
       const textColor = !this.isDarkTheme ? '#999999' : '#FFFFFF';
