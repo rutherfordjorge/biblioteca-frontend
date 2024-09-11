@@ -349,6 +349,7 @@ export default {
 		toggleTheme() {
             this.isDarkTheme = !this.isDarkTheme
             this.$vuetify.theme.dark = this.isDarkTheme
+			this.updateChartTheme()
         }
 	}
 };

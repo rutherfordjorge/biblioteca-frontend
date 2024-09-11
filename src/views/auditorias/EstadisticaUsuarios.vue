@@ -1,54 +1,67 @@
 <template>
   <v-container fluid>
     <v-row dense>
-      <v-breadcrumbs class="font-weight-medium" :items="bredItems" large />
+      <breadcrumb :items="bredItems"  />
       <v-spacer></v-spacer>
     </v-row>
     <v-col cols="12" class="text-center">
       <h2>Estadísticas de la biblioteca virtual</h2>
     </v-col>
     <v-row dense class="text-justify">
-      <v-col cols="12" class="px-4">
-        <v-card elevation="1" color="#e9f3ff">
+      <v-col cols="12" class="px-1">
+        <v-card elevation="1">
           <v-card-text>
-            <b>En esta sección, se pueden visualizar las visitas que se registran diariamente, como también, el consolidado por mes, actualizandose diariamente.
-              Recuerde que a la derecha de cada gráfico, puede descargar una imagen de dicha estadística, en el formato que sea conveniente.
-            </b>
+            <b>Aca va el modulo estadistica de la biblioteca virtual</b>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
-      <v-row>
-        <v-col cols="12">
-          <!-- Mostrar un mensaje de carga mientras se obtienen los datos -->
-          <div v-if="isLoading" class="text-center">
-            <v-progress-circular indeterminate color="primary"></v-progress-circular>
-            <p>Cargando datos...</p>
-          </div>
-          <div v-else>
-            <apexchart type="bar" height="350" :options="chartOptionsDays" :series="chartSeriesDays"></apexchart>
-            <apexchart type="bar" height="350" :options="chartOptionsMeses" :series="chartSeriesMeses"></apexchart>
-          </div>
-        </v-col>
-      </v-row>
+    <v-row dense>
+      <v-col cols="12">
+        <!-- Mostrar un mensaje de carga mientras se obtienen los datos -->
+        <div v-if="isLoading" class="text-center">
+          <v-progress-circular indeterminate color="primary"></v-progress-circular>
+          <p>Cargando datos...</p>
+        </div>
+        <div v-else>
+          <v-row>
+            <v-col cols="6">
+              <v-card elevation="4">
+              <apexchart type="bar" height="350" :options="chartOptionsDays" :series="chartSeriesDays"></apexchart>
+            </v-card>
+            </v-col>
+            <v-col cols="6">
+              <v-card elevation="4">
+              <apexchart type="bar" height="350" :options="chartOptionsMeses" :series="chartSeriesMeses"></apexchart>
+            </v-card>
+            </v-col>
+          </v-row>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row>
+    </v-row>
   </v-container>
 </template>
 
 <script>
 import { mapActions } from "vuex";
 import VueApexCharts from "vue-apexcharts";
+import Breadcrumb from "@/components/base/breadcrumb.vue";
 
 export default {
   name: "Usuarios",
   components: {
     apexchart: VueApexCharts,
+    Breadcrumb
   },
   data() {
     return {
       bredItems: [
-        { text: "Inicio", disabled: false, href: `/inicio` },
-        { text: "Estadística", disabled: false, href: `/estadistica` },
-        { text: "Estadística de Usuarios", disabled: true, href: `/estadistica/usuarios` },
+          { text: "INICIO", disabled: false, to: { name: `inicio` } },
+          { text: "TEXTOS DOCTRINARIOS", disabled: false, to: { name: `archivos`, props: { id: 1 } }},
+          { text: "MODULO DE ESTADISTICAS", disabled: false, to: { name: `estadistica`}},
+          { text: "ESTADISTICA DE USUARIOS", disabled: true, to: `` },
       ],
       chartSeriesDays: [],
       chartOptionsDays: {
@@ -118,21 +131,24 @@ export default {
   async mounted() {
     try {
       const resp = await this.contarVisitas();
-      console.log("RESPUESTA COMPLETA DEL ENDPOINT:", resp.data);
 
       if (resp.status === 200) {
         this.setChartData(resp.data.resultados); // Pasamos los resultados al método setChartData
         this.isLoading = false; // Datos cargados, dejar de mostrar el "loading"
       }
     } catch (error) {
-      console.error("Error en mounted:", error);
       this.isLoading = false; // Dejar de mostrar el "loading" incluso si hay un error
     }
+    this.$root.$on("toggleTheme", this.updateChartThemes);
+    this.updateChartThemes(); // Aplica la configuración correcta del tema al cargar
+  },
+  beforeDestroy() {
+    // Elimina el oyente del evento para evitar fugas de memoria
+    this.$root.$off("toggleTheme", this.updateChartThemes);
   },
   methods: {
     ...mapActions("auditorStore", ["contarVisitas"]),
 
-    // Función para formatear la fecha según el requerimiento
     formatFecha(fecha) {
       const meses = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
       const [year, month, day] = fecha.split("-");
@@ -140,81 +156,57 @@ export default {
     },
 
     setChartData(resultados) {
-      // Ordenar los resultados por fecha en caso de que no vengan ordenados
       resultados.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-
-      // Filtrar para incluir solo los días con visitas mayores a cero
       const diasConVisitas = resultados.filter(item => Number(item.visitas) > 0);
-
-      // Obtener los últimos 7 días con visitas
       const ultimos7DiasConVisitas = diasConVisitas.slice(-7);
-
-      // Extraer y formatear las fechas y visitas de los últimos 7 días
       const fechas = ultimos7DiasConVisitas.map(item => this.formatFecha(item.fecha));
-      const visitas = ultimos7DiasConVisitas.map(item => Math.round(Number(item.visitas)));  // Redondear las visitas a enteros
+      const visitas = ultimos7DiasConVisitas.map(item => Math.round(Number(item.visitas)));
 
-      // Configurar los datos y categorías para el gráfico de días
       this.chartOptionsDays = {
         ...this.chartOptionsDays,
         xaxis: {
           ...this.chartOptionsDays.xaxis,
-          categories: fechas,  // Asignar las fechas formateadas al eje X
+          categories: fechas,
         }
       };
 
-      this.chartSeriesDays = [{ name: "Usuarios al dia", data: visitas }]; // Asignar las visitas a las series
-
-      // Configurar los datos para el gráfico de meses
+      this.chartSeriesDays = [{ name: "Usuarios al día", data: visitas }];
       this.setChartDataMensual(resultados);
     },
 
     setChartDataMensual(resultados) {
-      // Ordenar los resultados por fecha
       resultados.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-
-      // Filtrar para incluir solo los días con visitas mayores a cero
       const diasConVisitas = resultados.filter(item => Number(item.visitas) > 0);
-
-      // Crear un objeto para acumular visitas por mes
       const visitasMensuales = {};
       const meses = ['AGO', 'SEP', 'OCT', 'NOV', 'DIC', 'ENE'];
-
       const yearActual = new Date().getFullYear();
-      
-      // Inicializar visitas mensuales con 0
+
       meses.forEach((mes, index) => {
-          let nombreMes = `${mes}-${yearActual}`;
-
-          if(mes === 'ENE'){
-            nombreMes = `${mes}-${yearActual + 1}`;
-          }
-
-          visitasMensuales[nombreMes] = 0;
-          meses[index] = nombreMes;
+        let nombreMes = `${mes}-${yearActual}`;
+        if (mes === 'ENE') {
+          nombreMes = `${mes}-${yearActual + 1}`;
+        }
+        visitasMensuales[nombreMes] = 0;
+        meses[index] = nombreMes;
       });
 
-      // Acumular visitas por mes
       diasConVisitas.forEach(item => {
         const fecha = new Date(item.fecha);
         const mes = fecha.getMonth();
-        let nombreMes = meses[mes - 7]; // Ajustar para agosto (mes 7) -> índice 0
+        let nombreMes = meses[mes - 7];
         if (nombreMes.includes('ENE') && fecha.getMonth() === 0) {
-          nombreMes = `ENE-${yearActual +1}`;
+          nombreMes = `ENE-${yearActual + 1}`;
         }
-
-        if (nombreMes){
+        if (nombreMes) {
           visitasMensuales[nombreMes] += Number(item.visitas);
         }
-
-        if(meses.length > 6){
+        if (meses.length > 6) {
           meses.shift();
         }
       });
 
-      // Convertir el objeto a arrays para el gráfico
       const visitasPorMes = meses.map(mes => visitasMensuales[mes] || 0);
 
-      // Configurar los datos y categorías para el gráfico mensual
       this.chartOptionsMeses = {
         ...this.chartOptionsMeses,
         xaxis: {
@@ -224,11 +216,47 @@ export default {
       };
 
       this.chartSeriesMeses = [{ name: "Visitas al Mes", data: visitasPorMes }];
-    }
+    },
+
+    updateChartThemes() {
+      const textColor = !this.isDarkTheme ? '#999999' : '#FFFFFF'; // Ajuste de color según el tema
+
+      // Actualizar el título
+      this.chartOptionsDays.title.style = { color: textColor };
+      this.chartOptionsMeses.title.style = { color: textColor };
+
+      // Actualizar las etiquetas del eje X (fechas o meses)
+      this.chartOptionsDays.xaxis.labels = {
+        style: { colors: textColor, fontSize: '12px' }
+      };
+      this.chartOptionsMeses.xaxis.labels = {
+        style: { colors: textColor, fontSize: '12px' }
+      };
+
+      // Actualizar las etiquetas del eje Y (valores)
+      this.chartOptionsDays.yaxis = {
+        labels: {
+          style: { colors: textColor, fontSize: '12px' }
+        }
+      };
+      this.chartOptionsMeses.yaxis = {
+        labels: {
+          style: { colors: textColor, fontSize: '12px' }
+        }
+      };
+
+      // Forzar la reactividad en las opciones del gráfico
+      this.$set(this, 'chartOptionsDays', { ...this.chartOptionsDays });
+      this.$set(this, 'chartOptionsMeses', { ...this.chartOptionsMeses });
+    },
   },
 };
 </script>
 
 <style scoped>
+
+.v-card{
+  color: black;
+}
 /* Estilos personalizados si es necesario */
 </style>
