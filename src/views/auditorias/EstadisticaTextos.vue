@@ -11,7 +11,7 @@
       <v-col cols="12" class="px-1">
         <v-card elevation="1">
           <v-card-text>
-            <b>Aca va el modulo estadistica de la biblioteca virtual</b>
+            <b>En este modulo, se encuentran las estadisticas de los textos, ordenados y estandarizados por tipo, vigencia y clasificacion</b>
           </v-card-text>
         </v-card>
       </v-col>

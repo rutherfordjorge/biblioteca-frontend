@@ -32,7 +32,7 @@
                     v-if="conocimiento != null ? conocimiento.rolid == '221' : false"
                     :to="{ name: `estadistica`, params: { id: conocimientoId } }"
                 >
-                    ESTADÍSTICAS <v-icon right>mdi-account-star</v-icon>	
+                    ESTADÍSTICAS <v-icon right>mdi-chart-histogram</v-icon>	
                 </v-btn>
 
                 <!-- SOLO PERFIL DIVDOC -->
@@ -41,9 +41,9 @@
                     outlined
                     class="ma-2"
                     v-if="conocimiento != null ? conocimiento.rolid == '221' : false"
-                    to="/auditoria"
+                    :to="{ name: `auditoria`, params: { id: conocimientoId } }"
                 >
-                    AUDITORÍA <v-icon right>mdi-account-star</v-icon>	
+                    AUDITORÍA <v-icon right>mdi-book-open-page-variant</v-icon>	
                 </v-btn>
 
             </v-col>
