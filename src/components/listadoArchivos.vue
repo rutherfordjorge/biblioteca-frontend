@@ -32,7 +32,7 @@
                     v-if="conocimiento != null ? conocimiento.rolid == '221' : false"
                     :to="{ name: `estadistica`, params: { id: conocimientoId } }"
                 >
-                    ESTADÍSTICAS <v-icon right>mdi-account-star</v-icon>	
+                    ESTADÍSTICAS <v-icon right>mdi-chart-histogram</v-icon>	
                 </v-btn>
 
                 <!-- SOLO PERFIL DIVDOC -->
@@ -41,9 +41,9 @@
                     outlined
                     class="ma-2"
                     v-if="conocimiento != null ? conocimiento.rolid == '221' : false"
-                    to="/auditoria"
+                    :to="{name: `auditoria`, params: {id: conocimientoId}}"
                 >
-                    AUDITORÍA <v-icon right>mdi-account-star</v-icon>	
+                    AUDITORÍA <v-icon right>mdi-book-open-page-variant</v-icon>	
                 </v-btn>
 
             </v-col>
@@ -341,6 +341,7 @@ export default {
             conocimientoid: null,
             coleccionid: null,
             clasificacionid: null,
+            estado: null,
             nombre: null,
             descripcion: null,
             edicion: null,
@@ -353,6 +354,7 @@ export default {
             conocimientoid: null,
             coleccionid: null,
             clasificacionid: null,
+            estado: null,
             nombre: null,
             descripcion: null,
             edicion: null,
@@ -362,9 +364,10 @@ export default {
 		headers: [
             { text: 'Colección', value: 'coleccion.nombre', align: 'left', sortable: false, width: '15%' },
             { text: 'Nombre', value: 'nombre', align: 'left', sortable: false, width: '15%' },
-            { text: 'Descripción', value: 'descripcion', align: 'left', sortable: false, width: '40%' },
+            { text: 'Descripción', value: 'descripcion', align: 'left', sortable: false, width: '30%' },
             { text: 'Edición', value: 'edicion', align: 'left', sortable: false, width: '10%' },
             { text: 'Clasificación', value: 'clasificacion.nombre', align: 'left', sortable: false, width: '10%' },
+            { text: 'Estado', value: 'estado', align: 'center', sortable: false, width: '10%' },
             { text: 'Acciones', value: 'acciones', align: 'right', sortable: false, width: '10%' },
         ],
         rules: {

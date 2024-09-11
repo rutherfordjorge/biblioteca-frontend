@@ -1,171 +1,99 @@
 <template>
-    <v-container fluid>
-    <v-row dense>
-      <v-breadcrumbs class="font-weight-medium" :items="bredItems" large />
-      <v-spacer></v-spacer>
-    </v-row>
-        <v-col cols="12" class="text-center">
-            <h2>Módulo de Auditoria de la Biblioteca Virtual</h2>
-        </v-col>
-    <v-row dense class="text-justify">
-      <v-col cols="12" class="px-4">
-        <v-card elevation="1" color="#e9f3ff">
-          <v-card-text>
-            <!-- <b>El objetivo de la “Biblioteca Virtual” es difundir la Doctrina Operacional, la Doctrina de Funcionamiento, la Doctrina Valórica del Ejército y la Doctrina Conjunta, como también, los procedimientos internos establecidos por la institución, permitiendo a todo el personal de planta de la institución el acceso a los textos doctrinarios, base fundamental para el correcto desarrollo de las actividades propias de la función militar.</b> -->
-            <b
-              >El objetivo de éste módulo es efectuar el control de los
-              distintos usuarios que hacen uso de la biblioteca, con el fin
-              de mantener el control de acceso en cuanto a los perfiles asignados
-              a cada integrante de la institución .</b
-            >
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row dense>
-      <v-col v-for="card in cards" :key="card.title" sm="12" md="6" lg="6">
-        <card-auditoria
-          v-if="card.rol.includes(parseInt(currentUser.Rol))"
-          :key="card.id"
-          :title="card.title"
-          :src="card.src"
-          :to="card.to"
-        />
-      </v-col>
-    </v-row>
-        <v-card class="elevation-0">
-       
+  <v-container fluid>
+<v-row dense>
+    <breadcrumb :items="bredItems"  />
+    <v-spacer></v-spacer>
+  </v-row>
+      <v-col cols="12" class="text-center">
+    <h2>Auditor de usuarios y visualizaciones</h2>
+  </v-col>
+  <v-row dense class="text-justify">
+    <v-col cols="12" class="px-1">
+      <v-card elevation="1">
+        <v-card-text>
+          <b>Este modulo tiene como objetivo, auditar y visualizar los movimientos de los visitantes a Textos Doctrinarios, registrando principalmente su direccion IP
+            y los documentos visualizados en tiempo real.
+          </b>
+        </v-card-text>
+      </v-card>
+    </v-col>
+  </v-row>
+    <v-card class="elevation-0">
+          <v-card-title>
 
-            <v-container fluid>
-  
-            </v-container>
-        </v-card>
-    </v-container>
+              <v-spacer></v-spacer>
+              <v-text-field
+                  v-model="search"
+                  append-icon="mdi-magnify"
+                  label="Buscar usuario en el listado"
+                  single-line
+                  hide-details
+              ></v-text-field>         
+          </v-card-title>
+
+          <v-container fluid>
+              <v-data-table
+                  :headers="headers"
+                  :loading="isLoading"
+                  loading-text="Cargando... por favor espere"
+                  :items="listaAuditoria"
+                  :search="search"
+              >
+                  <template v-slot:item.personal.nombre="{ item }">
+                      {{ item.personal.nombre}} {{ item.personal.apellidO_PATERNO }} {{ item.personal.apellidO_MATERNO}}
+                  </template>
+
+                  <template v-slot:item.creacion="{ item }">
+                      {{ getFormatFecha(item.creacion) }}
+                  </template>
+
+              </v-data-table>
+          </v-container>
+      </v-card>
+  </v-container>
 </template>
 
-
-
 <script>
-import { mapActions, mapGetters } from "vuex";
-import CardAuditoria from "@/components/auditorias/cardAuditoria.vue";
-
-
+import { mapGetters, mapActions } from "vuex";
+import Breadcrumb from "@/components/base/breadcrumb";
 
 export default {
+  name: "Usuarios",
   components: {
-    CardAuditoria,
-
+    Breadcrumb,
   },
-    name: "Auditoria",
-      data() {
-    return {
-      dialogModal: true,
-      dialog: false,
-      Item: [],
-      bredItems: [
-        {
-          text: "Inicio",
-          disabled: false,
-          href: `/inicio`,
-        },
-        {
-          //text: "Inicio",
-          text: "Auditoria",
-          disabled: true,
-          href: `/inicio/auditoria`,
-        },
-      ],
-      cards: [
-          // {
-          // title: "BUSQUEDA MASIVA",
-          // src: "/iconos/Procedimientos/todos.svg",
-          // count: 0,
-          // id: 0,
-          // to: {
-          // name: "lista-doctrina",
-          //   params: {
-          //     id: 27,
-          //   },
-          // },
-          // rol: [0, 161, 221, 222, 223],
-          //  },
-        {
-          title: "CONTROL DE USUARIOS",
-          src: "/iconos/auditoria.svg",
-          count: 0,
-          id: 0,
-          to: {
-            name: "auditoria-usuarios",
-          },
-          rol: [0, 161, 221, 222, 223],
-        },
-        {
-          title: "CONTROL DE VISUALIZACIONES",
-          src: "/iconos/visualizacion.svg",
-          count: 0,
-          id: 29,
-          to: {
-            name: "auditoria-visualizaciones",
-            params: {
-              id: 29,
-            },
-          },
-          rol: [0, 161, 221, 222, 223],
-        },
-/*         {
-          title: "CONTROL DE DESCARGAS",
-          src: "/iconos/descargas.svg",
-          count: 0,
-          id: 30,
-          to: {
-            name: "auditoria-descargas",
-            params: {
-              id: 30,
-            },
-          },
-          rol: [0, 161, 221, 222, 223],
-        }, */
-
-
-      ],
-    };
-  },
+  data: () => ({
+    search: "",
+    headers: [
+      { text: "RUN", value: "personal.run", groupable: false, sortable: false, width: "5%", align: "center" },
+      { text: "Nombre Completo", value: "personal.nombre", groupable: false, sortable: false, width: "12%" , align: "center"},
+      { text: "Unidad", value: "personal.unidad", width: "5%", sortable: false, align: "center" },
+      { text: "Ultima conexión", value: "creacion", width: "6%", sortable: false, align: "center" },
+      { text: "IP Registrada", value: "ip", width: "4%", sortable: false, align: "center" },
+      { text: "Colección consultada", value: "coleccion.nombre", width: "10%", sortable: false, align: "center" },
+      { text: "Clasificación documento consultado", value: "clasificacion.nombre", width: "5%", sortable: false , align: "center"},
+      { text: "Documento visualizado", value: "nombre", width: "10%", sortable: false, align: "center" },
+    ],
+    bredItems: [
+        { text: "INICIO", disabled: false, to: { name: `inicio` } },
+        { text: "TEXTOS DOCTRINARIOS", disabled: false, to: { name: `archivos`, props: { id: 1 } }},
+        { text: "AUDITORIA", disabled: true, to: ``},
+    ],
+  }),
+  
   computed: {
-    ...mapGetters(["currentUser"]),
+    ...mapGetters("auditorStore", ["listaAuditoria", "isLoading"]),
   },
   async mounted() {
-    await this.fetchCountDocumentos().then((resp) => {
-      let proce = 0;
-      if (resp.status == 200) {
-        resp.data.forEach((element) => {
-          element.map((item) => {
-            if (item.tipoid >= 1 && item.tipoid <= 26) {
-              proce = proce + item.numero;
-            }
-          });
-          this.cards.map((Element) => {
-            var result = element.filter((a1) => a1.tipoid == Element.id);
-            if (result.length > 0) {
-              Element.count = result[0].numero;
-            }
-            if (Element.id == null) {
-              Element.count = proce;
-            }
-            return Element;
-          });
-        });
-      }
-    });
+    this.getAuditor();
   },
-  beforeMount() {},
   methods: {
-    ...mapActions("procedimientosStore", ["fetchCountDocumentos"]),
+    getFormatFecha(f) {
+      let fechaToISO = new Date(f).toISOString().substring(0, 10);
+      let fecha = `${fechaToISO.substring(8, 10)}/${fechaToISO.substring(5, 7)}/${fechaToISO.substring(0, 4)}`;
+      return fecha;
+    },
+    ...mapActions("auditorStore", ["getAuditor"]),
   },
 };
 </script>
-
-<style scoped>
-title {
-  background: black;
-}
-</style>

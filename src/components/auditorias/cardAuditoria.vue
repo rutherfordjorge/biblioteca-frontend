@@ -3,7 +3,7 @@
         <v-row dense>
             <v-col :key="title">
                 <v-card :hover="to ? true : false" :to="to ? to : null">
-                    <v-card-subtitle class="black--text flex-nowrap overflow-hidden title" :title="title">{{title}}</v-card-subtitle>
+                    <v-card-subtitle class="flex-nowrap overflow-hidden title" :title="title">{{title}}</v-card-subtitle>
                     <v-card-text>
                         <v-img contain :src="src" height="200px"></v-img>
                     </v-card-text>
