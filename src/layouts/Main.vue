@@ -256,6 +256,8 @@ export default {
 		instructivo: '/biblioteca_virtual.pdf', // ruta del informativo o instructivo del sistema
 		nombreSistema: 'Biblioteca Virtual del Ejército', // nombre largo del sistema
 		siglaSistema: 'Biblioteca', // cambiar por nombre corto del sistema
+
+		
 		// menú lateral
 		items: [
 			{

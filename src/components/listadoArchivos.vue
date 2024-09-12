@@ -14,12 +14,15 @@
                     NUEVO ARCHIVO <v-icon right>mdi-plus</v-icon>	
                 </v-btn>
 
-                <v-btn
-                    color="secondary"
-                    dark
-                    class="ma-2"
-                    
-                    v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
+                <!-- esto estaba abajo v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false" -->
+               <v-btn
+                   color="secondary" 
+                   dark
+                   class="ma-2"
+                   @click="openAccess"
+                   v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
+                   to="/usuarios"
+                  
                 >
                     ACCESO <v-icon right>mdi-account-star</v-icon>	
                 </v-btn>
@@ -87,6 +90,13 @@
             disable-pagination
             hide-default-footer
         >
+
+             <!-- <template v-slot:item.estado="{ item }">
+                    {{ item.estadoNombre }}
+             </template>             -->
+
+            
+
             <template v-slot:item.acciones="{ item }">
                 
                 <ver-archivo 
@@ -247,6 +257,22 @@
                                 <v-col 
                                     :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
                                 >
+                                    <v-autocomplete
+                                        v-model="editedItem.estado"
+                                        outlined
+                                        :items="estado"
+                                        item-text="nombre"
+                                        item-value="id"
+                                        label="Estado"
+                                        :hint="`Debe tener al menos un estado.`"
+                                        :rules="rules.required"
+                                    ></v-autocomplete>
+                                </v-col>
+
+
+                                <v-col 
+                                    :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
+                                >
                                     <v-textarea
                                         label="Descripción"
                                         outlined
@@ -302,6 +328,7 @@
 </template>
 
 <script>
+
 import { mapActions, mapGetters } from "vuex";
 import VerArchivo from "@/components/verArchivo"
 import SubirArchivo from "@/components/subirArchivo";
@@ -328,10 +355,9 @@ export default {
         items: 10,
         busqueda: "",
         oldBusqueda: "",
-
-        crearArchivoModal: false,
-
         
+        crearArchivoModal: false,
+              
         validForm: false,
         editedIndex: -1,
         editedItem: {
@@ -342,6 +368,7 @@ export default {
             conocimientoid: null,
             coleccionid: null,
             clasificacionid: null,
+            estado: null,
             nombre: null,
             descripcion: null,
             edicion: null,
@@ -354,6 +381,7 @@ export default {
             conocimientoid: null,
             coleccionid: null,
             clasificacionid: null,
+            estado: null,
             nombre: null,
             descripcion: null,
             edicion: null,
@@ -363,7 +391,8 @@ export default {
 		headers: [
             { text: 'Colección', value: 'coleccion.nombre', align: 'left', sortable: false, width: '15%' },
             { text: 'Nombre / Código', value: 'nombre', align: 'left', sortable: false, width: '15%' },
-            { text: 'Descripción', value: 'descripcion', align: 'left', sortable: false, width: '40%' },
+            { text: 'Descripción', value: 'descripcion', align: 'left', sortable: false, width: '30%' },
+            { text: 'Estado', value: 'estado', align: 'left', sortable: false, width: '10%' },
             { text: 'Edición', value: 'edicion', align: 'left', sortable: false, width: '10%' },
             { text: 'Clasificación', value: 'clasificacion.nombre', align: 'left', sortable: false, width: '10%' },
             { text: 'Acciones', value: 'acciones', align: 'right', sortable: false, width: '10%' },
@@ -378,16 +407,24 @@ export default {
             requiredArea:[
             v => v? v.length < 500 || "El campo debe tener menos de 500 caracteres": "Este campo es requerido",
             ],
+           
         },
         itemsPerPage: [
             5, 10, 50
         ],
-
+   
+        estado: [
+            { id: 1, nombre: "VIGENTE" },
+            { id: 2, nombre: "EN ACTUALIZACION" },
+            { id: 3, nombre: "EN ELABORACION" }
+        ],
         clasificaciones: [],
         colecciones: [],
         años: [],
         conocimiento: null,
+             
     }),
+
     watch: {
         async dialog (val) {
             val || this.close();
@@ -442,6 +479,12 @@ export default {
 
     },
     methods: {
+
+        getEstadoNombre(id) {
+                const estado = this.estados.find(e => e.id === id);
+                return estado ? estado.nombre : 'Desconocido';
+        },
+
         async getData() {
             await this.getArchivos({ 
                 page: this.page,
@@ -449,6 +492,16 @@ export default {
                 search: this.busqueda,
                 conocimientoId: this.conocimientoId,
             });
+
+                // Mapear los IDs de los estados v/s nombres
+        //         this.archivos = this.archivos.map(archivo => {
+        //         const estado = this.estado.find(e => e.id === archivo.estado);
+        //         return {
+        //         ...archivo,
+        //         estadoNombre: estado ? estado.nombre : 'Desconocido'
+        //     };
+        // });
+
         },
 
         open() {
@@ -458,9 +511,15 @@ export default {
             this.crearArchivoModal = true
         },
 
+        openAccess() {
+            this.resetValidation()
+            this.editedIndex = -1
+            this.editedItem = Object.assign({}, this.defaultItem)
+            this.crearArchivoModal = false
+        },
+
         editItem(item) {
             this.resetValidation()
-
             this.editedIndex = this.archivos.indexOf(item);
             this.editedItem = Object.assign({}, item);
             this.crearArchivoModal = true
@@ -469,6 +528,7 @@ export default {
         async save() {
             this.validate();
             if (this.validForm) {
+                
                 if (this.editedIndex > -1) {
                     //debe ser un llamado asincrono para poder ver el resultado en vue sin utilizar promesas.
                     
@@ -478,6 +538,7 @@ export default {
                         conocimientoid: this.editedItem.conocimientoid,
                         coleccionid: this.editedItem.coleccionid,
                         clasificacionid: this.editedItem.clasificacionid,
+                        estado: this.editedItem.estado,
                         nombre: this.editedItem.nombre,
                         descripcion: this.editedItem.descripcion,
                         edicion: this.editedItem.edicion,
@@ -498,6 +559,7 @@ export default {
                         conocimientoid: this.conocimientoId,
                         coleccionid: this.editedItem.coleccionid,
                         clasificacionid: this.editedItem.clasificacionid,
+                        estado: this.editedItem.estado,
                         nombre: this.editedItem.nombre,
                         descripcion: this.editedItem.descripcion,
                         edicion: this.editedItem.edicion,
