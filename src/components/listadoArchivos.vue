@@ -21,7 +21,7 @@
                    class="ma-2"
                    @click="open"
                    v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
-                   
+                   :to="{ name: 'usuarios' }"
                   
                 >
                     ACCESO <v-icon right>mdi-account-star</v-icon>	
@@ -642,6 +642,9 @@ export default {
         ...mapActions("conocimientosStore", [
             "getConocimientoById"
         ]),
+        ...mapActions("auditorStore", [
+            "contarTipoyClasificacion"]),
+
     }
 }
 
