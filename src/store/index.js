@@ -164,7 +164,7 @@ export default new Vuex.Store({
                 context.commit('LOGIN_SUCCESS', response.data);
                 const usuarioConectado = jwtDecode(response.data);
                 
-                if ([0, 161, 221, 222, 223].includes(parseInt(usuarioConectado.Rol))) {
+                if ([0, 161, 221, 222, 223, 501, 502].includes(parseInt(usuarioConectado.Rol))) {
                     router.push({ name: "inicio" });
                 }
                 // Configurar para cada rol
