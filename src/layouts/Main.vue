@@ -103,6 +103,7 @@
 							v-on="on"
 						>
 							{{ currentUser ? currentUser.Nombres: '' }}
+							
 							<v-icon small class="ml-2">
 								mdi-logout
 							</v-icon>
@@ -255,6 +256,8 @@ export default {
 		instructivo: '/biblioteca_virtual.pdf', // ruta del informativo o instructivo del sistema
 		nombreSistema: 'Biblioteca Virtual del Ejército', // nombre largo del sistema
 		siglaSistema: 'Biblioteca', // cambiar por nombre corto del sistema
+
+		
 		// menú lateral
 		items: [
 			{
@@ -277,7 +280,7 @@ export default {
 			{
 				icon: 'mdi-head-cog',
 				route: '/conocimiento',
-				text: "Fuentes Conocimiento",
+				text: "Fuentes Conocimientos",
 				rol: [161],
 				children: []
 			},
@@ -348,6 +351,7 @@ export default {
 		toggleTheme() {
             this.isDarkTheme = !this.isDarkTheme
             this.$vuetify.theme.dark = this.isDarkTheme
+			this.updateChartTheme()
         }
 	}
 };

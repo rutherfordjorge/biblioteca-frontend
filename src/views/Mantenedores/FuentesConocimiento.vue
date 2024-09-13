@@ -1,7 +1,11 @@
 <template>
 	<v-container fluid>
 		<v-row dense>
-			<v-col cols="12" class="text-center"><h1>Fuentes de Conocimiento</h1>
+			<v-col cols="12" class="text-center">
+				<h2>
+				<v-icon>mdi-head-cog</v-icon>
+				Fuentes de Conocimiento
+				</h2>
 			</v-col>
 			<v-col class="text-left" cols="12">
 				<v-btn color="primary" dark class="mb-2" @click="openDialog">
@@ -57,17 +61,18 @@
 							</template>
 							<span>Colecciones</span>
 						</v-tooltip>
-						<!-- <v-tooltip top>
+						
+						<v-tooltip top>
 							<template v-slot:activator="{ on }">
 								<v-icon
 								class="mr-2"
 								v-on="on"
-								@click="editDialogo(item)" 
+								@click="editDialog(item)" 
 								>mdi-pencil
 								</v-icon>
 							</template>
 							<span>Editar</span>
-						</v-tooltip> -->
+						</v-tooltip>
 
 
 						<!-- <v-tooltip top>
@@ -110,7 +115,8 @@
 	>
 		<v-card>
 			<v-card-title class="grey darken-4">
-				<span class="text-h5 white--text">Crear nueva fuente de conocimiento</span>
+				<span v-if="!indexFormulario" class="text-h5 white--text">Crear nueva fuente de conocimiento</span>
+				<span v-else class="text-h5 white--text">Editar fuente de conocimiento</span>
 				<v-spacer />
 				<v-btn 
 					icon
@@ -126,7 +132,6 @@
 				<v-form v-model="validForm" ref="form">
 					<v-container>
 						<v-row>
-
 							<v-col :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'">
 								<v-text-field
 									label="Título"
@@ -189,9 +194,12 @@
 								<v-text-field
 									label="Teléfono(s)"
 									outlined
-									v-model="newItem.fono"
+									v-model="newItem.telefono"
 									counter="50"
-									:rules="rules.textRequired"
+									type="number"
+									hint="Ingrese solo numeros."
+                                    persistent-hint
+									:rules="[rules.onlyNumbers, rules.textRequired]"
 								></v-text-field>
 							</v-col>
 
@@ -223,7 +231,7 @@
 					color="primary"
 					@click="save"
 				>
-					Guardar
+					Guardar<v-icon right>mdi-content-save</v-icon>
 				</v-btn>
 			</v-card-actions>
 		</v-card>
@@ -281,6 +289,7 @@ export default {
 	props: ["item", "edit", "organizacion"],
 	data() {
 		return {
+			indexFormulario: false,
 			imagen: null,
 			fuentesConocimiento: [],
 			dialogNew: false,
@@ -294,7 +303,7 @@ export default {
 				titulo: null,
 				descripcion: null,
 				contacto: null,
-				fono: null,
+				telefono: null,
 				correo: null,
 				imagen: null,
 			},
@@ -303,7 +312,7 @@ export default {
 				titulo: null,
 				descripcion: null,
 				contacto: null,
-				fono: null,
+				telefono: null,
 				correo: null,
 				imagen: null,
 			},
@@ -319,8 +328,11 @@ export default {
 				image:[
 					// (1 * 1024 * 1024) = 1 MB
 					v => !!v || "Este campo es requerido",
-					v => !v || v.size < (1 * 1024 * 1024)/4 || 'La imágen debe ser de un máximo de 250kb.',
-				]
+					v => !v || v.size < ((1 * 1024 * 1024)/4) * 10 || 'La imágen debe ser de un máximo de 250kb.',
+				],
+				onlyNumbers:[
+					v => !!v || 'Ingrese solo números',
+				],
 			},
 		};
 	},
@@ -337,6 +349,7 @@ export default {
 		...mapActions("conocimientosStore", [
 			"getConocimiento",
 			"postConocimiento",
+			"putConocimiento",
 			"putOrdenConocimiento",
 		]),
 
@@ -370,6 +383,7 @@ export default {
 		},
 
 		openDialog() {
+			this.indexFormulario = false;
 			this.newItem = Object.assign({}, this.defaultItem);
 			this.resetValidation()
 			this.$nextTick(() => {
@@ -378,6 +392,7 @@ export default {
 		},
 
 		editDialog(item) {
+			this.indexFormulario = true;
 			this.newItem = Object.assign({}, item);
 			this.resetValidation()
 			this.$nextTick(() => {
@@ -387,36 +402,68 @@ export default {
 
 		async save() {
 			this.validate();
-            if (this.validForm) {			
-				this.imagen = await this.toBase64(this.newItem.imagen);
-				const payload = {
-					ROLID: this.newItem.rolid,
-					TITULO: this.newItem.titulo,
-					DESCRIPCION: this.newItem.descripcion,
-					IMAGEN: this.imagen,
-					CONTACTO: this.newItem.contacto,
-					TELEFONO: this.newItem.fono,
-					CORREO: this.newItem.correo,
-				}
-				const resp = await this.postConocimiento(payload);
-				if (resp.status == 200) {
-					toastr.success("Se ha agregado una nueva fuente de conocimiento correctamente", "Éxito!")
-					await this.getData()
-					this.dialogNew = false
+            if (this.validForm) {
+				if (this.indexFormulario) {
+					this.imagen = await this.toBase64(this.newItem.imagen);
+					const payload = {
+						ID: this.newItem.id,
+						ROLID: this.newItem.rolid,
+						TITULO: this.newItem.titulo,
+						DESCRIPCION: this.newItem.descripcion,
+						IMAGEN: this.imagen,
+						CONTACTO: this.newItem.contacto,
+						TELEFONO: this.newItem.telefono,
+						CORREO: this.newItem.correo,
+					}
+					const resp = await this.putConocimiento(payload);
+					if (resp.status == 200) {
+						toastr.success("Se ha editado la fuente de conocimiento correctamente", "Éxito!")
+						await this.getData()
+						this.dialogNew = false
+					}
+					else {
+						toastr.error("Ha ocurrido un error", "Error!")
+						this.dialogNew = false
+					}	
 				}
 				else {
-					toastr.error("Ha ocurrido un error", "Error!")
-				}
+					this.imagen = await this.toBase64(this.newItem.imagen);
+					const payload = {
+						ROLID: this.newItem.rolid,
+						TITULO: this.newItem.titulo,
+						DESCRIPCION: this.newItem.descripcion,
+						IMAGEN: this.imagen,
+						CONTACTO: this.newItem.contacto,
+						TELEFONO: this.newItem.telefono,
+						CORREO: this.newItem.correo,
+					}
+					const resp = await this.postConocimiento(payload);
+					if (resp.status == 200) {
+						toastr.success("Se ha agregado una nueva fuente de conocimiento correctamente", "Éxito!")
+						await this.getData()
+						this.dialogNew = false
+					}
+					// else {
+					// 	toastr.error("Ha ocurrido un error", "Error!")
+					// 	this.dialogNew = false
+					// }	
+				}			
 			}
+			else
+			{
+				console.log("Ediccion")
+				this.dialogNew = false
+			}
+			this.indexFormulario = false;
 		},
 		
         resetValidation(){
-            if(this.$refs.form) 
+            if(this.$refs.form)
                 this.$refs.form.resetValidation(); // limpia los mensajes de validación de formulario abiertos previamente
         },
         
         validate() {
-            this.$refs.form.validate();
+            return this.$refs.form.validate();
         },
 
 		toBase64: (file) => new Promise((resolve, reject) => {
@@ -425,7 +472,7 @@ export default {
             reader.onload = () => resolve(reader.result);
             reader.onerror = (error) => reject(error);
         }),
-
+		
 	},
 };
 </script>

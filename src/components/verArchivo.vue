@@ -136,13 +136,13 @@ export default {
                 this.isUploading = true
 
                 const res = await this.getCountArchivo(this.item.digitalid);
-
+                
                 if (res.status == 200) {
                     for (let index = 1; index <= res.data; index++) {
                         this.progreso = Math.trunc((index / res.data) * 100);
                         var param = { id: this.item.digitalid, bloque: index };
                         const res2 = await this.getArchivo(param);
-
+                        
                         if (res2.status == 200 && res2.data.basE64.length != 0) {
                             this.documento += res2.data.basE64;
                         } else {

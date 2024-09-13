@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row dense>
-      <v-breadcrumbs class="font-weight-medium" :items="bredItems" large />
+      <breadcrumb :items="bredItems"  />
       <v-spacer></v-spacer>
     </v-row>
     <v-col cols="12" class="text-center">
@@ -9,10 +9,10 @@
     </v-col>
     <v-row dense class="text-justify">
       <v-col cols="12" class="px-4">
-        <v-card elevation="1" color="#e9f3ff">
+        <v-card elevation="1">
           <v-card-text>
-            <b>En esta sección, podrá visualizar la cantidad de usuarios, y sus atributos dentro de la Biblioteca Virtual.
-              Recuerde que a la derecha de cada gráfico, puede descargar una imagen de dicha estadística, en el formato que sea conveniente.</b>
+            <b>En esta sección, podrá visualizar la cantidad de usuarios, y sus atributos dentro del módulo de textos doctrinarios.
+              Se encuentran segmentados los perfiles como Operador DIVDOC, personal con acceso a reglamentos reservados y personal con acceso a textos reservados y secretos.</b>
           </v-card-text>
         </v-card>
       </v-col>
@@ -34,26 +34,36 @@
 <script>
 import { mapActions } from "vuex";
 import VueApexCharts from "vue-apexcharts";
+import Breadcrumb from "@/components/base/breadcrumb.vue";
 
 export default {
   name: "Accesos",
   components: {
     apexchart: VueApexCharts,
+    Breadcrumb
+
   },
   data() {
     return {
       bredItems: [
-        { text: "Inicio", disabled: false, href: `/inicio` },
-        { text: "Estadística", disabled: false, href: `/estadistica` },
-        { text: "Estadística de Accesos", disabled: true, href: `/estadistica/accesos` },
+          { text: "INICIO", disabled: false, to: { name: `inicio` } },
+          { text: "TEXTOS DOCTRINARIOS", disabled: false, to: { name: `archivos`, props: { id: 1 } }},
+          { text: "MODULO DE ESTADISTICAS", disabled: false, to: { name: `estadistica`}},
+          { text: "ESTADISTICA DE ACCESOS", disabled: true, to: `` },
       ],
       chartSeries: [],
       chartOptions: {
+        title: { text: "Estadísticas de grados de acceso usuarios", align: "center"},
         chart: {
           type: 'pie',
           align: 'center'
         },
-        labels: ['Usuarios Estandar', 'Usuarios DIVDOC', 'Usuarios Acceso Reservados', 'Usuarios Acceso Secretos'],
+        labels: ['Usuarios Acceso Reservados', 'Usuarios Acceso Secretos', "Operadores DIVDOC"],
+        colors: [
+          '#FFC107', // Reservado
+          '#D32F2F', // Secreto
+          '#388E3C' // Operadores DIVDOC
+        ],
         legend: {
           position: 'bottom',
           align: 'center'
@@ -71,7 +81,6 @@ export default {
   async mounted() {
     try {
       const resp = await this.contarUsuarios();
-      // console.log("RESPUESTA COMPLETA DEL ENDPOINT:", resp.data);
 
       if (resp.status === 200) {
         this.setChartData(resp.data);
@@ -81,15 +90,20 @@ export default {
       console.error("Error en mounted:", error);
       this.isLoading = false;
     }
+    this.$root.$on("toggleTheme", this.updateChartThemes);
+    this.updateChartThemes(); // Aplica la configuración correcta del tema al cargar
+  },
+  beforeDestroy() {
+    // Elimina el oyente del evento para evitar fugas de memoria
+    this.$root.$off("toggleTheme", this.updateChartThemes);
   },
   methods: {
     ...mapActions("auditorStore", ["contarUsuarios"]),
     setChartData(data) {
       const totalSeries = [
-        data.conteoEstandar,
-        data.conteoDivDoc,
-        data.conteoReservados,
-        data.conteoSecretos
+        data.tipoAccesoIdReservado.usuarioCount,
+        data.tipoAccesoIdSecreto.usuarioCount,
+        data.tipoAccesoDivdoc.usuarioCount, 
       ];
 
       this.chartSeries = totalSeries.map(item => {
@@ -97,7 +111,17 @@ export default {
         return Number(item) || 0;
       });
 
-    }
+    },
+    updateChartThemes() {
+      const textColor = !this.isDarkTheme ? '#999999' : '#999999';
+      
+      // Actualizar opciones de los gráficos para el tema oscuro
+      this.chartOptions.title.style = { color: textColor };
+      this.chartOptions.legend.labels = { colors: [textColor, textColor, textColor] };
+
+      this.$set(this, 'chartOptions', {...this.chartOptions});
+    },
+    
   },
 };
 </script>

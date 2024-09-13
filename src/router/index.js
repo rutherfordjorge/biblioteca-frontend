@@ -75,26 +75,6 @@ const routes = [
         }
     },
     {
-        path: "/inicio/:id/auditoria/usuarios",
-        name: "auditoria-usuarios",
-        component: () => import( /*webpackChunkName:"auditoria-usuarios"*/ "@/views/auditorias/AuditoriaUsuarios.vue"),
-        meta: {
-            requiresAuth: true,
-            whoCan: [161,221],
-            layout: MainLayout
-        }
-    },
-    {
-        path: "/inicio/:id/auditoria/visualizaciones",
-        name: "auditoria-visualizaciones",
-        component: () => import( /*webpackChunkName:"auditoria-visualizaciones"*/ "@/views/auditorias/AuditoriaVisualizaciones.vue"),
-        meta: {
-            requiresAuth: true,
-            whoCan: [161,221],
-            layout: MainLayout
-        }
-    },
-    {
         path: "/inicio/:id/estadistica",
         name: "estadistica",
         component: () => import( /*webpackChunkName:"estadistica"*/ "@/views/auditorias/Estadistica.vue"),

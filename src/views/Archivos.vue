@@ -29,7 +29,7 @@ export default {
                     to: { name: `inicio` }
                 },
             ],
-            archivos: [],
+            archivos: [4],
         }
     },
 	computed: {    

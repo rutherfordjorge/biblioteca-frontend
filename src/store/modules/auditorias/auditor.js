@@ -5,7 +5,6 @@ export default {
     state: {
         listaAuditoria: [],
         loading: false,
-        listaDocumentosUsuario: [], 
         contarTipoyClasificacion: {},
         contarUsuarios: {},
         contarTipoID: {},
@@ -21,9 +20,6 @@ export default {
         ADD_LISTA_AUDITORIA(state, listaAuditoria) {
             state.listaAuditoria = listaAuditoria;
         },
-        ADD_LISTA_DOCUMENTOS_USUARIO(state, listaDocumentosUsuario) { 
-            state.listaDocumentosUsuario = listaDocumentosUsuario;       
-        },
         ADD_COUNT_BY_TIPOID_AND_CLASIFICACION(state, data){
             state.contarTipoyClasificacion = data;
         },
@@ -38,16 +34,15 @@ export default {
         }
     },
     actions: {
-        async getAuditoria(context) {
+        async getAuditor(context) {
             context.commit('GETTING_DATA');
-            return axios.get(`${process.env.VUE_APP_BASE_URL_API}/Auditores/getIPUsuario`, {
+            return axios.get(`${process.env.VUE_APP_BASE_URL_API}/AuditorDocumentos/getAuditor`, {
                 headers: {
                     "Authorization": `bearer ${context.rootState.token}`
                 }
             }).then((res) => {
                 context.commit('ADD_LISTA_AUDITORIA', res.data);
                 context.commit('END_GETTING_DATA');
-                console.log(res);
                 return res;
             })
             .catch((error) => {
@@ -55,24 +50,7 @@ export default {
                 return error;
             });
         },
-        async getVerDocumentoPorUsuario(context) { 
-            context.commit('GETTING_DATA');
-            return axios.get(`${process.env.VUE_APP_BASE_URL_API}/AuditorDocumentos/getVerDocumentoPorUsuario`, {
-                headers: {
-                    "Authorization": `bearer ${context.rootState.token}`
-                }
-            }).then((res) => {
-                context.commit('ADD_LISTA_DOCUMENTOS_USUARIO', res.data);
-                context.commit('END_GETTING_DATA');
-                console.log(res);
-                return res;
-            })
-            .catch((error) => {
-                context.commit('END_GETTING_DATA');
-                return error;
-            });
-        },
-        async contarTipoyClasificacion(context) { 
+        async contarTipoyClasificacion(context) { //ESTADISTICAS DE TEXTOS
             context.commit('GETTING_DATA');
             return axios.get(`${process.env.VUE_APP_BASE_URL_API}/EstadisticaDocumentos/getCountByTipoIdAndClasificacion`, {
                 headers: {
@@ -81,7 +59,7 @@ export default {
             }).then((res) => {
                 context.commit('ADD_COUNT_BY_TIPOID_AND_CLASIFICACION', res.data);
                 context.commit('END_GETTING_DATA');
-                console.log(res);
+                console.log(res)
                 return res;
             })
             .catch((error) => {
@@ -89,7 +67,7 @@ export default {
                 return error;
             });
         },
-        async contarUsuarios(context) { 
+        async contarUsuarios(context) { //ESTADISTICAS DE ACCESOS
             context.commit('GETTING_DATA');
             return axios.get(`${process.env.VUE_APP_BASE_URL_API}/EstadisticaDocumentos/getCountUsuarios`, {
                 headers: {
@@ -98,7 +76,6 @@ export default {
             }).then((res) => {
                 context.commit('ADD_USUARIO_COUNT', res.data);
                 context.commit('END_GETTING_DATA');
-                console.log(res);
                 return res;
             })
             .catch((error) => {
@@ -106,7 +83,7 @@ export default {
                 return error;
             });
         },
-        async contarTipoID(context) {
+        async contarTipoID(context) { //ESTADISTICAS DE VISUALIZACIONES
             context.commit('GETTING_DATA');
             return axios.get(`${process.env.VUE_APP_BASE_URL_API}/EstadisticaDocumentos/getUsuarioTipoID`, {
                 headers: {
@@ -115,7 +92,6 @@ export default {
             }).then((res) => {
                 context.commit('ADD_USUARIO_TIPOID', res.data);
                 context.commit('END_GETTING_DATA');
-                console.log(res);
                 return res;
             })
             .catch((error) => {
@@ -123,7 +99,7 @@ export default {
                 return error;
             });
         },
-        async contarVisitas(context) {
+        async contarVisitas(context) { //ESTADISTICAS DE USUARIOS CHECK !!
             context.commit('GETTING_DATA');
             return axios.get(`${process.env.VUE_APP_BASE_URL_API}/EstadisticaDocumentos/getFechaVisitas`, {
                 headers: {
@@ -132,7 +108,6 @@ export default {
             }).then((res) => {
                 context.commit('ADD_VISITAS_COUNT', res.data);
                 context.commit('END_GETTING_DATA');
-                console.log(res);
                 return res;
             })
             .catch((error) => {
@@ -148,9 +123,6 @@ export default {
         },
         listaAuditoria(state) { //ANDANDO
             return state.listaAuditoria;
-        },
-        listaDocumentosUsuario(state) {  //ANDANDO
-            return state.listaDocumentosUsuario;
         },
         contarTipoyClasificacion(state){ // ANDANDO
             return state.contarTipoyClasificacion;
