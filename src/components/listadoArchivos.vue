@@ -16,12 +16,12 @@
 
                 <!-- esto estaba abajo v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false" -->
                <v-btn
-                   color="secondary" 
+                   color="teal" 
                    dark
                    class="ma-2"
-                   @click="openAccess"
+                   @click="open"
                    v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
-                   to="/usuarios"
+                   :to="{ name: 'usuarios' }"
                   
                 >
                     ACCESO <v-icon right>mdi-account-star</v-icon>	
@@ -511,12 +511,12 @@ export default {
             this.crearArchivoModal = true
         },
 
-        openAccess() {
-            this.resetValidation()
-            this.editedIndex = -1
-            this.editedItem = Object.assign({}, this.defaultItem)
-            this.crearArchivoModal = false
-        },
+        // openAccess() {
+        //     this.resetValidation()
+        //     this.editedIndex = -1
+        //     this.editedItem = Object.assign({}, this.defaultItem)
+        //     this.crearArchivoModal = true
+        // },
 
         editItem(item) {
             this.resetValidation()
@@ -642,6 +642,9 @@ export default {
         ...mapActions("conocimientosStore", [
             "getConocimientoById"
         ]),
+        ...mapActions("auditorStore", [
+            "contarTipoyClasificacion"]),
+
     }
 }
 

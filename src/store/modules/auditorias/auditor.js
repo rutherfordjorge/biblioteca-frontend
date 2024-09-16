@@ -43,6 +43,7 @@ export default {
             }).then((res) => {
                 context.commit('ADD_LISTA_AUDITORIA', res.data);
                 context.commit('END_GETTING_DATA');
+                console.log(res);
                 return res;
             })
             .catch((error) => {

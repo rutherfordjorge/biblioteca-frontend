@@ -222,6 +222,20 @@
 
                                 <v-col cols="12">
                                     <v-autocomplete
+                                        v-model="editedItem.rol"
+                                        outlined
+                                        :items="permisos"
+                                        item-text="nombre"
+                                        item-value="id"
+                                        label="Permisos"
+                                        return-object
+                                        :disabled="!editedItem.run ? true : false"
+                                    ></v-autocomplete>
+                                </v-col>
+
+
+                                <v-col cols="12">
+                                    <v-autocomplete
                                         v-model="editedItem.unidad"
                                         outlined
                                         :items="unidades"
@@ -370,6 +384,11 @@ export default {
         estados: [
             { id: 1, nombre: 'Activo'},
             { id: 0, nombre: 'Borrado'},
+        ],
+        permisos: [
+            { id: 1, nombre: 'Publico'},
+            { id: 2, nombre: 'Reservado'},
+            { id: 3, nombre: 'Privado'},
         ],
     }),
     computed: {
