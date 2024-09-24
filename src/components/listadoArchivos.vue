@@ -21,7 +21,7 @@
                    class="ma-2"
                    @click="open"
                    v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
-                   :to="{ name: 'usuarios' }"
+                   :to="{ name: 'auditoria', params: { id: conocimientoId } }"
                   
                 >
                     ACCESO <v-icon right>mdi-account-star</v-icon>	
@@ -357,7 +357,6 @@ export default {
         oldBusqueda: "",
         
         crearArchivoModal: false,
-              
         validForm: false,
         editedIndex: -1,
         editedItem: {
@@ -373,6 +372,7 @@ export default {
             descripcion: null,
             edicion: null,
             meta: null,
+            
         },
 
         defaultItem: {
@@ -386,6 +386,7 @@ export default {
             descripcion: null,
             edicion: null,
             meta: null,
+        
         },
 
 		headers: [
@@ -414,14 +415,14 @@ export default {
         ],
    
         estado: [
-            { id: 1, nombre: "VIGENTE" },
-            { id: 2, nombre: "EN ACTUALIZACION" },
-            { id: 3, nombre: "EN ELABORACION" }
-        ],
+            { id: 1, nombre: 'VIGENTE' },
+            { id: 2, nombre: 'EN ACTUALIZACIÓN' },
+            { id: 3, nombre: 'EN ELABORACIÓN' }],
         clasificaciones: [],
         colecciones: [],
         años: [],
         conocimiento: null,
+        
              
     }),
 
@@ -491,6 +492,7 @@ export default {
                 items: this.items,
                 search: this.busqueda,
                 conocimientoId: this.conocimientoId,
+                
             });
 
                 // Mapear los IDs de los estados v/s nombres
