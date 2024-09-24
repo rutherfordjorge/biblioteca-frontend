@@ -15,14 +15,12 @@
                 </v-btn>
 
                 <!-- esto estaba abajo v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false" -->
-               <v-btn
-                   color="teal" 
-                   dark
-                   class="ma-2"
-                   @click="open"
-                   v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
-                   :to="{ name: 'auditoria', params: { id: conocimientoId } }"
-                  
+                <v-btn
+                    color="secondary" 
+                    dark
+                    class="ma-2"
+                    @click="openAccess"
+                    v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
                 >
                     ACCESO <v-icon right>mdi-account-star</v-icon>	
                 </v-btn>
@@ -32,7 +30,7 @@
                     color="secondary"
                     outlined
                     class="ma-2"
-                    v-if="conocimiento != null ? conocimiento.rolid == '221' : false"
+                    v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
                     :to="{ name: `estadistica`, params: { id: conocimientoId } }"
                 >
                     ESTADÍSTICAS <v-icon right>mdi-chart-histogram</v-icon>	
@@ -43,7 +41,7 @@
                     color="secondary"
                     outlined
                     class="ma-2"
-                    v-if="conocimiento != null ? conocimiento.rolid == '221' : false"
+                    v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
                     :to="{ name: `auditoria`, params: { id: conocimientoId } }"
                 >
                     AUDITORÍA <v-icon right>mdi-book-open-page-variant</v-icon>	
@@ -90,24 +88,22 @@
             disable-pagination
             hide-default-footer
         >
-
-             <!-- <template v-slot:item.estado="{ item }">
-                    {{ item.estadoNombre }}
-             </template>             -->
-
-            
+            <!-- Imprime descripcion del estado del archivo -->
+            <template v-slot:item.estado="{ item }">
+                {{ item.estadO_SIGLA.nombre }}
+            </template>
 
             <template v-slot:item.acciones="{ item }">
                 
                 <ver-archivo 
                     :key="item.id" 
                     :item="item"
-                    v-if="item.digitalid != null && (item.clasificacionid == 1 || conocimiento.rolid == parseInt(currentUser.Rol))"
+                    v-if="item.digitalid != null && (item.acceso || conocimiento.rolid == parseInt(currentUser.Rol))"
                 />
 
                 <v-tooltip
                     top
-                    v-if="item.digitalid != null && item.clasificacionid != 1 && conocimiento.rolid != parseInt(currentUser.Rol)"
+                    v-if="item.digitalid != null && !item.acceso && conocimiento.rolid != parseInt(currentUser.Rol)"
                 >
                     <template v-slot:activator="{ on }">
                         <v-btn
@@ -170,7 +166,7 @@
                 <br />
             </v-col>
         </v-row>
-
+        
         <!-- Dialog crear archivo -->
         <v-dialog 
             v-model="crearArchivoModal"
@@ -253,22 +249,6 @@
                                         :rules="rules.required"
                                     ></v-autocomplete>
                                 </v-col>
-                                
-                                <v-col 
-                                    :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
-                                >
-                                    <v-autocomplete
-                                        v-model="editedItem.estado"
-                                        outlined
-                                        :items="estado"
-                                        item-text="nombre"
-                                        item-value="id"
-                                        label="Estado"
-                                        :hint="`Debe tener al menos un estado.`"
-                                        :rules="rules.required"
-                                    ></v-autocomplete>
-                                </v-col>
-
 
                                 <v-col 
                                     :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
@@ -294,6 +274,21 @@
                                         hint="Ejemplo: Autor, Editorial, ISBN, etc."
                                         persistent-hint
                                     ></v-textarea>
+                                </v-col>
+                                
+                                <v-col 
+                                    :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
+                                >
+                                    <v-autocomplete
+                                        v-model="editedItem.estado"
+                                        outlined
+                                        :items="estado"
+                                        item-text="nombre"
+                                        item-value="id"
+                                        label="Estado"
+                                        :hint="`Debe tener al menos un estado.`"
+                                        :rules="rules.required"
+                                    ></v-autocomplete>
                                 </v-col>
 
                             </v-row>
@@ -324,6 +319,35 @@
             
         </v-dialog>
 
+        <!-- Dialog de accesos -->
+        <v-dialog 
+            v-model="accesosModal"
+            persistent
+            :max-width="$vuetify.breakpoint.mdAndUp ? '60vw' : '90vw'"
+        >
+            <v-card>
+                <v-card-title class="grey darken-4">
+                    <span class="text-h5 white--text">Control de Acceso</span>
+                    <v-spacer />
+                    <v-btn 
+                        icon
+                        dark
+                        size="x-small"
+                        class="float-end ma-2"
+                        @click="accesosModal = false"
+                    >
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-card-title>
+                <v-card-text>
+                
+                    <accesos v-if="this.currentUser.Rol" :conocimientoId="conocimientoId" />
+
+                </v-card-text>
+            </v-card>
+            
+        </v-dialog>
+
     </v-container>
 </template>
 
@@ -332,6 +356,9 @@
 import { mapActions, mapGetters } from "vuex";
 import VerArchivo from "@/components/verArchivo"
 import SubirArchivo from "@/components/subirArchivo";
+
+// Accesos
+import Accesos from "@/components/accesos";
 
 // Notificación
 import toastr from 'toastr'
@@ -348,6 +375,7 @@ export default {
     components: {
 		VerArchivo,
         SubirArchivo,
+        Accesos,
 	},
 	data: () => ({
         page: 1,
@@ -357,6 +385,7 @@ export default {
         oldBusqueda: "",
         
         crearArchivoModal: false,
+        accesosModal:false,
         validForm: false,
         editedIndex: -1,
         editedItem: {
@@ -393,9 +422,9 @@ export default {
             { text: 'Colección', value: 'coleccion.nombre', align: 'left', sortable: false, width: '15%' },
             { text: 'Nombre / Código', value: 'nombre', align: 'left', sortable: false, width: '15%' },
             { text: 'Descripción', value: 'descripcion', align: 'left', sortable: false, width: '30%' },
-            { text: 'Estado', value: 'estado', align: 'left', sortable: false, width: '10%' },
             { text: 'Edición', value: 'edicion', align: 'left', sortable: false, width: '10%' },
             { text: 'Clasificación', value: 'clasificacion.nombre', align: 'left', sortable: false, width: '10%' },
+            { text: 'Estado', value: 'estado', align: 'left', sortable: false, width: '10%' },
             { text: 'Acciones', value: 'acciones', align: 'right', sortable: false, width: '10%' },
         ],
         rules: {
@@ -406,24 +435,17 @@ export default {
                 v => v.length > 0 || "Este campo es requerido",
             ],
             requiredArea:[
-            v => v? v.length < 500 || "El campo debe tener menos de 500 caracteres": "Este campo es requerido",
+                v => v? v.length < 500 || "El campo debe tener menos de 500 caracteres": "Este campo es requerido",
             ],
-           
         },
         itemsPerPage: [
             5, 10, 50
         ],
-   
-        estado: [
-            { id: 1, nombre: 'VIGENTE' },
-            { id: 2, nombre: 'EN ACTUALIZACIÓN' },
-            { id: 3, nombre: 'EN ELABORACIÓN' }],
+        estado: [],
         clasificaciones: [],
         colecciones: [],
         años: [],
         conocimiento: null,
-        
-             
     }),
 
     watch: {
@@ -476,6 +498,11 @@ export default {
             this.conocimiento = respCon.data
         }
 
+        const respEst = await this.getEstados()
+        if (respEst.status == 200) {
+            this.estado = respEst.data
+        }
+
         await this.getData()
 
     },
@@ -492,7 +519,6 @@ export default {
                 items: this.items,
                 search: this.busqueda,
                 conocimientoId: this.conocimientoId,
-                
             });
 
                 // Mapear los IDs de los estados v/s nombres
@@ -513,12 +539,9 @@ export default {
             this.crearArchivoModal = true
         },
 
-        // openAccess() {
-        //     this.resetValidation()
-        //     this.editedIndex = -1
-        //     this.editedItem = Object.assign({}, this.defaultItem)
-        //     this.crearArchivoModal = true
-        // },
+        openAccess() {
+            this.accesosModal = true
+        },
 
         editItem(item) {
             this.resetValidation()
@@ -634,7 +657,8 @@ export default {
             "getArchivos",
             "postArchivo",
             "putArchivo",
-            "getClasificacion"
+            "getClasificacion",
+            "getEstados"
         ]),
 
         ...mapActions("coleccionesStore", [

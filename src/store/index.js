@@ -17,6 +17,8 @@ import coleccionesStore from "@/store/modules/colecciones";
 import bibliotecaStore from "@/store/modules/archivos";
 import logArchivosStore from "@/store/modules/logArchivos";
 
+import accesosStore from "@/store/modules/accesos";
+
 // auditorias
 import auditorStore from "@/store/modules/auditorias/auditor";
 
@@ -246,6 +248,7 @@ export default new Vuex.Store({
         coleccionesStore,
         bibliotecaStore,
         logArchivosStore,
+        accesosStore,
         // Auditorias
         auditorStore,
 	}

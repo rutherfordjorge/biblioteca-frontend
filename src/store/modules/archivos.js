@@ -38,10 +38,11 @@ export default {
                 }
             }).then(res => {
                 if (store) {
-                    context.commit('ADD_ARCHIVOS', res.data.respuesta);
-                    context.commit('ADD_PAGINAS', Math.ceil(res.data.totalRegistros/parseInt(items == '' ? res.data.totalRegistros : items)));
-                    context.commit('END_GETTING_DATA');
+                    context.commit('ADD_ARCHIVOS', res.data.respuesta)
+                    context.commit('ADD_PAGINAS', Math.ceil(res.data.totalRegistros/parseInt(items == '' ? res.data.totalRegistros : items)))
+                    context.commit('END_GETTING_DATA')
                 }
+                console.log('archivos: ', res.data.respuesta)
                 return res;
             })
             .catch(error => {
@@ -144,6 +145,22 @@ export default {
                 console.log('Se produjo un error al editar el documento.');
                 return error.response;
             })
+        },
+
+        async getEstados(context){
+            
+            return axios.get(`${url}/getEstados`,{
+                headers: {
+                    "Authorization": `bearer ${context.rootState.token}`
+                }
+            }).then(res => {
+                return res;
+            })
+            .catch(error => {
+                console.log('Se produjo un error al cargar el listado');
+                return error.response;
+            })
+            
         },
     },
     getters:{
