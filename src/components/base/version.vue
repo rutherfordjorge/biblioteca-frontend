@@ -1,20 +1,26 @@
 <template>
 	<v-row>
 		<v-col cols="12">
-			<v-btn text @click="dialog = true">versión 2.0.2</v-btn>
+			<v-btn text @click="dialog = true">versión 2.0.3</v-btn>
 		</v-col>
-		<v-dialog v-model="dialog" max-width="500px" top>
+		<v-dialog v-model="dialog" max-width="650px" top>
 			<v-card>
-				<v-card-title class="headline">Versión 2.0.2</v-card-title>
+				<v-card-title class="headline">Versión 2.0.3</v-card-title>
 				<v-card-text>
-					+ Se agrego un nuevo modulo.  <br>
-					+ Se cambio Tesis militares por Investigaciones militares.  <br>
+					+ Se agrega la función Eliminar para los operadores del sistema.  <br>
+					+ Habilitacíon del botón "Acceso" para la documentación Reservada y Secreta.  <br>
+					+ Se agrega el campo "Estado" para las publicaciones Vigentes o En elaboración.  
+					<v-card-title>Versión 2.0.2</v-card-title>
+						<v-card-text>
+						+ Se agrego un nuevo modulo.  <br>
+						+ Se cambio Tesis militares por Investigaciones militares.  
+						</v-card-text>
 					<v-card-title>Versión 2.0.1</v-card-title>
 					    <v-card-text>
 						+ Cambios en las visualizaciones y entorno.  <br>
 						+ Mejoras en la seguridad de la aplicación.  <br>
 						+ Se agregaron mas Componentes iniciales.	 <br>
-						+ Se pueden editar las Fuentes de Conocimiento.  <br>
+						+ Se pueden editar las Fuentes de Conocimiento.  
 						</v-card-text>
 				</v-card-text>
 				<v-card-actions>
