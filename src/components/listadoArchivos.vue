@@ -151,6 +151,71 @@
                 </v-tooltip>
                 <!-- v-if="item.materia.clasificacion != 'S'" -->
                 
+                <!-- para borrar -->
+
+                <v-tooltip 
+                    top
+                    v-if="conocimiento.rolid == parseInt(currentUser.Rol)"
+                >
+                    <template v-slot:activator="{ on }">
+                        <v-btn icon v-on="on" @click="DeleteArchivo(item)">
+                            <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Eliminar Documento</span>
+                </v-tooltip>  
+
+                    <!-- para confirmar borrar -->
+                    
+                    <v-dialog 
+                    v-model="deleteDialog"
+                    persistent
+                    :max-width="$vuetify.breakpoint.mdAndUp ? '50vw' : '80vw'"
+                    >
+                        <v-card>
+                            <v-card-title class="primary">
+                                <span class="white--text">
+                                    Eliminar Acceso
+                                </span>
+                            <v-spacer />
+                            <v-btn dark icon @click="deleteDialog = false">
+                            <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                            </v-card-title>
+                        <v-card-text>
+                            <v-row>
+                                <v-col cols="12" class="pt-10">
+                                    <v-alert
+                                    type="error"
+                                    prominent
+                                    border="left"
+                                    outlined
+                                    >
+                                    Está a punto de quitar este registro, esta acción es permanente, ¿desea continuar?.
+                                    </v-alert>
+                                </v-col>
+                            </v-row>
+                        </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                            <v-btn
+                            color="secondary"
+                            outlined
+                            @click="deleteDialog = false"
+                            >
+                            No, Cancelar
+                            </v-btn>
+                        <v-btn
+                        color="primary"
+                        @click="confirmDeleteArchivo"
+                        >
+                        Si, Quitar
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+
+
             </template>
         </v-data-table>
 
@@ -383,7 +448,8 @@ export default {
         items: 10,
         busqueda: "",
         oldBusqueda: "",
-        
+        deleteDialog: false,
+        idArchivoEliminar: null,
         crearArchivoModal: false,
         accesosModal:false,
         validForm: false,
@@ -521,6 +587,7 @@ export default {
                 conocimientoId: this.conocimientoId,
             });
 
+                
                 // Mapear los IDs de los estados v/s nombres
         //         this.archivos = this.archivos.map(archivo => {
         //         const estado = this.estado.find(e => e.id === archivo.estado);
@@ -548,6 +615,32 @@ export default {
             this.editedIndex = this.archivos.indexOf(item);
             this.editedItem = Object.assign({}, item);
             this.crearArchivoModal = true
+        },
+
+        //funcion para borrar
+
+        async DeleteArchivo(item){
+            // console.log('elimina: ', item.id)
+        this.idArchivoEliminar = item.id
+        this.deleteDialog = true
+        },
+
+        async confirmDeleteArchivo(){
+            // await this.deleteArchivo(item.id)
+            this.deleteArchivo(this.idArchivoEliminar).then(async resp => {
+                if (resp.status == 200) {
+                    toastr.success("Se ha eliminado el archivo correctamente", "Éxito!")
+                    await this.getData()
+                }
+                else {
+                    toastr.error("Ha ocurrido un problema al eliminar el registro.", "Error")
+                }
+            })
+            await this.getData()
+            this.deleteDialog = false
+            // await setTimeout(() => {
+            
+            // }, 300);
         },
 
         async save() {
@@ -658,7 +751,8 @@ export default {
             "postArchivo",
             "putArchivo",
             "getClasificacion",
-            "getEstados"
+            "getEstados",
+            "deleteArchivo"
         ]),
 
         ...mapActions("coleccionesStore", [

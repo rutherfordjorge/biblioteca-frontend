@@ -75,7 +75,6 @@
                     </template>
                     <span>Eliminar Acceso</span>
                 </v-tooltip>
-                
             </template>
             
             <!-- PERSONALZACIÓN DE LA TABLA -->
