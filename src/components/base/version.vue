@@ -7,6 +7,8 @@
 			<v-card>
 				<v-card-title class="headline">Versión 2.0.3</v-card-title>
 				<v-card-text>
+					+ Se corrige el problema de los estados (Vigente y En elaboración).  <br>
+					+ Solamente la DIVDOC tiene acceso a auditoria y estadistica. <br>
 					+ Se agrega la función Eliminar para los operadores del sistema.  <br>
 					+ Habilitacíon del botón "Acceso" para la documentación Reservada y Secreta.  <br>
 					+ Se agrega el campo "Estado" para las publicaciones Vigentes o En elaboración.  

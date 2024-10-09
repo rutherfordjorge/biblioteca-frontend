@@ -11,7 +11,7 @@
                     <slot></slot>
                 </v-btn>
             </template>
-            <span>Subir/Cambiar Archivo</span>
+            <span>Subir / Cambiar Archivo</span>
         </v-tooltip>
 
         <!-- Dialog para subir archivo -->

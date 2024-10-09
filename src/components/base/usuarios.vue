@@ -220,7 +220,7 @@
                                     ></v-autocomplete>
                                 </v-col>
 
-                                <v-col cols="12">
+                                <!-- <v-col cols="12">
                                     <v-autocomplete
                                         v-model="editedItem.rol"
                                         outlined
@@ -231,7 +231,7 @@
                                         return-object
                                         :disabled="!editedItem.run ? true : false"
                                     ></v-autocomplete>
-                                </v-col>
+                                </v-col> -->
 
 
                                 <v-col cols="12">
@@ -385,11 +385,11 @@ export default {
             { id: 1, nombre: 'Activo'},
             { id: 0, nombre: 'Borrado'},
         ],
-        permisos: [
-            { id: 1, nombre: 'Publico'},
-            { id: 2, nombre: 'Reservado'},
-            { id: 3, nombre: 'Privado'},
-        ],
+        // permisos: [
+        //     { id: 1, nombre: 'Publico'},
+        //     { id: 2, nombre: 'Reservado'},
+        //     { id: 3, nombre: 'Privado'},
+        // ],
     }),
     computed: {
         formTitle () {
