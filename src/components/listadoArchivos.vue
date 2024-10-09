@@ -24,13 +24,13 @@
                 >
                     ACCESO <v-icon right>mdi-account-star</v-icon>	
                 </v-btn>
-
+                
                 <!-- SOLO PERFIL DIVDOC -->
                 <v-btn
                     color="secondary"
                     outlined
                     class="ma-2"
-                    v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
+                    v-if="conocimiento != null && ![501,502,222,223].includes(conocimiento.rolid) && conocimiento.rolid == parseInt(currentUser.Rol)"
                     :to="{ name: `estadistica`, params: { id: conocimientoId } }"
                 >
                     ESTADÍSTICAS <v-icon right>mdi-chart-histogram</v-icon>	
@@ -41,7 +41,7 @@
                     color="secondary"
                     outlined
                     class="ma-2"
-                    v-if="conocimiento != null ? conocimiento.rolid == parseInt(currentUser.Rol) : false"
+                    v-if="conocimiento != null && ![501,502,222,223].includes(conocimiento.rolid) && conocimiento.rolid == parseInt(currentUser.Rol)"
                     :to="{ name: `auditoria`, params: { id: conocimientoId } }"
                 >
                     AUDITORÍA <v-icon right>mdi-book-open-page-variant</v-icon>	
@@ -486,12 +486,12 @@ export default {
 
 		headers: [
             { text: 'Colección', value: 'coleccion.nombre', align: 'left', sortable: false, width: '15%' },
-            { text: 'Nombre / Código', value: 'nombre', align: 'left', sortable: false, width: '15%' },
+            { text: 'Nombre / Código', value: 'nombre', align: 'left', sortable: false, width: '10%' },
             { text: 'Descripción', value: 'descripcion', align: 'left', sortable: false, width: '30%' },
             { text: 'Edición', value: 'edicion', align: 'left', sortable: false, width: '10%' },
             { text: 'Clasificación', value: 'clasificacion.nombre', align: 'left', sortable: false, width: '10%' },
             { text: 'Estado', value: 'estado', align: 'left', sortable: false, width: '10%' },
-            { text: 'Acciones', value: 'acciones', align: 'right', sortable: false, width: '10%' },
+            { text: 'Acciones', value: 'acciones', align: 'right', sortable: false, width: '15%' },
         ],
         rules: {
             required:[
@@ -573,7 +573,7 @@ export default {
 
     },
     methods: {
-
+        
         getEstadoNombre(id) {
                 const estado = this.estados.find(e => e.id === id);
                 return estado ? estado.nombre : 'Desconocido';
@@ -649,7 +649,6 @@ export default {
                 
                 if (this.editedIndex > -1) {
                     //debe ser un llamado asincrono para poder ver el resultado en vue sin utilizar promesas.
-                    
                     const payload = {
                         id: this.editedItem.id,
                         digitalid: this.editedItem.digitalid,
@@ -662,6 +661,7 @@ export default {
                         edicion: this.editedItem.edicion,
                         meta: this.editedItem.meta,
                     }
+                    // console.log('payload: ', payload)
                     const res = await this.putArchivo(payload);
                     
                     if (res.status == 200) {
@@ -766,6 +766,8 @@ export default {
             "contarTipoyClasificacion"]),
 
     }
+
+    
 }
 
 </script>

@@ -71,6 +71,7 @@
 									<!-- Se muestra en tamaños grandes -->
 									<p v-if="existLastUser" class="text-right hidden-sm-and-down">
 										<span @click="changeUserLogin" style="cursor:pointer">
+											<v-icon small>mdi-account-star</v-icon>
 											Cambiar de usuario
 										</span>
 									</p>
