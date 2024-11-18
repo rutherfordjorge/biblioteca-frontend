@@ -35,7 +35,7 @@ export default {
                 return res;
             })
             .catch(error => {
-                console.log('Se produjo un error al cargar el listado de personas');
+                // console.log('Se produjo un error al cargar el listado de personas');
                 context.commit('END_GETTING_DATA');
                 return error.response;
             })

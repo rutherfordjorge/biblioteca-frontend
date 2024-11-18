@@ -410,7 +410,7 @@ export default {
         },
 
         async deleteItem(item){
-            console.log('elimina: ', item)
+            // console.log('elimina: ', item)
             this.editedIndex = this.accesos.indexOf(item);
             this.editedItem = Object.assign({}, item);
             this.deleteDialog = true
@@ -445,7 +445,7 @@ export default {
                     return;
                 }
                 else {
-                    console.log('error al guardar: ', resp)
+                    // console.log('error al guardar: ', resp)
                     this.saveDialog = false
                     toastr.error("error", "Ha ocurrido un error", "Error!")
                     return;

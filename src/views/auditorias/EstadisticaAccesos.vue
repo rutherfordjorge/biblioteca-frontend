@@ -107,7 +107,6 @@ export default {
       ];
 
       this.chartSeries = totalSeries.map(item => {
-
         return Number(item) || 0;
       });
 

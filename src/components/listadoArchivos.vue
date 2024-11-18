@@ -46,23 +46,23 @@
                 >
                     AUDITORÍA <v-icon right>mdi-book-open-page-variant</v-icon>	
                 </v-btn>
-
             </v-col>
             
             <v-spacer></v-spacer>
 
             <v-col
-                :class="$vuetify.breakpoint.mdAndUp ? 'col-2' : 'col-6'"
+                :class="$vuetify.breakpoint.mdAndUp ? 'col-1' : 'col-2'"
             >
                 <v-select
                     v-model="items"
                     :items="itemsPerPage"
-                    label="Cant por pág"
+                    label="Cant. por pág."
                     outlined
                     dense
                 ></v-select>
             </v-col>
-
+            
+            <!-- Busqueda Original-->
             <v-col
                 :class="$vuetify.breakpoint.mdAndUp ? 'col-4' : 'col-12'"
             >
@@ -77,9 +77,8 @@
                     dense
                 />
             </v-col>
-            
         </v-row>
-
+        
         <v-data-table
             :headers="headers"
             :loading="isLoading"
@@ -90,11 +89,21 @@
         >
             <!-- Imprime descripcion del estado del archivo -->
             <template v-slot:item.estado="{ item }">
-                {{ item.estadO_SIGLA.nombre }}
+                <v-icon :class="getEstadoColor(item.estadO_SIGLA.nombre)">
+                    {{ getEstadoIcon(item.estadO_SIGLA.nombre) }}
+                </v-icon>
+                <!-- En caso de cambiar el color al nombre -->
+                <!-- <span :class="['estado-circulo', getEstadoColor(item.estadO_SIGLA.nombre)]"></span> -->
+                <span>{{ item.estadO_SIGLA.nombre }}</span>
+            </template>
+
+            <template v-slot:item.clasificacion="{ item }">
+                <v-chip :class="getClasificacionColor(item.clasificacion.nombre)" outlined>
+                    {{ item.clasificacion.nombre }}
+                </v-chip>
             </template>
 
             <template v-slot:item.acciones="{ item }">
-                
                 <ver-archivo 
                     :key="item.id" 
                     :item="item"
@@ -120,10 +129,7 @@
                     :key="item.id" 
                     :item="item" 
                     @updated="getData"
-                    v-if="
-                        item.digitalid == null 
-                        && conocimiento.rolid == parseInt(currentUser.Rol)
-                    "
+                    v-if="item.digitalid == null && conocimiento.rolid == parseInt(currentUser.Rol)"
                 >
                     <v-icon>mdi-upload</v-icon>
                 </subir-archivo>
@@ -132,10 +138,7 @@
                     :key="item.id+item.nombre" 
                     :item="item" 
                     @updated="getData"
-                    v-else-if="
-                        item.digitalid != null 
-                        && conocimiento.rolid == parseInt(currentUser.Rol)
-                    "
+                    v-else-if="item.digitalid != null && conocimiento.rolid == parseInt(currentUser.Rol)"
                 >
                     <v-icon>mdi-autorenew</v-icon>
                 </subir-archivo>
@@ -158,8 +161,8 @@
                     v-if="conocimiento.rolid == parseInt(currentUser.Rol)"
                 >
                     <template v-slot:activator="{ on }">
-                        <v-btn icon v-on="on" @click="DeleteArchivo(item)">
-                            <v-icon>mdi-delete</v-icon>
+                        <v-btn icon v-on="on" @click="DeleteArchivo(item)" @mouseover="animateIcon(item.id)" @mouseleave="resetIcon(item.id)">
+                            <v-icon :class="{'animated-icon': isIconAnimated === item.id}">mdi-delete</v-icon>
                         </v-btn>
                     </template>
                     <span>Eliminar Documento</span>
@@ -205,16 +208,15 @@
                             >
                             No, Cancelar
                             </v-btn>
-                        <v-btn
-                        color="primary"
-                        @click="confirmDeleteArchivo"
-                        >
-                        Si, Quitar
-                        </v-btn>
+                            <v-btn
+                            color="primary"
+                            @click="confirmDeleteArchivo"
+                            >
+                            Si, Quitar
+                            </v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-
 
             </template>
         </v-data-table>
@@ -252,12 +254,10 @@
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
                 </v-card-title>
+
                 <v-card-text>
-                
-                    <v-form v-model="validForm" ref="form">
-
+                        <v-form v-model="validForm" ref="form">
                             <v-row class="mt-4">
-
                                 <v-col 
                                     :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
                                 >
@@ -266,7 +266,7 @@
                                         outlined
                                         v-model="editedItem.nombre"
                                         :rules="rules.required"
-                                        counter="40"
+                                        counter="100"
                                     ></v-text-field>
                                 </v-col>
 
@@ -355,12 +355,10 @@
                                         :rules="rules.required"
                                     ></v-autocomplete>
                                 </v-col>
-
                             </v-row>
-
                     </v-form>
-
                 </v-card-text>
+
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
@@ -410,9 +408,7 @@
 
                 </v-card-text>
             </v-card>
-            
         </v-dialog>
-
     </v-container>
 </template>
 
@@ -451,9 +447,10 @@ export default {
         deleteDialog: false,
         idArchivoEliminar: null,
         crearArchivoModal: false,
-        accesosModal:false,
+        accesosModal: false,
         validForm: false,
         editedIndex: -1,
+        isIconAnimated: null,
         editedItem: {
             // solo para put
             id: null,
@@ -466,8 +463,7 @@ export default {
             nombre: null,
             descripcion: null,
             edicion: null,
-            meta: null,
-            
+            meta: null,     
         },
 
         defaultItem: {
@@ -480,18 +476,17 @@ export default {
             nombre: null,
             descripcion: null,
             edicion: null,
-            meta: null,
-        
+            meta: null,  
         },
 
 		headers: [
-            { text: 'Colección', value: 'coleccion.nombre', align: 'left', sortable: false, width: '15%' },
-            { text: 'Nombre / Código', value: 'nombre', align: 'left', sortable: false, width: '10%' },
-            { text: 'Descripción', value: 'descripcion', align: 'left', sortable: false, width: '30%' },
-            { text: 'Edición', value: 'edicion', align: 'left', sortable: false, width: '10%' },
-            { text: 'Clasificación', value: 'clasificacion.nombre', align: 'left', sortable: false, width: '10%' },
+            { text: 'Colección', value: 'coleccion.nombre', align: 'left', sortable: false, width: '15%'},
+            { text: 'Nombre / Código', value: 'nombre', align: 'left', sortable: false, width: '15%'},
+            { text: 'Descripción', value: 'descripcion', align: 'left', sortable: false, width: '35%' },
+            { text: 'Edición', value: 'edicion', align: 'left', sortable: false, width: '5%' },
+            { text: 'Clasificación', value: 'clasificacion', align: 'left', sortable: false, width: '10%' },
             { text: 'Estado', value: 'estado', align: 'left', sortable: false, width: '10%' },
-            { text: 'Acciones', value: 'acciones', align: 'right', sortable: false, width: '15%' },
+            { text: 'Acciones', value: 'acciones', align: 'right', sortable: false, width: '10%' },
         ],
         rules: {
             required:[
@@ -504,9 +499,7 @@ export default {
                 v => v? v.length < 500 || "El campo debe tener menos de 500 caracteres": "Este campo es requerido",
             ],
         },
-        itemsPerPage: [
-            5, 10, 50
-        ],
+        itemsPerPage: [5, 10, 50],
         estado: [],
         clasificaciones: [],
         colecciones: [],
@@ -531,8 +524,7 @@ export default {
         async items() {
             this.page = 1;
             await this.getData()
-        },
-        
+        },       
     },
     computed: {
         formTitle () {
@@ -543,8 +535,7 @@ export default {
         ...mapGetters(["currentUser"]),
     },
     async created() {
-        
-        for (var i = 2025; i > 1980; i--) {
+            for (var i = 2026; i > 1979; i--) {
             this.años.push(i)
         }
 
@@ -570,13 +561,50 @@ export default {
         }
 
         await this.getData()
-
     },
     methods: {
-        
         getEstadoNombre(id) {
                 const estado = this.estados.find(e => e.id === id);
                 return estado ? estado.nombre : 'Desconocido';
+        },
+
+        getClasificacionColor(nombre) {
+            switch (nombre) {
+                case 'Público':
+            return 'chip-publico';
+                case 'Reservado':
+            return 'chip-reservado';
+                case 'Secreto':
+            return 'chip-secreto';
+                default:
+            return '';
+            }
+        },
+
+        getEstadoColor(nombre){
+            switch (nombre) {
+                case 'Vigente':
+                    return 'bg-success';
+                case 'En actualización':
+                    return 'bg-orange';
+                case 'En elaboración':
+                    return 'bg-red';
+                default:
+                    return '';
+            }
+        },
+
+        getEstadoIcon(nombre) {
+            switch (nombre) {
+                case 'Vigente':
+            return 'mdi-check-circle';
+                case 'En actualización':
+            return 'mdi-autorenew';
+                case 'En elaboración':
+            return 'mdi-pencil-circle';
+                default:
+            return '';
+            }
         },
 
         async getData() {
@@ -587,7 +615,6 @@ export default {
                 conocimientoId: this.conocimientoId,
             });
 
-                
                 // Mapear los IDs de los estados v/s nombres
         //         this.archivos = this.archivos.map(archivo => {
         //         const estado = this.estado.find(e => e.id === archivo.estado);
@@ -596,7 +623,6 @@ export default {
         //         estadoNombre: estado ? estado.nombre : 'Desconocido'
         //     };
         // });
-
         },
 
         open() {
@@ -617,7 +643,15 @@ export default {
             this.crearArchivoModal = true
         },
 
-        //funcion para borrar
+        animateIcon(id) {
+            this.isIconAnimated = id;
+        },
+
+        resetIcon(id) {
+            if (this.isIconAnimated === id){
+                this.isIconAnimated = null;
+            };
+        },
 
         async DeleteArchivo(item){
             // console.log('elimina: ', item.id)
@@ -639,7 +673,6 @@ export default {
             await this.getData()
             this.deleteDialog = false
             // await setTimeout(() => {
-            
             // }, 300);
         },
 
@@ -764,10 +797,47 @@ export default {
         ]),
         ...mapActions("auditorStore", [
             "contarTipoyClasificacion"]),
-
     }
-
-    
 }
 
 </script>
+
+<style scoped>
+.bg-success {
+    background-color: green;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+.bg-orange {
+    background-color: orange;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+.bg-red {
+    background-color: red;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+.chip-publico {
+    color: grey;
+    border-color: rgb(0, 135, 224);
+}
+.chip-reservado {
+    color: grey;
+    border-color: orange
+}
+.chip-secreto {
+    color: grey;
+    border-color: red;
+}
+.animated-icon {
+    animation: shake 0.5s;
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+</style>

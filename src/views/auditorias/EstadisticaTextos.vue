@@ -133,14 +133,14 @@ export default {
     try {
         const resp = await this.contarTipoyClasificacion();
         if (resp.status === 200) {
-          console.log('data:', resp.data)
+          // console.log('data:', resp.data)
           this.chartSeriesVig = [{ name: "Vigente", data: Object.values(resp.data.resultVig)}];
           this.chartSeriesSec = [{ name: "Secretos", data: Object.values(resp.data.resultSecreto)}];
           this.chartSeriesRes = [{ name: "Reservados", data:  Object.values(resp.data.resultReservado)}];
           this.chartSeriesPub = [{ name: "Públicos", data:  Object.values(resp.data.resultPublico)}];
           this.chartSeriesAct = [{ name: "En Actualización", data:  Object.values(resp.data.resultAct)}];
           this.chartSeriesElab = [{ name: "Reservados", data:  Object.values(resp.data.resultElab)}];
-                   
+          
         }
         this.isLoading = false;
         } 

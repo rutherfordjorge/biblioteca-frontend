@@ -191,7 +191,7 @@ export default {
                     return toastr.error("Ha ocurrido un error", "Error!");
                 }
             } catch (error) {
-                console.log('error', error)
+                // console.log('error', error)
                 toastr.error("Ha ocurrido un error, contacte al administrador 2","Error!")
             }
         },

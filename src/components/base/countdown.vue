@@ -28,9 +28,9 @@ export default {
 	},
 	watch: {
         restante (val) {
-			console.log('restante', val)
+			// console.log('restante', val)
             if (val === 0) {
-				console.log('emite')
+				// console.log('emite')
                 this.$emit('finish')
             }
         },
