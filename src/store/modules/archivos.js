@@ -42,7 +42,7 @@ export default {
                     context.commit('ADD_PAGINAS', Math.ceil(res.data.totalRegistros/parseInt(items == '' ? res.data.totalRegistros : items)))
                     context.commit('END_GETTING_DATA')
                 }
-                console.log('archivos: ', res.data.respuesta)
+                // console.log('archivos: ', res.data.respuesta)
                 return res;
             })
             .catch(error => {

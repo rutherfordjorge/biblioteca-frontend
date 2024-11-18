@@ -182,7 +182,7 @@ export default {
                 DESCRIPCION: this.item.nombre,
                 BASE64: "",
                 EXTENCION: this.nuevoDocumento.name.replace(/^.*\./, ""),
-                NOMBRE_TABLA_ORIGEN: "DOCUMENTOS",
+                NOMBRE_TABLA_ORIGEN: "BIBLIO_ARCHIVO",
                 ID_DATO_TABLA_ORIGEN: this.item.id,
                 ID_TIPO_ARCHIVO: 9, // documento
             };

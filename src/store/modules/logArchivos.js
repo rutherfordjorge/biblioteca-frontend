@@ -23,7 +23,7 @@ export default {
                 }
             }).then(res => res)
             .catch(error => {
-                console.log('Se produjo un error al registrar el log.');
+                // console.log('Se produjo un error al registrar el log.');
                 return error.response;
             })
         },

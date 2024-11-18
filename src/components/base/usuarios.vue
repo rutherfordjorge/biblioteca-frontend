@@ -364,7 +364,7 @@ export default {
         headers: [
             { text: "Grado", value: "persona.grado", groupable: false, sortable: false },
             { text: "Nombre Completo", value: "nombres", groupable: false, sortable: false, width: '30%' },      
-            { text: "", value: "unidad.sigla" , groupable: false, sortable: false },
+            { text: "Unidad", value: "unidad.sigla" , groupable: false, sortable: false },
             { text: "Rol", value: "rol.nombre" , groupable: false, sortable: false },
             { text: "Fono", value: "persona.movil" , groupable: false, sortable: false },
             { text: "Correo", value: "persona.correointer" , groupable: false, sortable: false },

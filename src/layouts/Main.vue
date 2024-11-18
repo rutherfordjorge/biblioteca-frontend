@@ -40,7 +40,7 @@
 								<v-icon>{{ item.icon }}</v-icon>
 							</v-list-item-action>
 							<v-list-item-content>
-								<v-list-item-title>{{ item.text }}</v-list-item-title>
+								<v-list-item-title>{{ item.text }} </v-list-item-title>
 							</v-list-item-content>
 						</v-list-item>
 						
@@ -60,8 +60,35 @@
 					<span class="hidden-md-and-up">{{ siglaSistema }}</span>
 					<span class="hidden-sm-and-down">{{ nombreSistema }}</span>
 				</v-toolbar-title>
-				
+
 				<v-spacer />
+
+				<span v-if="rolOperador === '161'">
+					ADMIN
+				</span>
+				<span v-else-if= "rolOperador === '501'">
+					Operador CESIM
+				</span>
+				<span v-else-if= "rolOperador === '223'">
+					Operador AGE
+				</span>
+				<span v-else-if= "rolOperador === '221'">
+					Operador DIVDOC
+				</span>		
+				<!-- Operador Rinte 2-->
+				<span v-else-if= "rolOperador === '222'">
+					Operador 
+				</span>
+				<span v-else-if= "rolOperador === '502'">
+					Operador DIMACOE
+				</span>
+				<span v-else> Usuario </span>
+				
+				<!-- <v-tooltip bottom>
+					<template>
+						<span>{{ rol.nombre }} </span>
+					</template>
+				</v-tooltip> -->
 
 				<v-tooltip bottom>
                     <template v-slot:activator="{ on }">
@@ -76,7 +103,7 @@
 							</v-icon>
 						</v-btn>
                     </template>
-                    <span>Cambiar tema Oscuro/Brillante</span>
+                    <span>Cambiar tema Oscuro / Brillante</span>
                 </v-tooltip>
 
 				<v-tooltip bottom>
@@ -94,7 +121,7 @@
                     </template>
                     <span>Instructivo del Sistema</span>
                 </v-tooltip>
-
+				
 				<v-tooltip bottom>
                     <template v-slot:activator="{ on }">
 						<v-chip 
@@ -256,8 +283,7 @@ export default {
 		instructivo: '/biblioteca_virtual.pdf', // ruta del informativo o instructivo del sistema
 		nombreSistema: 'Biblioteca Virtual del Ejército', // nombre largo del sistema
 		siglaSistema: 'Biblioteca', // cambiar por nombre corto del sistema
-
-		
+		rolOperador: '',
 		// menú lateral
 		items: [
 			{
@@ -294,6 +320,10 @@ export default {
 		...mapGetters(['currentUser','drawerLeft']),    
 	},
 	
+	created() {
+		this.fetchOperador();
+	},
+
 	mounted() {
 		document.addEventListener('mousemove', this.keepLogged);//"escucha" cuando se mueve el puntero del mouse para mantener la sesión activa
 		document.addEventListener('keypress', this.keepLogged);//"escucha" cuando se presiona una tecla del teclado para mantener la sesión activa
@@ -310,6 +340,16 @@ export default {
 	methods:{
 		...mapActions(["logout", "refreshToken"]),
 		
+		async fetchOperador() {
+			try {
+				await this.$store.dispatch('fetchOperador');
+				
+				this.rolOperador = this.currentUser ? this.currentUser.Rol : '';
+			} catch (error) {
+				console.error('Error al obtener el operador: ', error);
+			}
+		},
+
 		enviarALogin(mensaje){
 			clearTimeout(this.sesionRefresh);
 			clearTimeout(this.sesionTime);
@@ -351,7 +391,7 @@ export default {
 		toggleTheme() {
             this.isDarkTheme = !this.isDarkTheme
             this.$vuetify.theme.dark = this.isDarkTheme
-			this.updateChartTheme()
+			// this.updateChartTheme()
         }
 	}
 };
@@ -362,15 +402,12 @@ export default {
 	overflow: hidden;
 	padding-left: 40px;
 }
-
 .paddingCustom {
 	padding: 0 16px !important;
 }
-
 .v-main {
 	padding: 56px 0px 0px 70px !important;
 }
-
 .v-main-no-menu {
 	padding: 56px 0px 0px 0px !important;
 }

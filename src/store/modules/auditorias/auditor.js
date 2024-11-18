@@ -43,7 +43,7 @@ export default {
             }).then((res) => {
                 context.commit('ADD_LISTA_AUDITORIA', res.data);
                 context.commit('END_GETTING_DATA');
-                console.log(res);
+                // console.log(res);
                 return res;
             })
             .catch((error) => {
@@ -60,7 +60,7 @@ export default {
             }).then((res) => {
                 context.commit('ADD_COUNT_BY_TIPOID_AND_CLASIFICACION', res.data);
                 context.commit('END_GETTING_DATA');
-                console.log(res)
+                // console.log(res)
                 return res;
             })
             .catch((error) => {

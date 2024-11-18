@@ -451,7 +451,7 @@ export default {
 			}
 			else
 			{
-				console.log("Ediccion")
+				// console.log("Edicion")
 				this.dialogNew = false
 			}
 			this.indexFormulario = false;
