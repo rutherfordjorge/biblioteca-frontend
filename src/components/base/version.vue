@@ -10,7 +10,8 @@
 						<v-expansion-panel-header class="headline" color="grey lighten-3">Versión 2.0.4</v-expansion-panel-header>
 							<v-expansion-panel-content>
 									+ Cambios en las visualizaciones. <br>
-									+ Cambios en la interfaz de usuario. <br>
+									+ Cambios en la interfaz de usuario.
+									+ Cambios en Posición de "Nombre" con "Colecciones" <br>
 							</v-expansion-panel-content>
 					</v-expansion-panel>
 

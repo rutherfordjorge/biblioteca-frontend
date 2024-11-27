@@ -168,6 +168,40 @@
                     <span>Eliminar Documento</span>
                 </v-tooltip>  
 
+                <!-- <v-expansion-panels v-model="expanded" multiple>
+                <v-expansion-panel>
+                    <v-expansion-panel-header>
+                        
+                    </v-expansion-panel-header>
+                <v-expansion-panel-content> -->
+                    <!-- Aquí puedes agregar más opciones o información adicional -->
+                    <!-- <p>
+                    <ver-archivo 
+                    :key="item.id" 
+                    :item="item"
+                    v-if="item.digitalid != null && (item.acceso || conocimiento.rolid == parseInt(currentUser.Rol))"
+                    />
+                    <v-tooltip
+                    top
+                    v-if="item.digitalid != null && !item.acceso && conocimiento.rolid != parseInt(currentUser.Rol)"
+                    >
+                    <template v-slot:activator="{ on }">
+                        <v-btn
+                            icon
+                            v-on="on"
+                        >
+                            <v-icon>mdi-file-document</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Documentación Reservada o Secreta, solicite el acceso al Operador de este contenedor</span>
+                    </v-tooltip>
+                    </p> -->
+                    <!-- <p>Opción 2</p>
+                    <p>Opción 3</p> -->
+                <!-- </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels> -->
+
                     <!-- para confirmar borrar -->
                     
                     <v-dialog 
@@ -258,31 +292,6 @@
                 <v-card-text>
                         <v-form v-model="validForm" ref="form">
                             <v-row class="mt-4">
-                                <v-col 
-                                    :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
-                                >
-                                    <v-text-field
-                                        label="Nombre"
-                                        outlined
-                                        v-model="editedItem.nombre"
-                                        :rules="rules.required"
-                                        counter="100"
-                                    ></v-text-field>
-                                </v-col>
-
-                                <v-col
-                                    :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
-                                >
-                                    <v-select
-                                        label="Edición"
-                                        outlined
-                                        v-model="editedItem.edicion"
-                                        :rules="rules.required"
-                                        :items="años"
-                                        hint="Año de la edición o de publicación."
-                                        persistent-hint
-                                    ></v-select>
-                                </v-col>
                                 
                                 <v-col 
                                     :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
@@ -298,6 +307,32 @@
                                         :persistent-hint="colecciones.length == 0"
                                         :rules="rules.required"
                                     ></v-autocomplete>
+                                </v-col>
+
+                                <v-col
+                                    :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
+                                >
+                                    <v-select
+                                        label="Edición"
+                                        outlined
+                                        v-model="editedItem.edicion"
+                                        :rules="rules.required"
+                                        :items="años"
+                                        hint="Año de la edición o de publicación."
+                                        persistent-hint
+                                    ></v-select>
+                                </v-col>
+
+                                <v-col 
+                                    :cols="$vuetify.breakpoint.mdAndUp ? '6' : '12'"
+                                >
+                                    <v-text-field
+                                        label="Nombre"
+                                        outlined
+                                        v-model="editedItem.nombre"
+                                        :rules="rules.required"
+                                        counter="100"
+                                    ></v-text-field>
                                 </v-col>
 
                                 <v-col 
